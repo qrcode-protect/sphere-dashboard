@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta content="IE=edge" http-equiv="X-UA-Compatible">
+		<meta content="width = device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no"
+			  name="viewport"/>
+		<link href="<%= BASE_URL %>favicon.ico" rel="icon">
+
+		<title><%= htmlWebpackPlugin.options.title %></title>
+
+		<link href="./static/css/app.min.css" rel="stylesheet" type="text/css">
+		<link href="./static/css/fonts.css" rel="stylesheet" type="text/css">
+		<!--    <link href="./static/css/main.css" rel="stylesheet" type="text/css">-->
+		<!--    <link href="./static/css/colors.css" rel="stylesheet" type="text/css">-->
+
+	</head>
+	<body>
+		<noscript>
+			<strong>Ce site (<%= htmlWebpackPlugin.options.title %>) nécessite l'activation de Javascript afin de
+				fonctionner
+				correctement. Pour activer Javascript sur votre
+				navigateur, cliquez <a href="https://www.enable-javascript.net">ici</a> et suivez les
+				instructions.</strong>
+		</noscript>
+		<div id="app"></div>
+
+		<div id="onIE"
+			 style="position: fixed; top: 0;left: 0;right: 0;bottom: 0; height: 100vh;width: 100vw; background:#ffffff; z-index: 999999; font-family: 'WorkSans', sans-serif; display: none">
+			<p>Votre navigateur est trop ancien et n'est pas compatible avec cette application</p>
+			<p>Merci d'utiliser un navigateur parmis :</p>
+			<ul style="margin-left: 15px">
+				<li>Google Chrome</li>
+				<li>Mozilla Firefox</li>
+				<li>Safari</li>
+			</ul>
+		</div>
+		<!-- built files will be auto injected -->
+
+		<script type="text/javascript">
+
+			function ready() {
+				const element = document.getElementById('onIE')
+				if (element) {
+					const userAgent = navigator.userAgent.toLowerCase()
+					if (/msie/.test(userAgent) || /trident/.test(userAgent))
+						element.style.display = 'block'
+					else element.remove()
+				}
+			}
+
+			document.addEventListener("DOMContentLoaded", ready);
+		</script>
+	</body>
+</html>

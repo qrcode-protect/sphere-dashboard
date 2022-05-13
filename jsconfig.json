@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths"  : {
+      "@/*"       : [
+        "./resources/*"
+      ],
+      "@app/*"    : [
+        "./app/*"
+      ],
+      "@sofiakb/*": [
+        "./vendor/sofiakb/*"
+      ],
+      "@config/*" : [
+        "./config/*"
+      ]
+    }
+  }
+}

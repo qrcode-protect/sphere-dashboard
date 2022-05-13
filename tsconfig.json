@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "target"                      : "esnext",
+    "module"                      : "esnext",
+    "strict"                      : true,
+    "jsx"                         : "preserve",
+    "importHelpers"               : true,
+    "moduleResolution"            : "node",
+    "skipLibCheck"                : true,
+    "esModuleInterop"             : true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap"                   : true,
+    "baseUrl"                     : ".",
+    "types"                       : [
+      "webpack-env",
+      "jquery",
+      "lodash"
+    ],
+    "paths"                       : {
+      "@/*"       : [
+        "./resources/*"
+      ],
+      "@app/*"    : [
+        "./app/*"
+      ],
+      "@sofiakb/*": [
+        "./vendor/sofiakb/*"
+      ],
+      "@config/*" : [
+        "./config/*"
+      ]
+    },
+    "lib"                         : [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include"        : [
+    "**/*.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "config/**/*.ts",
+    "resources/**/*.ts",
+    "resources/**/*.tsx",
+    "resources/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "vendor/**/*.ts",
+    "vendor/**/*.tsx"
+  ],
+  "exclude"        : [
+    "node_modules"
+  ]
+}
