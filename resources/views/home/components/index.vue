@@ -1,6 +1,6 @@
 <template>
   <ssf-container name="home">
-    <h1>Welcome to Your Vue.js + TypeScript App</h1>
+    <h1></h1>
   </ssf-container>
 </template>
 
