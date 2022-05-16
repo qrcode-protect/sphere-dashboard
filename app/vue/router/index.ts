@@ -25,6 +25,10 @@ Route.group({ guard: 'auth' }, () => {
     /* Page d'accueil */
     Route.view('/', 'home').name('home');
     Route.view('/members', 'members').name('members.index');
+    Route.view('/members', 'members').name('members.index2');
+    Route.view('/members', 'members').name('members.index3');
+    Route.view('/members', 'members').name('members.index4');
+    Route.view('/members', 'members').name('members.index5');
 })
 
 Route.group({}, () => {
