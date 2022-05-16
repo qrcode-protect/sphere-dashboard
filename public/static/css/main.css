@@ -5,8 +5,11 @@
     --color-4: #FFFFFF;
     --color-5: #355C7D;
 
-    --border-radius: 10px;
+    --border-radius: 15px;
     --form-radius: var(--border-radius);
+
+    --color-danger: #c00;
+    --color-success: #007e33;
 }
 
 html, body {
@@ -43,9 +46,9 @@ body {
     cursor: pointer;
 }
 
-.btn[class^='rounded'] {
-    font-weight: 700;
-    border-radius: 6px !important;
+.btn {
+    font-weight: 500;
+    border-radius: var(--border-radius) !important;
     box-shadow: none !important;
     margin: 0;
 }
@@ -59,9 +62,9 @@ button:focus {
 }
 
 .rounded {
-    -webkit-border-radius: 6px !important;
-    -moz-border-radius: 6px !important;
-    border-radius: 6px !important;
+    -webkit-border-radius: var(--border-radius) !important;
+    -moz-border-radius: var(--border-radius) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .border-strong {
@@ -88,11 +91,26 @@ input:-webkit-autofill:active {
 }
 
 .form-control.is-valid {
-    border-color: #6aa280;
+    border-color: var(--color-success);
 }
 
 .form-control.is-invalid {
-    border-color: #d6534c;
+    border-color: var(--color-danger) !important;
+}
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.text-danger {
+    border-color: var(--color-danger) !important;
+}
+
+.bg-success {
+    background-color: var(--color-success) !important;
+}
+
+.bg-danger {
+    background-color: var(--color-danger) !important;
 }
 
 .fa-1x5 {
@@ -161,4 +179,21 @@ ul.ul-icon li {
     font-style: italic !important;
     font-size: 80%;
     font-weight: 400;
+}
+
+.ssf-form-control:focus {
+    border-color: var(--color-2) !important;
+}
+
+.behind {
+    z-index: -1;
+}
+
+.ahead {
+    z-index: 1;
+}
+
+.label-required:after {
+    content: '*';
+    color: var(--color-danger);
 }

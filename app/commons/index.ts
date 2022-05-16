@@ -9,7 +9,9 @@
  * File app/commons/index
  */
 
-import router  from "@app/vue/router"
+import router        from "@app/vue/router"
+import { urlParams } from "@app/vue/utils";
+import store         from "@app/vue/store";
 
 export const src = (path: string) => {
     try {
@@ -26,3 +28,5 @@ export const fetchIP = () => fetch('https://api.ipify.org?format=json')
     .then(({ ip }) => {
         return ip;
     })
+
+export const navigate = (name: string, query: any = urlParams()) => router.push({ name, query })

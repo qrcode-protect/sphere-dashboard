@@ -1,3 +1,5 @@
+import { getCurrentInstance } from "vue";
+
 interface ScrollOption {
     speed?: number,
     offset: number,
@@ -71,3 +73,22 @@ export const renameKey = function (object: any, old: string, key: string) {
 export const clone = (object: any) => jsonParse(JSON.stringify(object))
 
 export const key = (item: any) => btoa(encodeURI(`${item.name || item || 'name'}-${item.id || -1}`))
+
+export const hasSlot = (name: string = 'default', component = getCurrentInstance()) => component && !!component.slots[name]
+
+export const urlParams = (param?: string) => {
+    const url = window.document.location.href
+
+    const params: any = (url.split('?')[1] || '')
+        .split('&')
+        .map(item => {
+            const keyValue = item.split('=')
+            return keyValue.length === 2 ? { key: keyValue[0], value: keyValue[1] } : {};
+        })
+        .reduce((obj, item: any) => Object.assign(obj, { [item.key]: item.value }), {});
+
+    if (param) {
+        const result: any = params[param]
+        return result && result.trim() === '' ? null : result
+    } else return params
+}

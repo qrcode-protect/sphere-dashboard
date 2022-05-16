@@ -79,7 +79,7 @@
 			////////// data
 			const toggleVisible = ref(false)
 			const isSmall = ref(xWindow.isSmall())
-			const logoSize = ref(xWindow.width() / 75)
+			const logoSize = ref(20)
 			const visible = ref(isSmall.value ? toggleVisible.value : true)
 						/*const links = reactive([
 			 {
@@ -106,7 +106,7 @@
 			}
 			const onResize = () => {
 				isSmall.value = xWindow.isSmall()
-				logoSize.value = xWindow.width() / 41
+				logoSize.value = 20
 				return visible.value = isSmall.value ? toggleVisible.value : true;
 			}
 			// const onScroll = () => {

@@ -3,7 +3,7 @@
 
 
 		<metainfo>
-			<template v-slot:title="{ content }">{{ content }} | App - slogan</template>
+			<template v-slot:title="{ content }">{{ content }} | SPHÈRE</template>
 		</metainfo>
 
 		<!-- APPLICATION IS UP -->

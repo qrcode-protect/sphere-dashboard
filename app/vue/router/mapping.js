@@ -6,7 +6,7 @@ const mapping = {
 	},
 	'members.index': {
 		label: 'Adhérents',
-		icon : 'users',
+		icon : 'screen-users',
 		active: false
 	},
 	'members.index2': {

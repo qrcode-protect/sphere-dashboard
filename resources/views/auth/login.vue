@@ -1,94 +1,179 @@
 <template>
-	<auth id="login">
+    <auth id="login">
 
-		<template #error v-if="error">{{ error }}</template>
+        <template v-if="error" v-slot:error><span v-html="error"></span></template>
 
-		<template #form>
+        <template v-slot:form>
 
-			<form id="formLogin" class="w-100" @submit.prevent="login()">
+            <form id="formLogin" class="w-100" novalidate @submit.prevent="login()">
 
-				<ssf-form-group :row="true" col="col-12" name="email" label="Adresse e-mail" :required="true" icon="at"
-												@update:value="event => user.email = event"
-												:value="user.email"/>
+                <ssf-form-group :errors="errors"
+                                :value="user.email"
+                                col="col-12"
+                                :icon="{icon: 'user', weight: 'light'}"
+                                label="Adresse e-mail ou nom d'utilisateur"
+                                name="email"
+                                required
+                                row
+                                @update:value="event => user.email = event"/>
 
-				<ssf-form-group :row="true" col="col-12" name="password" type="password" label="Mot de passe" :required="true"
-												icon="lock"
-												@update:value="event => user.password = event"
-												:value="user.password"/>
+                <ssf-form-group :errors="errors"
+                                :value="user.password"
+                                col="col-12"
+                                :icon="{icon: 'lock', weight: 'light'}"
+                                label="Mot de passe"
+                                name="password"
+                                required
+                                row
+                                type="password"
+                                @update:value="event => user.password = event"/>
 
-				<ssf-form-group :row="true"
-												col="col-12"
-												type="checkbox"
-												name="checkbox"
-												v-model="user.remember"
-												label="Se souvenir de mes informations"/>
+                <!--                <ssf-form-group :value="user.remember"
+                                                col="col-12"
+                                                form-group-class="mid-flex"
+                                                label="Se souvenir de moi"
+                                                name="remember"
+                                                row
+                                                type="checkbox"
+                                                @update:value="event => user.remember = event"/>-->
 
-				<!--				<div class="row">
-									<div class="col-12 ssf-form-group mt-1">
-										<router-link :to="{name: 'password.forgot'}">
-											<icon icon="lock-forgot-color"/>
-											Mot de passe oublié
-										</router-link>
-									</div>
-								</div>-->
+                <!--                <ssf-row>
 
-				<div class="row">
-					<div class="col-12 ssf-form-group text-right mt-1 mb-0">
-						<button class="btn bg-color-1 btn-block text-white" type="submit">Connexion</button>
-					</div>
-				</div>
+                                    <ssf-col class="ssf-form-group mt-1" size="12">
 
-				<!--				<div class="row">
-									<hr class="w-25 my-4 my-md-5 border-color-1">
-								</div>
+                                        <router-link :to="{name: 'password.forgot', query}" class="mid-flex">
+                                            <icon class="mr-1" icon="lock-forgot-color"/>
+                                            Mot de passe oublié
+                                        </router-link>
 
-								<div class="row">
-									<div class="col-12 ssf-form-group mt-0">
-										<button class="btn border-color-1 color-1 btn-block bg-transparent"
-														@click.prevent="$router.push({name: 'register'})">
-											Inscription
-										</button>
-									</div>
-								</div>-->
+                                    </ssf-col>
 
-			</form>
-		</template>
+                                </ssf-row>-->
 
-	</auth>
+                <ssf-row>
+
+                    <ssf-col class="ssf-form-group text-right mt-1" size="12">
+                        <button class="btn bg-color-2 btn-block mb-0" type="submit">Connexion</button>
+                    </ssf-col>
+
+                </ssf-row>
+
+                <!--                <ssf-row>
+
+                                    <ssf-col class="ssf-form-group mt-0" size="12">
+                                        <button class="btn bg-color-4 btn-block" @click.prevent="navigate.register()">
+                                            Créer mon compte
+                                        </button>
+                                    </ssf-col>
+
+                                </ssf-row>-->
+
+            </form>
+
+        </template>
+
+    </auth>
 </template>
 
-<script>
-	import Icon      from "@/components/commons/partials/icon";
-	import Auth      from "./auth";
-	import MainError from "@app/vue/utils/swal/errors/main-error";
+<script lang="ts">
+    import { defineComponent, onMounted, reactive, ref } from "vue";
+    import { useMeta }                                   from "vue-meta";
+    import Auth                                          from "./auth.vue";
+    import { navigate, UserLoginParameter }              from "@/views/auth/utils";
+    import Icon                                          from "@/components/commons/partials/icon.vue";
+    import { urlParams }                                 from "@app/vue/utils";
+    import { validator as xValidator }                   from "@app/commons/validation";
+    // @ts-ignore
+    import MainError                                     from "@app/vue/utils/swal/errors/main-error";
 
-	export default {
-		name      : "login",
-		components: { Auth, Icon },
-		metaInfo  : { title: 'Connexion', },
-		data() {
-			return {
-				error: null,
-				user : { email: null, password: null, remember: false },
-			}
-		},
-		methods: {
-			login() {
-				this.error = null;
+    export default defineComponent({
+        name      : "login",
+        components: { Icon, Auth },
+        setup() {
+            useMeta({ title: 'Connexion', })
 
-				if (this.user.email === 'sphere-dev' && this.user.password === 'spheredev') {
-					this.$localStorage.set('token', 'ok')
-					this.$router.push({ name: 'members.index' })
-					// location.reload()
-				} else MainError.fire({ title: 'Outch', text: 'Merci de vérifier vos informations' })
+            ////////// data
+            const error = ref<Nullable<string>>(null)
+            const user = reactive<UserLoginParameter>({ email: null, password: null })
+            const query = ref({})
+            const errors = ref([])
+            const loading = ref(false)
 
-				/*this.$controller.auth
-				 .login(this.user)
-				 .then(() => location.reload())
-				 .catch((error) => this.error = error)*/
-			}
-		}
-	}
+
+            ////////// mounted
+            onMounted(() => {
+                query.value = urlParams()
+            })
+
+
+            ////////// methods
+            const validator = () => {
+                const result = xValidator(user)
+                // errors.value = result.errors
+                error.value = result.error
+                return result.valid
+            }
+            // const login = () => login(user).catch((err) => error.value = err.message)
+
+            return {
+                //// data
+                error,
+                user,
+                query,
+                errors,
+                loading,
+
+                //// methods
+                validator,
+                // login,
+
+                //// composition
+                navigate
+            }
+        },
+
+        methods: {
+            login() {
+                if (this.loading)
+                    return false
+
+                this.loading = true
+
+                this.error = null
+
+                if (this.validator()) {
+                    if (this.user.email === 'sphere-dev' && this.user.password === 'spheredev') {
+                        this.$localStorage.set('token', 'ok')
+                        this.$router.push({ name: 'members.index' })
+                        // location.reload()
+                    } else {
+                        this.error = "Merci de vérifier vos identifiants."
+                    }
+                    this.loading = false
+                } else {
+                    this.loading = false
+                }
+
+
+                /*this.$controller.auth
+                 .login(this.user)
+                 .then(() => location.reload())
+                 .catch((error) => this.error = error)*/
+            },
+            /*login() {
+
+             if (this.loading)
+             return false
+
+             this.loading = true
+
+             this.error = null
+             if (this.validator())
+             return login(this.user).catch((error) => this.error = error.message).finally(() => this.loading = false)
+             else this.loading =false
+             }*/
+        }
+    })
 </script>
 
 <style scoped lang="scss">
