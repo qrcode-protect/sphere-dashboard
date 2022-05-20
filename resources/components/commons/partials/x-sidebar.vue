@@ -67,7 +67,7 @@
                     </li>
 
                     <li class="side-item position-absolute text-white cursor-pointer py-2 w-100"
-                        style="bottom: 0; left: 0; right: 0"
+                        style="bottom: 20px; left: 0; right: 0"
                         @click="logout">
 
                         <ssf-row class="side-link-label">
@@ -101,6 +101,32 @@
 
                     </li>
 
+                    <li class="side-item position-absolute text-white py-1 w-100"
+                        style="bottom: 0; left: 0; right: 0">
+
+                        <ssf-row class="side-link-label">
+
+                            <ssf-container class="side-link-label-content">
+
+                                <ssf-row>
+
+                                    <ssf-col no-padding size="10" class="text-center small ml-0">
+
+                                        <span class="small">v{{ version }}</span>
+
+                                    </ssf-col>
+
+                                </ssf-row>
+
+                            </ssf-container>
+
+                        </ssf-row>
+
+
+                        <div class="active-hover-line bg-white mx-auto"></div>
+
+                    </li>
+
                 </ul>
 
 
@@ -118,8 +144,8 @@
 
     // import '@sofiakb/vue-element/assets/mdb.min'
 
-    import { defineComponent, onBeforeMount, onMounted, ref, watch } from "vue";
-    import { useStore }                                              from "vuex";
+    import { computed, defineComponent, onBeforeMount, onMounted, ref, watch } from "vue";
+    import { useStore }                                                        from "vuex";
     import { useRouter }                              from "vue-router";
     import cookie                                     from "@sofiakb/cookie";
 
@@ -148,10 +174,13 @@
             onBeforeMount(async () => user.value = await currentUser())
             watch(() => user.value, () => firstname.value = user.value?.firstname?.capitalize(), { immediate: true })
 
+            const version = computed(() => process.env.VERSION)
+
             ////////// methods
             const exists = routeExists
 
             return {
+                version,
                 user,
                 firstname,
                 exists,
