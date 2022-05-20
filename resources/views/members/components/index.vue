@@ -82,7 +82,7 @@
 	.ssf__section--members {
 
 		.member-nav-tabs {
-			width: 400px;
+			width: 650px;
 		}
 
 	}

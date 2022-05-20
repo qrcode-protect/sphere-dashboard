@@ -9,6 +9,9 @@
         <!-- APPLICATION IS UP -->
         <ssf-container v-if="!maintenance" :style="`--sidebar-width: ${sidebarWidth}px;`" class="h-100 w-100">
 
+            <h1>SUPPRESSION D'UN MEMBRE</h1>
+            <h1>TOOLTIP COPY / FOLLOW ON MEMBER INFO</h1>
+
             <ssf-row>
                 <div v-if="$route.name !=='login' " class="px-0 sidebar-col position-fixed h-100" style="z-index: 1">
                     <x-sidebar :links="links"/>

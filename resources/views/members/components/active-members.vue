@@ -75,6 +75,7 @@
     import { useStore }            from "vuex";
     import { computed, onMounted } from "vue";
     import Member                  from "@app/modules/member/member";
+    // @ts-ignore
     import copy                    from "text-copy"
 
     import swal from "sweetalert2";
