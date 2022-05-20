@@ -12,6 +12,7 @@
 import { navigate as commonNav } from "@app/commons";
 import { urlParams }             from "@app/vue/utils";
 import Auth                      from "@app/modules/auth/auth";
+import { Nullable }              from "../../../../types/nullable";
 
 export interface UserLoginParameter {
     email: Nullable<string>,

@@ -14,8 +14,8 @@ import { keys } from "lodash";
 
 const fields: any = {
     email    : "l'adresse e-mail",
-    firstname: "le nom",
-    lastname : "le prénom",
+    firstname: "le prénom",
+    lastname : "le nom",
     company  : "la société / organisation",
     phone    : "le numéro de téléphone",
     password : "le mot de passe",

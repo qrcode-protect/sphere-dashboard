@@ -8,9 +8,9 @@
             <form id="formLogin" class="w-100" novalidate @submit.prevent="login()">
 
                 <ssf-form-group :errors="errors"
+                                :icon="{icon: 'user', weight: 'light'}"
                                 :value="user.email"
                                 col="col-12"
-                                :icon="{icon: 'user', weight: 'light'}"
                                 label="Adresse e-mail ou nom d'utilisateur"
                                 name="email"
                                 required
@@ -18,9 +18,9 @@
                                 @update:value="event => user.email = event"/>
 
                 <ssf-form-group :errors="errors"
+                                :icon="{icon: 'lock', weight: 'light'}"
                                 :value="user.password"
                                 col="col-12"
-                                :icon="{icon: 'lock', weight: 'light'}"
                                 label="Mot de passe"
                                 name="password"
                                 required
@@ -79,12 +79,16 @@
     import { defineComponent, onMounted, reactive, ref } from "vue";
     import { useMeta }                                   from "vue-meta";
     import Auth                                          from "./auth.vue";
-    import { navigate, UserLoginParameter }              from "@/views/auth/utils";
+    import { login, navigate, UserLoginParameter }       from "@/views/auth/utils";
     import Icon                                          from "@/components/commons/partials/icon.vue";
     import { urlParams }                                 from "@app/vue/utils";
     import { validator as xValidator }                   from "@app/commons/validation";
     // @ts-ignore
     import MainError                                     from "@app/vue/utils/swal/errors/main-error";
+    import { Nullable }                                  from "../../../types/nullable";
+    import { useStore }                                  from "vuex";
+
+    import cookie from '@sofiakb/cookie'
 
     export default defineComponent({
         name      : "login",
@@ -128,7 +132,9 @@
                 // login,
 
                 //// composition
-                navigate
+                navigate,
+
+                tokenName: (useStore()).getters.TOKEN_NAME
             }
         },
 
@@ -141,7 +147,21 @@
 
                 this.error = null
 
-                if (this.validator()) {
+                if (this.validator())
+                    return login(this.user)
+                        .then((response) => {
+                            cookie.set(this.tokenName, response.token.bearer)
+                            this.$router.push({ name: 'members.index' })
+                            this.loading = false
+                        })
+                        .catch((error) => {
+                            this.loading = false
+                            return this.error = error.message;
+                        })
+                        .finally(() => this.loading = false)
+                else this.loading = false
+
+                /*if (this.validator()) {
                     if (this.user.email === 'sphere-dev' && this.user.password === 'spheredev') {
                         this.$localStorage.set('token', 'ok')
                         this.$router.push({ name: 'members.index' })
@@ -152,7 +172,7 @@
                     this.loading = false
                 } else {
                     this.loading = false
-                }
+                }*/
 
 
                 /*this.$controller.auth
@@ -176,5 +196,5 @@
     })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 </style>

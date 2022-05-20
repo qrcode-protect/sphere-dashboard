@@ -69,6 +69,9 @@
 			}, {
 				title   : "En attente de validation",
 				tabIndex: 2
+			} , {
+				title   : "Premium",
+				tabIndex: 3
 			} ]
 		})
 	})

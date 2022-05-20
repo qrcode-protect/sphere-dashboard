@@ -6,18 +6,15 @@
  */
 
 
-
-
-
 import Model from "@sofiakb/vue3-framework/models/model";
 
-import AuthController         from "@app/modules/auth/auth-controller";
+import AuthController from "@app/modules/auth/auth-controller";
 import {
     UserLoginParameter,
     UserPasswordForgotParameter,
     UserPasswordResetParameter,
     UserRegisterParameter
-}                             from "@/views/auth/utils";
+}                     from "@/views/auth/utils";
 
 export default class Auth extends Model {
 
@@ -47,7 +44,7 @@ export default class Auth extends Model {
             AuthController.post(`${this.PREFIX}/login`, {
                 ...user,
             }, { redirectIfNotLogged: false })
-                .then((response: any) => (typeof response === 'string') ? resolve(response) : reject(response))
+                .then((response: any) => resolve(response))
                 .catch((error) => reject(error))
         })
     }

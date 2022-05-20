@@ -29,7 +29,7 @@ const mutations = {
 
         setPreload(state: any, preload: any) {
             state.preload = preload
-        }
+        },
     },
 };
 

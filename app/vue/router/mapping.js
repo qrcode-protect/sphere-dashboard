@@ -1,71 +1,66 @@
+import { RoleType } from "@app/modules/role/role-type";
+
 const mapping = {
-	'home'         : {
-		label: 'Accueil',
-		icon : 'home',
-		show : false
-	},
-	'members.index': {
-		label: 'Adhérents',
-		icon : 'screen-users',
-		active: false
-	},
-	'members.index2': {
-		label: 'Domaines d\'activités',
-		icon : 'asterisk'
-	},
-	'members.index3': {
-		label: 'Partenaires',
-		icon : 'building',
-		active: false
-	},
-	'members.index4': {
-		label: 'Articles',
-		icon : 'file',
-		active: false
-	},
-	'members.index5': {
-		label: 'RFA',
-		icon : 'receipt',
-		active: false
-	},
-	'members.index6': {
-		label: 'Bourse aux affaires',
-		icon : 'receipt',
-		active: false
-	},
-	/*'members.index3': {
-		label: 'Adhérents',
-		icon : 'users'
-	},
-	'members.index4': {
-		label: 'Adhérents',
-		icon : 'users'
-	}*/
+    'home'          : {
+        name : 'home',
+        label: 'Accueil',
+        icon : 'home',
+        level: RoleType.marketing,
+        show : false
+    },
+    'members.index' : {
+        name : 'members.index',
+        label: 'Adhérents',
+        icon : 'screen-users',
+        level: RoleType.admin
+    },
+    'users.index'   : {
+        name : 'users.index',
+        label: 'Utilisateurs',
+        icon : 'users',
+        level: RoleType.admin
+    },
+    'members.index2': {
+        name : 'members.index2',
+        label: 'Domaines d\'activités',
+        icon : 'asterisk',
+        level: RoleType.admin
+    },
+    'members.index3': {
+        name : 'members.index3',
+        label: 'Partenaires',
+        icon : 'building',
+        level: RoleType.admin
+    },
+    'articles.index': {
+        name : 'articles.index',
+        label: 'Articles',
+        icon : 'blog',
+        level: RoleType.marketing
+    },
+    'members.index5': {
+        name : 'members.index5',
+        label: 'RFA',
+        icon : 'receipt',
+        level: RoleType.admin
+    },
+    'members.index6': {
+        name : 'members.index6',
+        label: 'Bourse aux affaires',
+        icon : 'receipt',
+        level: RoleType.admin
+    },
 };
 
 const exclude = [
-	'login',
-	'register',
-	'password.forgot',
-	'password.reset',
-	'logout'
+    'login',
+    'register',
+    'password.forgot',
+    'password.reset',
+    'logout'
 ];
 
 export {
-	mapping,
-	exclude
+    mapping,
+    exclude
 }
-
-/*
- * computed: {
- links() {
- let routes = _.filter(this.$router.options.routes, route => route.path !== '*' && _.indexOf(exclude, route.name) < 0),
- links = [],
- moreLinks = [
- { label: "Déconnexion", name: "logout", icon: 'power-off', },
- ];
- _.map(routes, route => route.name).forEach(route => links.push({ ...mapping[route], ...{ name: route } }));
- return links.concat(moreLinks)
- },
- },
- * */

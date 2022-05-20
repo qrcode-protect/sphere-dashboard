@@ -11,6 +11,7 @@ import { __createError, __options } from '@sofiakb/vue3-framework/http/utils';
 import { Tools }                    from '@app/packages/ssf';
 import configAttributes             from '@config/api';
 import { MethodsType }              from "@sofiakb/axios-api/lib/types/methods-type";
+import cookie                       from "@sofiakb/cookie";
 
 export default class Controller extends Tools.Api {
     constructor(attributes: any = configAttributes) {
@@ -19,6 +20,13 @@ export default class Controller extends Tools.Api {
 
     request(method: MethodsType, path: string, options: any = {}) {
         options = __options(options);
+        options.headers = {
+            ...{
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${cookie.get(process.env.TOKEN_NAME || 'sphere-dashboard_token')}`,
+                'X-API-KEY'    : process.env.API_KEY || null
+            }, ...options.headers || {}
+        }
         return new Promise((resolve, reject) => {
             options.loading();
             super.request(method, path, options)

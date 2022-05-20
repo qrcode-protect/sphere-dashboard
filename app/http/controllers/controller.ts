@@ -23,8 +23,10 @@ export default class Controller extends BaseController {
             super.request(method, path, options)
                 .then((response: any) => resolve(response))
                 .catch((error: any) => {
-                    if (error.status === 500) {
+                    /*if (error.status === 500) {
                         return reject(router.push({ name: 'error.server' }))
+                    } else*/ if (error.status === 401 && options.redirectIfNotLogged !== false) {
+                        return reject(router.push({ name: 'login' }))
                     } else return reject(__createError(error))
                 })
                 .finally(() => options.loading(false))

@@ -84,6 +84,7 @@
     import { useStore }                        from "vuex";
     import { hasSlot }                         from "@app/vue/utils";
     import Logo                                from "@/components/commons/logo.vue";
+    import { Nullable }                        from "../../../types/nullable";
 
 
     export default defineComponent({
