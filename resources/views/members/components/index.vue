@@ -69,6 +69,9 @@
 			}, {
 				title   : "En attente de validation",
 				tabIndex: 2
+			} , {
+				title   : "Premium",
+				tabIndex: 3
 			} ]
 		})
 	})
@@ -79,7 +82,7 @@
 	.ssf__section--members {
 
 		.member-nav-tabs {
-			width: 400px;
+			width: 650px;
 		}
 
 	}
