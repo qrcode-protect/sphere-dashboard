@@ -7,7 +7,20 @@
 
 import swal from "sweetalert2";
 
-export const toast = (text, timer = 5000) => swal.fire({
+// @ts-ignore
+import MainSuccess from './success/main-success'
+// @ts-ignore
+import MainError from './errors/main-error'
+// @ts-ignore
+import MainWarning from './warning/main-warning'
+
+export {
+    MainSuccess,
+    MainError,
+    MainWarning
+}
+
+export const toast = (text: string, timer: number = 5000) => swal.fire({
     icon             : "success",
     text,
     toast            : true,

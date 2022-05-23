@@ -12,7 +12,7 @@ const state: State = {
 }
 
 const actions = {
-    fetchAllActivities: fetchAll,
+    fetchAll,
 }
 
 const getters = {
