@@ -1,6 +1,6 @@
 <template>
 
-    <ssf-container not-full class="position-relative">
+    <ssf-container class="position-relative" not-full>
 
         <card-company-info :icon="icon"
                            :item="member"
@@ -27,7 +27,7 @@
 
         </card-company-info>
 
-        <ssf-container class="blocked-banner full-absolute px-3 rounded" v-if="!(member.available === true)">
+        <ssf-container v-if="!(member.available === true)" class="blocked-banner full-absolute px-3 rounded">
             <ssf-container class="blocked-banner-bg bg-danger rounded"/>
             <ssf-container class="blocked-banner-text full-flex full-absolute">
                 <ssf-text class="text-white text-uppercase font-weight-bold">bloqué</ssf-text>
@@ -42,11 +42,12 @@
     import { useStore }             from "vuex";
     import { defineComponent, ref } from "vue";
 
-    import Member                              from "@app/modules/member/member";
-    import { MainSuccess, MainWarning, toast } from "@app/vue/utils/swal";
+    import Member                                         from "@app/modules/member/member";
+    import { MainError, MainSuccess, MainWarning, toast } from "@app/vue/utils/swal";
 
     import CardCompanyInfo      from "@/components/commons/cards/card-company-info.vue";
     import { SweetAlertResult } from "sweetalert2";
+    import { AxiosApiError }    from "@sofiakb/axios-api/lib/tools/api";
 
     export default defineComponent({
         name      : "active-member-card",
@@ -77,10 +78,12 @@
                     confirmButton: "rounded py-3 bg-danger",
                 }
             }).then((answer: SweetAlertResult) => answer.isConfirmed && answer.value
-                ? props.member.destroy().then(() => {
-                    MainSuccess.fire()
-                    return emit('destroyed', props.member.id);
-                })
+                ? props.member.destroy()
+                    .then(() => {
+                        MainSuccess.fire()
+                        return emit('destroyed', props.member.id);
+                    })
+                    .catch((error: AxiosApiError) => MainError.fire({ text: error.message }))
                 : null)
 
             const forgotPassword = () => (props.member.forgotPassword(props.member.email)).then(() => toast("Le lien a bien été envoyé à l'adhérent"))
