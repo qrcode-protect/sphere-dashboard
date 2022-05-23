@@ -26,9 +26,9 @@
 
 <script>
 	import { defineComponent, ref } from "vue";
-	import { useMeta }              from "vue-meta";
-	import ActiveMembers            from "@/views/members/components/active-members";
-	import InactiveMembers          from "@/views/members/components/inactive-members";
+	import { useMeta }     from "vue-meta";
+	import ActiveMembers   from "@/views/members/components/includes/active-members";
+	import InactiveMembers from "@/views/members/components/includes/inactive-members";
 
 	export default defineComponent({
 		name: "members-index",
