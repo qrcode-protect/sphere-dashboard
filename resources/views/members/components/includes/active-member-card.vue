@@ -28,7 +28,7 @@
         </card-company-info>
 
         <ssf-container class="blocked-banner full-absolute px-3 rounded" v-if="!(member.available === true)">
-            <ssf-container class="blocked-banner-bg bg-danger rounded"></ssf-container>
+            <ssf-container class="blocked-banner-bg bg-danger rounded"/>
             <ssf-container class="blocked-banner-text full-flex full-absolute">
                 <ssf-text class="text-white text-uppercase font-weight-bold">bloqué</ssf-text>
             </ssf-container>
