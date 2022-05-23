@@ -1,4 +1,9 @@
-# sphere-dashboard
+# SHPÈRE Dashboard
+
+## Description
+Ce [Dashboard](https://dashboard.reseau-sphere.com/) permet de gérer les données de
+- [SPHÈRE](https://reseau-sphere.com)
+- [SPHÈRE Partenaire](https://partner.reseau-sphere.com)
 
 ## Project setup
 ```
@@ -15,15 +20,10 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
+### Changelogs
 
-### Lints and fixes files
-```
-npm run lint
-```
+#### [v1.0.0-beta.2](./changelogs/v1.0.1-beta.2.md)
+
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

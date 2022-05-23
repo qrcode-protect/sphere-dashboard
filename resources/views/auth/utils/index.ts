@@ -17,6 +17,7 @@ import { Nullable }              from "../../../../types/nullable";
 export interface UserLoginParameter {
     email: Nullable<string>,
     password: Nullable<string>,
+    remember: Boolean
 }
 
 export interface UserRegisterParameter {

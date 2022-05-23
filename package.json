@@ -38,6 +38,7 @@
     "vue-routisan": "^3.0.0-beta.5",
     "vue-web-storage": "^6.1.0",
     "vue3-perfect-scrollbar": "^1.6.0",
+    "vue3-popper": "^1.4.2",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

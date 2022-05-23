@@ -28,14 +28,14 @@
                                 type="password"
                                 @update:value="event => user.password = event"/>
 
-                <!--                <ssf-form-group :value="user.remember"
-                                                col="col-12"
-                                                form-group-class="mid-flex"
-                                                label="Se souvenir de moi"
-                                                name="remember"
-                                                row
-                                                type="checkbox"
-                                                @update:value="event => user.remember = event"/>-->
+                <ssf-form-group :value="user.remember"
+                                col="col-12"
+                                form-group-class="mid-flex"
+                                label="Se souvenir de moi"
+                                name="remember"
+                                row
+                                type="checkbox"
+                                @update:value="event => user.remember = event"/>
 
                 <!--                <ssf-row>
 

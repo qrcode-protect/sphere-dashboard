@@ -15,6 +15,6 @@ let config = {
   confirmButtonText: "J'ai compris"
 };
 
-const MainSuccess = Swal.mixin(config);
+const MainWarning = Swal.mixin(config);
 
-export default MainSuccess
+export default MainWarning
