@@ -51,3 +51,14 @@ export const roles = () => {
 }
 
 export const filled = (value: Nullable<string>) => value && value.trim() !== ''
+
+
+export enum UrlType {
+    email, phone, image, url
+}
+
+export enum UrlPrefix {
+    email = "mailto:",
+    phone = "tel:",
+    empty = ""
+}
