@@ -59,11 +59,11 @@
 		methods: {
 
 			close() {
-				this.className = "d-flex animated fadeOut";
+				// this.className = "d-flex animated fadeOut";
 				setTimeout(() => {
-					this.className = "d-none";
+					// this.className = "d-none";
 					clearInterval(interval);
-					this.$store.dispatch('preloading', false)
+					// this.$store.dispatch('preloading', false)
 				}, 1000)
 			},
 

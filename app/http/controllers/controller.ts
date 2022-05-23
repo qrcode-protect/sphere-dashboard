@@ -13,6 +13,7 @@ import { __createError, __options } from "@sofiakb/vue3-framework/http/utils";
 import BaseController               from "@sofiakb/vue3-framework/http/controllers/controller";
 import router                       from "@app/vue/router";
 import { MethodsType }              from "@sofiakb/axios-api/lib/types/methods-type";
+import { redirect }                 from "@app/commons/auth";
 
 
 export default class Controller extends BaseController {
@@ -26,7 +27,7 @@ export default class Controller extends BaseController {
                     /*if (error.status === 500) {
                         return reject(router.push({ name: 'error.server' }))
                     } else*/ if (error.status === 401 && options.redirectIfNotLogged !== false) {
-                        return reject(router.push({ name: 'login' }))
+                        return reject(redirect.login.view())
                     } else return reject(__createError(error))
                 })
                 .finally(() => options.loading(false))

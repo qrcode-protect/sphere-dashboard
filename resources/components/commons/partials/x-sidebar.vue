@@ -171,7 +171,7 @@
             const user = ref(null)
             const firstname = ref(null)
 
-            onBeforeMount(async () => user.value = await currentUser())
+            onBeforeMount(async () => user.value = await currentUser().catch(() => null))
             watch(() => user.value, () => firstname.value = user.value?.firstname?.capitalize(), { immediate: true })
 
             const version = computed(() => process.env.VERSION)

@@ -36,7 +36,7 @@ export const roles = (): Role[] | null => store.getters['role/roles']
 
 export const redirect = {
     login: {
-        view: (name: string = 'login.redirect') => router.currentRoute?.value?.name === name ? null : router.replace({ name })
+        view: (name: string = 'login') => router.currentRoute?.value?.name === name ? null : router.replace({ name })
         // view: (url: string) => location.href = url
     }
 }
