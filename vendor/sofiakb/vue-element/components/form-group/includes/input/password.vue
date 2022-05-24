@@ -29,8 +29,8 @@
       ref="inputComponent"/>
 
     <span class="ssf-password-toggle" @click="toggleShow">
-      <ssf-icon icon="eye" solid v-if="!show"/>
-      <ssf-icon icon="eye-slash" solid v-if="show"/>
+      <ssf-icon icon="eye" light v-if="!show"/>
+      <ssf-icon icon="eye-slash" light v-if="show"/>
     </span>
 
   </div>
@@ -84,8 +84,8 @@
       },
 
       setSelectionRange() {
-        this.$refs.inputComponent.selectionEnd = this.parent.value.length
-        this.$refs.inputComponent.selectionStart = this.parent.value.length
+        this.$refs.inputComponent.selectionEnd = this.parent.value?.length
+        this.$refs.inputComponent.selectionStart = this.parent.value?.length
       },
 
       onLabelClick() {

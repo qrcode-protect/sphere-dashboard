@@ -3,10 +3,23 @@
     --color-2: #FC741C;
     --color-3: #333333;
     --color-4: #FFFFFF;
-    --color-5: #355C7D;
+    --color-5: #FC741C;
 
-    --border-radius: 10px;
+    --border-radius: 15px;
     --form-radius: var(--border-radius);
+
+    --color-success: #6aa280;
+    --color-danger: #d6534c;
+    --color-warning: var(--color-2);
+
+    --popper-theme-background-color: #333333;
+    --popper-theme-background-color-hover: #333333;
+    --popper-theme-text-color: #ffffff;
+    --popper-theme-border-width: 0px;
+    --popper-theme-border-style: solid;
+    --popper-theme-border-radius: 6px;
+    --popper-theme-padding: 10px;
+    --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
 }
 
 html, body {
@@ -43,9 +56,9 @@ body {
     cursor: pointer;
 }
 
-.btn[class^='rounded'] {
-    font-weight: 700;
-    border-radius: 6px !important;
+.btn {
+    font-weight: 500;
+    border-radius: var(--border-radius) !important;
     box-shadow: none !important;
     margin: 0;
 }
@@ -59,9 +72,9 @@ button:focus {
 }
 
 .rounded {
-    -webkit-border-radius: 6px !important;
-    -moz-border-radius: 6px !important;
-    border-radius: 6px !important;
+    -webkit-border-radius: var(--border-radius) !important;
+    -moz-border-radius: var(--border-radius) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .border-strong {
@@ -88,11 +101,43 @@ input:-webkit-autofill:active {
 }
 
 .form-control.is-valid {
-    border-color: #6aa280;
+    border-color: var(--color-success);
 }
 
 .form-control.is-invalid {
-    border-color: #d6534c;
+    border-color: var(--color-danger) !important;
+}
+
+.border-success {
+    border-color: var(--color-success) !important;
+}
+
+.border-danger {
+    border-color: var(--color-danger) !important;
+}
+
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.text-danger {
+    color: var(--color-danger) !important;
+}
+
+.text-warning {
+    color: var(--color-warning) !important;
+}
+
+.bg-success {
+    background-color: var(--color-success) !important;
+}
+
+.bg-danger {
+    background-color: var(--color-danger) !important;
+}
+
+.bg-warning {
+    background-color: var(--color-warning) !important;
 }
 
 .fa-1x5 {
@@ -161,4 +206,21 @@ ul.ul-icon li {
     font-style: italic !important;
     font-size: 80%;
     font-weight: 400;
+}
+
+.ssf-form-control:focus {
+    border-color: var(--color-2) !important;
+}
+
+.behind {
+    z-index: -1;
+}
+
+.ahead {
+    z-index: 1;
+}
+
+.label-required:after {
+    content: '*';
+    color: var(--color-danger);
 }

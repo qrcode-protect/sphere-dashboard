@@ -9,26 +9,39 @@
  * File app/vue/router/index
  */
 
-import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory, RouterOptions } from 'vue-router'
 // @ts-ignore
-import { Factory, Route }                                from 'vue-routisan'
-import AuthenticationGuard                               from '../../http/guards/auth-guard'
+import { Factory, Route }                        from 'vue-routisan'
+import { AdminGuard, AuthGuard, MarketingGuard } from "@app/http/guards";
 
 Factory.usingResolver((path: string | any) => () => (typeof path) === 'string' ? path.includes('.') ? import(`@/views/${path.split('.')[0]}/components/${path.split('.')[1]}`) : import(`@/views/${path}`) : path)
 
 
 Factory.withGuards({
-    auth: AuthenticationGuard
+    auth     : AuthGuard,
+    admin    : AdminGuard,
+    marketing: MarketingGuard,
 })
 
 Route.group({ guard: 'auth' }, () => {
     /* Page d'accueil */
     Route.view('/', 'home').name('home');
-    Route.view('/members', 'members').name('members.index');
-    Route.view('/members', 'members').name('members.index2');
-    Route.view('/members', 'members').name('members.index3');
-    Route.view('/members', 'members').name('members.index4');
-    Route.view('/members', 'members').name('members.index5');
+
+    Route.group({ guard: 'admin' }, () => {
+        Route.view('/members', 'members').name('members.index');
+        Route.view('/users', 'users').name('users.index');
+
+        Route.group({ prefix: 'partners' }, () => {
+            Route.view('/', 'partners').name('partners.index');
+            Route.view('/create', 'partners.create').name('partners.create');
+        })
+
+        Route.view('/members3', 'members').name('members.index2');
+        Route.view('/members5', 'members').name('members.index5');
+        Route.view('/members6', 'members').name('members.index6');
+    });
+
+    Route.view('/articles', 'articles').name('articles.index');
 })
 
 Route.group({}, () => {
@@ -46,7 +59,7 @@ Route.group({}, () => {
 Route.redirect('/:fallback(.*)*', { name: 'home' });
 
 const router = createRouter(<RouterOptions>{
-    history: createWebHistory(process.env.PUBLIC_PATH),
+    history: process.env.ROUTER_MODE === 'history' ? createWebHistory(process.env.PUBLIC_PATH) : createWebHashHistory(process.env.PUBLIC_PATH),
     routes : Factory.routes()
 })
 

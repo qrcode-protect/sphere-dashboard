@@ -12,7 +12,7 @@
 // }
 //
 // const actions = {
-//     fetchAllExample: fetchAll,
+//     fetchAll,
 // }
 //
 // const getters = {

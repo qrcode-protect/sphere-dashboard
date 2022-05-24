@@ -26,9 +26,9 @@
 
 <script>
 	import { defineComponent, ref } from "vue";
-	import { useMeta }              from "vue-meta";
-	import ActiveMembers            from "@/views/members/components/active-members";
-	import InactiveMembers          from "@/views/members/components/inactive-members";
+	import { useMeta }     from "vue-meta";
+	import ActiveMembers   from "@/views/members/components/includes/active-members";
+	import InactiveMembers from "@/views/members/components/includes/inactive-members";
 
 	export default defineComponent({
 		name: "members-index",
@@ -69,6 +69,9 @@
 			}, {
 				title   : "En attente de validation",
 				tabIndex: 2
+			} , {
+				title   : "Premium",
+				tabIndex: 3
 			} ]
 		})
 	})
@@ -79,7 +82,7 @@
 	.ssf__section--members {
 
 		.member-nav-tabs {
-			width: 400px;
+			width: 650px;
 		}
 
 	}

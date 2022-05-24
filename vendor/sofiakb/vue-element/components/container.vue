@@ -22,8 +22,10 @@
       cssClass() {
         let classes = { 'container-fluid': this.fluid, container: this.container, 'w-100': !this.notFull }
 
-        if (this.name)
-          classes[`ssf__section--${this.name}`] = true
+        if (this.name) {
+            classes[`ssf__section--${this.name}`] = true
+            classes[this.name] = true
+        }
 
         /*if (this.notFull === false)
           classes['w-100'] = true*/

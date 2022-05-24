@@ -4,7 +4,7 @@
 	</ssf-container>
 </template>
 
-<script>
+<script lang="ts">
 	import { defineComponent } from "vue";
 	import { useMeta }         from "vue-meta";
 

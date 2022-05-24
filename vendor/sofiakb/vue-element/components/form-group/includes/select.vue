@@ -24,7 +24,7 @@
           class="ssf-select-input-container"
           :class="{open: show.items}"
           :style="{height: ssfContainerHeight}"
-          :options="{wheelPropagation: false, suppressScrollX: !this.parent.scrollX}">
+          :options="{wheelPropagation: this.parent.wheelPropagation, suppressScrollX: !this.parent.scrollX}">
 
           <ssf-container
             name="text-container"
