@@ -165,7 +165,7 @@
 
             ////////// methods
             const onUrlClick = (data: any, item: CompanyInfo) => {
-                if (item.urlType === UrlType.image) {
+                if (item.urlType === UrlType.image && !(data[item.key]).indexOf('.pdf')) {
                     modals.showImageInfo.open = true
                 }
                 else window?.open(`${item.urlPrefix}${data[item.key]}`, '_blank')?.focus();
