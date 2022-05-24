@@ -98,7 +98,7 @@
 
             ////////// data
             const error = ref<Nullable<string>>(null)
-            const user = reactive<UserLoginParameter>({ email: null, password: null })
+            const user = reactive<UserLoginParameter>({ email: null, password: null, remember: false })
             const query = ref({})
             const errors = ref([])
             const loading = ref(false)

@@ -10,6 +10,7 @@
                                     :icon="Member.icon.name"
                                     :item-keys="itemKeys"
                                     :member="member"
+                                    @destroyed="onDestroyed"
                                     @edit:member="onEditMemberOpen"/>
 
             </ssf-row>
@@ -23,10 +24,10 @@
         </ssf-container>
 
         <modal-edit-member v-if="modals.editMember.open"
+                           :activities="activities"
                            :member="modals.editMember.props.member"
                            :modal-name="modals.editMember.name"
                            :open="modals.editMember.open"
-                           :activities="activities"
                            @close="onEditMemberClose"
                            @created="onCreated"/>
 
@@ -55,9 +56,13 @@
             ////////// init
             const store = useStore()
 
+            ////////// methods
+            const fetchActive = () => store.dispatch('member/fetchActive');
+            const onDestroyed = () => fetchActive()
+
             ////////// mounted
             onMounted(() => {
-                store.dispatch('member/fetchActive');
+                fetchActive()
 
                 if (activities.value === null) {
                     store.dispatch('activity/fetchAll');
@@ -86,6 +91,9 @@
                 //// computed
                 members,
                 activities,
+
+                //// methods
+                onDestroyed,
 
                 //// tools
                 Member

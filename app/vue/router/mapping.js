@@ -1,4 +1,6 @@
 import { RoleType } from "@app/modules/role/role-type";
+import Partner      from "@app/modules/partner/partner";
+import Member       from "@app/modules/member/member";
 
 const mapping = {
     'home'          : {
@@ -11,7 +13,14 @@ const mapping = {
     'members.index' : {
         name : 'members.index',
         label: 'Adhérents',
-        icon : 'screen-users',
+        icon : Member.icon.name,
+        level: RoleType.admin
+    },
+    'partners.index': {
+        name : 'partners.index',
+        label: 'Partenaires',
+        routes: ['partners.index', 'partners.create'],
+        icon : Partner.icon.name,
         level: RoleType.admin
     },
     'users.index'   : {
@@ -24,12 +33,6 @@ const mapping = {
         name : 'members.index2',
         label: 'Domaines d\'activités',
         icon : 'asterisk',
-        level: RoleType.admin
-    },
-    'members.index3': {
-        name : 'members.index3',
-        label: 'Partenaires',
-        icon : 'building',
         level: RoleType.admin
     },
     'articles.index': {
@@ -47,7 +50,7 @@ const mapping = {
     'members.index6': {
         name : 'members.index6',
         label: 'Bourse aux affaires',
-        icon : 'receipt',
+        icon : 'shop',
         level: RoleType.admin
     },
 };
