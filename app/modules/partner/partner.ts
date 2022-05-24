@@ -59,6 +59,14 @@ export default class Partner extends Model {
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
 
+    findActive(options: any = {}) {
+        return this.fetchBy('active')
+    }
+
+    findInactive(options: any = {}) {
+        return this.fetchBy('inactive')
+    }
+
     static send(data: any, options: any = {}) {
 
         const partner = new Partner()
@@ -78,6 +86,32 @@ export default class Partner extends Model {
                 .then((response) => resolve(response))
                 .catch((error) => reject(__createError(error)))
         })
+    }
+
+    accept(options: any = {}) {
+        return new Promise((resolve, reject) => {
+            this.controller.update(`/${this.table}/validate`, this.__id(this.id), this.__data({ active: true }), options)
+                .then((data: any) => resolve(this.setAttributes(data)))
+                .catch((error: any) => reject(error))
+        })
+    }
+
+    deny(options: any = {}) {
+        return new Promise((resolve, reject) => {
+            this.controller.update(`/${this.table}/deny`, this.__id(this.id), this.__data({ active: false }), options)
+                .then((data: any) => resolve(this.setAttributes(data)))
+                .catch((error: any) => reject(error))
+        })
+    }
+
+    unblock(options: any = {}) {
+        this.available = true
+        return this.update()
+    }
+
+    block(options: any = {}) {
+        this.available = false
+        return this.update()
     }
 }
 

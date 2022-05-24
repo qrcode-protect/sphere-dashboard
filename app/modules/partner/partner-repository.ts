@@ -10,7 +10,11 @@ import Partner from './partner'
 const partner = new Partner()
 
 const fetchAllPartners = () => partner.all()
+const fetchAllActivePartners = () => partner.findActive()
+const fetchAllInactivePartners = () => partner.findInactive()
 
 export {
     fetchAllPartners,
+    fetchAllActivePartners,
+    fetchAllInactivePartners
 }
