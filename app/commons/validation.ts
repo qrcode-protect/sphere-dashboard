@@ -13,12 +13,16 @@
 import { keys } from "lodash";
 
 const fields: any = {
-    email    : "l'adresse e-mail",
-    firstname: "le prénom",
-    lastname : "le nom",
-    company  : "la société / organisation",
-    phone    : "le numéro de téléphone",
-    password : "le mot de passe",
+    email      : "l'adresse e-mail",
+    firstname  : "le prénom",
+    lastname   : "le nom",
+    company    : "la société / organisation",
+    phone      : "le numéro de téléphone",
+    password   : "le mot de passe",
+    companyName: "le nom commercial",
+    siret      : "le siret",
+    activityId : "le domaine d'activité",
+    certificate: "le kbis",
 }
 
 const requiredMessage = (field: string) => `${fields[field].capitalize()} est obligatoire`
@@ -33,6 +37,10 @@ export const messages = {
     'phone.required'           : requiredMessage("phone"),
     'phone.format'             : formatMessage("phone"),
     'password.required'        : requiredMessage("password"),
+    'companyName.required'     : requiredMessage("companyName"),
+    'siret.required'           : requiredMessage("siret"),
+    'activityId.required'      : requiredMessage("activityId"),
+    'certificate.required'     : requiredMessage("certificate"),
     'confirmPassword.different': "Le mot de passe et la confirmation doivent être identiques",
 }
 
@@ -43,7 +51,7 @@ export const validator = (data: any) => {
 
     let valid = true, error = null, errors: string[] = [];
     keys(data).forEach(key => {
-        if (data[key] === null || (typeof data[key] === 'string' && data[key].trim() === '')) {
+        if (data[key] === null || typeof data[key] === "undefined" || (typeof data[key] === 'string' && data[key].trim() === '')) {
             inputError(key);
             valid = false;
             error = "Merci de renseigner tous les champs marqués d'un *"

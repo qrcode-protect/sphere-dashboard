@@ -9,7 +9,7 @@
  * File app/vue/router/index
  */
 
-import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory, RouterOptions } from 'vue-router'
 // @ts-ignore
 import { Factory, Route }                        from 'vue-routisan'
 import { AdminGuard, AuthGuard, MarketingGuard } from "@app/http/guards";
@@ -31,8 +31,12 @@ Route.group({ guard: 'auth' }, () => {
         Route.view('/members', 'members').name('members.index');
         Route.view('/users', 'users').name('users.index');
 
-        Route.view('/members2', 'members').name('members.index2');
-        Route.view('/members3', 'members').name('members.index3');
+        Route.group({ prefix: 'partners' }, () => {
+            Route.view('/', 'partners').name('partners.index');
+            Route.view('/create', 'partners.create').name('partners.create');
+        })
+
+        Route.view('/members3', 'members').name('members.index2');
         Route.view('/members5', 'members').name('members.index5');
         Route.view('/members6', 'members').name('members.index6');
     });
@@ -55,7 +59,7 @@ Route.group({}, () => {
 Route.redirect('/:fallback(.*)*', { name: 'home' });
 
 const router = createRouter(<RouterOptions>{
-    history: createWebHistory(process.env.PUBLIC_PATH),
+    history: process.env.ROUTER_MODE === 'history' ? createWebHistory(process.env.PUBLIC_PATH) : createWebHashHistory(process.env.PUBLIC_PATH),
     routes : Factory.routes()
 })
 
