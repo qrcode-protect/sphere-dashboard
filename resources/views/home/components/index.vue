@@ -1,7 +1,7 @@
 <template>
-    <ssf-container class="full-absolute full-flex bg-color-1 flex-column text-white" name="home">
+    <ssf-container class="full-absolute full-flex flex-column black-text" name="home">
 
-        <logo class="mb-3"/>
+        <logo class="mb-3 home-logo"/>
         <ssf-text class="font-weight-light text-uppercase h4-responsive">Dashboard</ssf-text>
 
     </ssf-container>
@@ -25,5 +25,9 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .home-logo {
+        filter: invert(1);
+    }
 
 </style>
