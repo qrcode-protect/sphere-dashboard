@@ -32,9 +32,9 @@
                                not-full
                                style="left: inherit !important; width: 20px">
 
-                    <vue-popper arrow :interactive="false" zIndex="1050">
+                    <vue-popper :interactive="false" arrow zIndex="1050">
 
-                        <ssf-container style="height: 20px; width: 20px" not-full class="text-center mx-auto">
+                        <ssf-container class="text-center mx-auto" not-full style="height: 20px; width: 20px">
                             <ssf-icon icon="ellipsis-vertical"/>
                         </ssf-container>
 
@@ -102,6 +102,13 @@
                 </li>
             </ul>
 
+            <modal-show-image-info v-if="modals.showImageInfo.open"
+                                   :modal-name="modals.showImageInfo.name"
+                                   :open="modals.showImageInfo.open"
+                                   :src="item.certificate"
+                                   alt="KBIS"
+                                   @close="modals.showImageInfo.open = false"/>
+
         </template>
 
         <template v-if="hasSlot('footer')" #footer>
@@ -113,15 +120,17 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, PropType } from "vue"
-    import swal                          from "sweetalert2";
+    import { defineComponent, PropType, reactive } from "vue"
+    import swal                                    from "sweetalert2";
 
     // @ts-ignore
-    import VuePopper   from "vue3-popper";
+    import VuePopper          from "vue3-popper";
     // @ts-ignore
-    import copy        from "text-copy"
-    import CompanyInfo from "@app/commons/company-info";
-    import { hasSlot } from "@app/vue/utils";
+    import copy               from "text-copy"
+    import CompanyInfo        from "@app/commons/company-info";
+    import { hasSlot }        from "@app/vue/utils";
+    import ModalShowImageInfo from "./modal-show-image-info.vue";
+    import { UrlType }        from "@app/commons";
 
 
     export default defineComponent({
@@ -137,6 +146,7 @@
         },
 
         components: {
+            ModalShowImageInfo,
             VuePopper
         },
 
@@ -144,12 +154,21 @@
             ////////// init
 
             ////////// data
+            const modals = reactive({
+                showImageInfo: {
+                    open: false,
+                    name: 'modal-show-image-info'
+                }
+            })
 
             ////////// computed
 
             ////////// methods
             const onUrlClick = (data: any, item: CompanyInfo) => {
-                window?.open(`${item.urlPrefix}${data[item.key]}`, '_blank')?.focus();
+                if (item.urlType === UrlType.image) {
+                    modals.showImageInfo.open = true
+                }
+                else window?.open(`${item.urlPrefix}${data[item.key]}`, '_blank')?.focus();
             }
             const onClickCopy = (data: any, item: CompanyInfo) => {
                 if (item.copyable && copy(data[item.key]))
@@ -171,6 +190,8 @@
             }
 
             return {
+                modals,
+
                 //// methods
                 onUrlClick,
                 onClickCopy,
