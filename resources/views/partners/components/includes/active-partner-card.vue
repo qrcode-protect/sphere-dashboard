@@ -42,7 +42,7 @@
     import { useStore }             from "vuex";
     import { defineComponent, ref } from "vue";
 
-    import Member                                         from "@app/modules/partner/partner";
+    import Partner                                        from "@app/modules/partner/partner";
     import { MainError, MainSuccess, MainWarning, toast } from "@app/vue/utils/swal";
 
     import CardCompanyInfo      from "@/components/commons/cards/card-company-info.vue";
@@ -54,7 +54,7 @@
         components: { CardCompanyInfo },
 
         props: {
-            partner  : { type: Member, required: true },
+            partner : { type: Partner, required: true },
             itemKeys: { type: Array, required: true },
             icon    : { type: String, required: false },
         },

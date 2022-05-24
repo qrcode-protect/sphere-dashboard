@@ -8,7 +8,7 @@
 
 import Model from "@sofiakb/vue3-framework/models/model";
 
-import ExampleController from "@app/modules/partner/partner-controller";
+import PartnerController from "@app/modules/partner/partner-controller";
 import Upload            from "@sofiakb/vue3-framework/models/upload";
 
 import configAttributes  from '@config/api';
@@ -54,7 +54,7 @@ export default class Partner extends Model {
         updated: 'date'
     }
 
-    constructor(options: any = { controller: ExampleController }) {
+    constructor(options: any = { controller: PartnerController }) {
         super(options);
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
@@ -112,6 +112,10 @@ export default class Partner extends Model {
     block(options: any = {}) {
         this.available = false
         return this.update()
+    }
+
+    forgotPassword(email: string | undefined, options = {}) {
+        return PartnerController.create(`/auth/password/forgot?app=partner`, { email }, options)
     }
 }
 
