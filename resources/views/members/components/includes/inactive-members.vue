@@ -8,8 +8,8 @@
 
                 <card-company-info v-for="member in members"
                                    :icon="Member.icon.name"
-                                   :item-keys="itemKeys"
                                    :item="member"
+                                   :item-keys="itemKeys"
                                    data-type="member"
                                    footer-class="bg-white border-0">
 
@@ -63,6 +63,7 @@
 
     import CardCompanyInfo      from "@/components/commons/cards/card-company-info.vue";
     import { SweetAlertResult } from "sweetalert2";
+    import { MainError }        from "@app/vue/utils/swal";
 
     export default {
         name: "inactive-members",
@@ -82,10 +83,12 @@
             const members = computed((): Member[] | null => store.getters['member/inactiveMembers'])
 
             ////////// methods
-            const accept = (member: Member) => member.accept().then(async () => {
-                MainSuccess.fire()
-                return await store.dispatch('member/fetchInactive');
-            })
+            const accept = (member: Member) => member.accept()
+                .then(async () => {
+                    MainSuccess.fire()
+                    return await store.dispatch('member/fetchInactive');
+                })
+                .catch((error) => MainError.fire({ text: error.message }))
             const deny = (member: Member) =>
                 MainWarning.fire({
                     html             : "<span>Êtes-vous sûr(e) de vouloir refuser cette inscription ? <br/><span class='small'>(Cette action est irréversible)</span></span>",

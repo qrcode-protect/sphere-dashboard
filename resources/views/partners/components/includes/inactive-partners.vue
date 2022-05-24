@@ -8,8 +8,8 @@
 
                 <card-company-info v-for="partner in partners"
                                    :icon="Partner.icon.name"
-                                   :item-keys="itemKeys"
                                    :item="partner"
+                                   :item-keys="itemKeys"
                                    data-type="partner"
                                    footer-class="bg-white border-0">
 
@@ -52,7 +52,7 @@
 <script lang="ts">
     import { useStore }            from "vuex";
     import { computed, onMounted } from "vue";
-    import Partner                  from "@app/modules/partner/partner";
+    import Partner                 from "@app/modules/partner/partner";
     import CompanyInfo             from "@app/commons/company-info";
     import { UrlPrefix, UrlType }  from "@app/commons";
 
@@ -63,6 +63,7 @@
 
     import CardCompanyInfo      from "@/components/commons/cards/card-company-info.vue";
     import { SweetAlertResult } from "sweetalert2";
+    import { MainError }        from "@app/vue/utils/swal";
 
     export default {
         name: "inactive-partners",
@@ -82,10 +83,12 @@
             const partners = computed((): Partner[] | null => store.getters['partner/inactivePartners'])
 
             ////////// methods
-            const accept = (partner: Partner) => partner.accept().then(async () => {
-                MainSuccess.fire()
-                return await store.dispatch('partner/fetchInactive');
-            })
+            const accept = (partner: Partner) => partner.accept()
+                .then(async () => {
+                    MainSuccess.fire()
+                    return await store.dispatch('partner/fetchInactive');
+                })
+                .catch((error) => MainError.fire({ text: error.message }))
             const deny = (partner: Partner) =>
                 MainWarning.fire({
                     html             : "<span>Êtes-vous sûr(e) de vouloir refuser cette inscription ? <br/><span class='small'>(Cette action est irréversible)</span></span>",
