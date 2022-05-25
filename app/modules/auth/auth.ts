@@ -41,7 +41,7 @@ export default class Auth extends Model {
 
     static login(user: UserLoginParameter): Promise<any> {
         return new Promise((resolve, reject) => {
-            AuthController.post(`${this.PREFIX}/login`, {
+            AuthController.post(`${this.PREFIX}/login/dashboard`, {
                 ...user,
             }, { redirectIfNotLogged: false })
                 .then((response: any) => resolve(response))

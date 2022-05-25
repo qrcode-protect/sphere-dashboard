@@ -1,6 +1,7 @@
 import { RoleType } from "@app/modules/role/role-type";
 import Partner      from "@app/modules/partner/partner";
 import Member       from "@app/modules/member/member";
+import Activity     from "@app/modules/activity/activity";
 
 const mapping = {
     'home'          : {
@@ -29,10 +30,10 @@ const mapping = {
         icon : 'users',
         level: RoleType.admin
     },
-    'members.index2': {
-        name : 'members.index2',
+    'activities.index': {
+        name : 'activities.index',
         label: 'Domaines d\'activités',
-        icon : 'asterisk',
+        icon : Activity.icon.name,
         level: RoleType.admin
     },
     'articles.index': {

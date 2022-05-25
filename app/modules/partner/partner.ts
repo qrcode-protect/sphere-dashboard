@@ -13,6 +13,7 @@ import Upload            from "@sofiakb/vue3-framework/models/upload";
 
 import configAttributes  from '@config/api';
 import { __createError } from "@sofiakb/axios-api";
+import { Nullable }      from "../../../types/nullable";
 
 export default class Partner extends Model {
 
@@ -59,12 +60,16 @@ export default class Partner extends Model {
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
 
-    findActive(options: any = {}) {
-        return this.fetchBy('active')
+    findActive(activityId?: Nullable<string>, options: any = {}) {
+        return this.fetchBy(`active${activityId ? '/' + activityId : ''}`)
     }
 
-    findInactive(options: any = {}) {
-        return this.fetchBy('inactive')
+    findInactive(activityId?: Nullable<string>, options: any = {}) {
+        return this.fetchBy(`inactive${activityId ? '/' + activityId : ''}`)
+    }
+
+    groupByActivity(options: any = {}) {
+        return this.fetchBy(`group-by/${this.attributes.activityId.prop}`)
     }
 
     static send(data: any, options: any = {}) {

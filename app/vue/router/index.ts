@@ -11,8 +11,8 @@
 
 import { createRouter, createWebHashHistory, createWebHistory, RouterOptions } from 'vue-router'
 // @ts-ignore
-import { Factory, Route }                        from 'vue-routisan'
-import { AdminGuard, AuthGuard, MarketingGuard } from "@app/http/guards";
+import { Factory, Route }                                                      from 'vue-routisan'
+import { AdminGuard, AuthGuard, GuestGuard, MarketingGuard }                   from "@app/http/guards";
 
 Factory.usingResolver((path: string | any) => () => (typeof path) === 'string' ? path.includes('.') ? import(`@/views/${path.split('.')[0]}/components/${path.split('.')[1]}`) : import(`@/views/${path}`) : path)
 
@@ -21,6 +21,7 @@ Factory.withGuards({
     auth     : AuthGuard,
     admin    : AdminGuard,
     marketing: MarketingGuard,
+    guest    : GuestGuard,
 })
 
 Route.group({ guard: 'auth' }, () => {
@@ -36,7 +37,10 @@ Route.group({ guard: 'auth' }, () => {
             Route.view('/create', 'partners.create').name('partners.create');
         })
 
-        Route.view('/members3', 'members').name('members.index2');
+        Route.group({ prefix: 'activities' }, () => {
+            Route.view('/', 'activities').name('activities.index');
+        });
+
         Route.view('/members5', 'members').name('members.index5');
         Route.view('/members6', 'members').name('members.index6');
     });
@@ -44,7 +48,7 @@ Route.group({ guard: 'auth' }, () => {
     Route.view('/articles', 'articles').name('articles.index');
 })
 
-Route.group({}, () => {
+Route.group({ guard: 'guest' }, () => {
     /* Page de connexion */
     Route.view('/login', 'auth/login').name('login');
     /* Page d'inscription*/

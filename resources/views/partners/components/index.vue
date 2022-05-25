@@ -21,9 +21,13 @@
             <inactive-partners v-if="currentTab === 2"/>
         </ssf-container>
 
-        <router-link :to="{name: 'partners.create'}">Ajouter un partenaire</router-link>
 
-        <button>Ajouter un partenaire</button>
+        <router-link :to="{name: 'partners.create'}" class="btn-create-partner">
+            <ssf-shape size="75"  circle class="bg-color-2 full-flex text-white z-depth-1">
+                <ssf-icon icon="layer-plus" size="2x" light/>
+            </ssf-shape>
+        </router-link>
+
 	</ssf-container>
 </template>
 
@@ -85,6 +89,12 @@
 
         .partner-nav-tabs {
             width: 650px;
+        }
+
+        .btn-create-partner {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
         }
 
     }

@@ -88,7 +88,8 @@
     import { Nullable }                                  from "../../../types/nullable";
     import { useStore }                                  from "vuex";
 
-    import cookie from '@sofiakb/cookie'
+    import cookie      from '@sofiakb/cookie'
+    import { loading } from "@app/vue/utils/helpers";
 
     export default defineComponent({
         name      : "login",
@@ -150,8 +151,10 @@
                 if (this.validator())
                     return login(this.user)
                         .then((response) => {
+                            loading(true)
                             cookie.set(this.tokenName, response.token.bearer)
                             this.$router.push({ name: 'members.index' })
+                            location.reload()
                             this.loading = false
                         })
                         .catch((error) => {

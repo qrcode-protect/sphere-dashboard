@@ -14,6 +14,7 @@ import BaseController               from "@sofiakb/vue3-framework/http/controlle
 import router                       from "@app/vue/router";
 import { MethodsType }              from "@sofiakb/axios-api/lib/types/methods-type";
 import { redirect }                 from "@app/commons/auth";
+import cookie                       from "@sofiakb/cookie";
 
 
 export default class Controller extends BaseController {
@@ -27,6 +28,7 @@ export default class Controller extends BaseController {
                     /*if (error.status === 500) {
                         return reject(router.push({ name: 'error.server' }))
                     } else*/ if (error.status === 401 && options.redirectIfNotLogged !== false) {
+                        cookie.delete(process.env.TOKEN_NAME!)
                         return reject(redirect.login.view())
                     } else return reject(__createError(error))
                 })

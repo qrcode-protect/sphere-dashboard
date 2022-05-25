@@ -19,6 +19,7 @@
 		<ssf-container fluid>
 			<active-members v-if="currentTab === 1"/>
 			<inactive-members v-if="currentTab === 2"/>
+            <active-premium-members v-if="currentTab === 3"/>
 		</ssf-container>
 
 	</ssf-container>
@@ -26,14 +27,15 @@
 
 <script>
 	import { defineComponent, ref } from "vue";
-	import { useMeta }     from "vue-meta";
-	import ActiveMembers   from "@/views/members/components/includes/active-members";
-	import InactiveMembers from "@/views/members/components/includes/inactive-members";
+	import { useMeta }              from "vue-meta";
+	import ActiveMembers            from "@/views/members/components/includes/active-members";
+	import InactiveMembers          from "@/views/members/components/includes/inactive-members";
+    import ActivePremiumMembers     from "@/views/members/components/includes/active-premium-members";
 
 	export default defineComponent({
 		name: "members-index",
 
-		components: { InactiveMembers, ActiveMembers },
+		components: { ActivePremiumMembers, InactiveMembers, ActiveMembers },
 
 		setup() {
 			////////// init

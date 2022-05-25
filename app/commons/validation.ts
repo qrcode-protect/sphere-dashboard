@@ -23,6 +23,7 @@ const fields: any = {
     siret      : "le siret",
     activityId : "le domaine d'activité",
     certificate: "le kbis",
+    label      : "le libellé",
 }
 
 const requiredMessage = (field: string) => `${fields[field].capitalize()} est obligatoire`
@@ -41,6 +42,7 @@ export const messages = {
     'siret.required'           : requiredMessage("siret"),
     'activityId.required'      : requiredMessage("activityId"),
     'certificate.required'     : requiredMessage("certificate"),
+    'label.required'           : requiredMessage("label"),
     'confirmPassword.different': "Le mot de passe et la confirmation doivent être identiques",
 }
 

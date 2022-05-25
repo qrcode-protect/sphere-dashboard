@@ -7,7 +7,7 @@ import {
 const fetchAll = ({ commit }: any) => fetchAllPartners()
     .then((partners: any) => commit('SET_PARTNERS', partners))
 
-const fetchActive = ({ commit }: any) => fetchAllActivePartners()
+const fetchActive = ({ commit }: any, payload: { activityId?: string }) => fetchAllActivePartners(payload?.activityId)
     .then((partners: any) => commit('SET_ACTIVE_PARTNERS', partners))
 
 const fetchInactive = ({ commit }: any) => fetchAllInactivePartners()

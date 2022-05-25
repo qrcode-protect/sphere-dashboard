@@ -6,12 +6,20 @@
 
             <ssf-row>
 
-                <active-member-card v-for="member in members"
-                                    :icon="Member.icon.name"
-                                    :item-keys="itemKeys"
-                                    :member="member"
-                                    @destroyed="onDestroyed"
-                                    @edit:member="onEditMemberOpen"/>
+                <ssf-col md="9" no-padding xs="12">
+
+                    <ssf-row>
+
+                        <active-member-card v-for="member in members"
+                                            :icon="Member.icon.name"
+                                            :item-keys="itemKeys"
+                                            :member="member"
+                                            @destroyed="onDestroyed"
+                                            @edit:member="onEditMemberOpen"/>
+
+                    </ssf-row>
+
+                </ssf-col>
 
             </ssf-row>
 
@@ -22,6 +30,21 @@
 				Aucun adhérent
 			</span>
         </ssf-container>
+
+        <ssf-col class="position-fixed ml-auto activity-selector" md="3" no-padding>
+
+            <ul class="p-3 bg-white border rounded">
+
+                <li v-for="activity in allActivities"
+                    :class="{'bg-light': activity.id === currentActivityId}"
+                    class="p-2 rounded cursor-pointer"
+                    @click="changeActivityId(activity.id)">
+                    {{ activity.label }}
+                </li>
+
+            </ul>
+
+        </ssf-col>
 
         <modal-edit-member v-if="modals.editMember.open"
                            :activities="activities"
@@ -36,8 +59,8 @@
 </template>
 
 <script lang="ts">
-    import { useStore }                                       from "vuex";
-    import { computed, defineComponent, onMounted, reactive } from "vue";
+    import { useStore }                                                   from "vuex";
+    import { computed, defineComponent, onMounted, reactive, ref, watch } from "vue";
 
     import Member                 from "@app/modules/member/member";
     import CompanyInfo            from "@app/commons/company-info";
@@ -46,7 +69,8 @@
     import CardCompanyInfo  from "@/components/commons/cards/card-company-info.vue";
     import ActiveMemberCard from "@/views/members/components/includes/active-member-card.vue";
     import ModalEditMember  from "@/views/members/components/includes/modal-edit-member.vue";
-    import Activity         from "@app/modules/activity/activity";
+    import Activity                     from "@app/modules/activity/activity";
+    import { filter, indexOf, reverse } from "lodash";
 
     export default defineComponent({
         name      : "active-members",
@@ -57,7 +81,7 @@
             const store = useStore()
 
             ////////// methods
-            const fetchActive = () => store.dispatch('member/fetchActive');
+            const fetchActive = () => store.dispatch('member/fetchActive', { activityId: currentActivityId.value });
             const onDestroyed = () => fetchActive()
 
             ////////// mounted
@@ -74,6 +98,12 @@
             const activities = computed((): Activity[] | null => store.getters['activity/activities'])
 
             ////////// data
+            const currentActivityId = ref<string | null>(null)
+            const activity = ref<Activity>((new Activity).__setItemAttributes({
+                id   : null,
+                label: "Tous",
+                name : "all"
+            }))
             const modals = reactive({
                 editMember: {
                     open : false,
@@ -84,9 +114,13 @@
                 }
             })
 
+            watch(() => currentActivityId.value, () => fetchActive())
+
             return {
                 //// data
                 modals,
+                currentActivityId,
+                activity,
 
                 //// computed
                 members,
@@ -127,11 +161,17 @@
                 urlType  : UrlType.image,
                 titleOnly: true
             }), new CompanyInfo({
-                icon : 'asterisk',
+                icon : 'stamp',
                 key  : 'siret',
                 title: 'Siret',
             }) ]
         }),
+
+        computed: {
+            allActivities() {
+                return this.activities && this.activities.length ? [ this.activity ].concat(this.activities!) : this.activities;
+            }
+        },
 
         methods: {
             toggleModal(value = true, modalName: string = 'editMember') {
@@ -149,6 +189,10 @@
             },
 
             onCreated() {
+            },
+
+            changeActivityId(activityId: string) {
+                this.currentActivityId = activityId
             }
         }
     })
@@ -158,6 +202,13 @@
 
     .active-members {
         min-height: 100vh;
+
+        .activity-selector {
+            top: 60px;
+            left: 0;
+            right: 15px;
+            bottom: 0;
+        }
     }
 
 </style>

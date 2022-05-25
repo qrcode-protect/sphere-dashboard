@@ -37,7 +37,7 @@ export default class Model {
         this.__resolve.table(options.name || this.constructor.name, options.pluralize);
 
         if (options.attributes)
-            this.__setItemAttributes(options.attributes, true)
+            setTimeout(() => this.__setItemAttributes(options.attributes, true))
     }
 
     all(options = {}) {
@@ -60,7 +60,7 @@ export default class Model {
         return this.fetchBy('mine', options)
     }
 
-    store(data:any = null, options = {}) {
+    store(data: any = null, options = {}) {
         return new Promise((resolve, reject) => {
             this.controller.create(`/${this.table}`, this.__data(data), options)
                 .then((data: any) => resolve(this.setAttributes(data)))
@@ -139,6 +139,10 @@ export default class Model {
                             break
                     }
             } else result[modelKey] = item[key]
+            if (self) {
+                // @ts-ignore
+                this[modelKey] = result[modelKey]
+            }
         })
 
         if (this.appends) {

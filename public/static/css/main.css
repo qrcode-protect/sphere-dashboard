@@ -178,6 +178,10 @@ input:-webkit-autofill:active {
     display: flex !important;
 }
 
+ul {
+    list-style-type: none;
+}
+
 ul.ul-icon {
     list-style-type: none;
     margin-left: 2.5em;

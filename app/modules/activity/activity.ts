@@ -12,12 +12,12 @@ import ActivityController from "@app/modules/activity/activity-controller";
 
 export default class Activity extends Model {
 
-    id?: string
+    id?: string | null
     name?: string
     label?: string
 
     static icon = {
-        name: 'test',
+        name: 'chart-network',
         type: 'la'
     }
 
@@ -33,6 +33,8 @@ export default class Activity extends Model {
     }
 
     constructor(options: any = { controller: ActivityController }) {
+        if (!options.controller)
+            options.controller = ActivityController
         super(options);
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
