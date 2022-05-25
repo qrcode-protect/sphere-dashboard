@@ -33,6 +33,8 @@ export default class Activity extends Model {
     }
 
     constructor(options: any = { controller: ActivityController }) {
+        if (!options.controller)
+            options.controller = ActivityController
         super(options);
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
