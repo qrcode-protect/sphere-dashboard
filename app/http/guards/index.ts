@@ -12,5 +12,6 @@
 import AdminGuard     from "@app/http/guards/admin-guard";
 import AuthGuard      from "@app/http/guards/auth-guard";
 import MarketingGuard from "@app/http/guards/marketing-guard";
+import GuestGuard     from "@app/http/guards/guest-guard";
 
-export { AdminGuard, AuthGuard, MarketingGuard }
+export { AdminGuard, AuthGuard, MarketingGuard, GuestGuard }

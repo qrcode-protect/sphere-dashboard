@@ -21,7 +21,7 @@ export const handle = async (roleName: RoleType, resolve: any, reject: any, {
 }: any, redirectTo: string = 'login') => {
     const token = cookie.get(store.getters.TOKEN_NAME)
 
-    if (token === null || token.trim() === '')
+    if (token === null || typeof token === 'undefined' || token.trim() === '')
         return reject({ name: 'login' });
 
 
@@ -32,7 +32,10 @@ export const handle = async (roleName: RoleType, resolve: any, reject: any, {
         _roles = roles()
     }
 
-    return _roles && await authorized((find(_roles, role => role.name === roleName) || { level: -1 }).level)
-        ? resolve()
-        : reject({ name: redirectTo });
+    if (_roles && await authorized((find(_roles, role => role.name === roleName) || { level: -1 }).level)) {
+        return resolve();
+    } else {
+        cookie.delete(store.getters.TOKEN_NAME)
+        return reject({ name: redirectTo });
+    }
 }
