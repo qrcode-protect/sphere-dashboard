@@ -21,12 +21,14 @@
 <script lang="ts">
     import { defineComponent } from "vue"
     import FormCreatePartner   from "@/views/partners/components/includes/form-create/form-create-partner.vue";
+    import { useMeta }         from "vue-meta";
 
     export default defineComponent({
         name      : "create",
         components: { FormCreatePartner },
         setup() {
             ////////// init
+            useMeta({ title: 'Partenaires - Ajouter', })
 
             ////////// data
 
