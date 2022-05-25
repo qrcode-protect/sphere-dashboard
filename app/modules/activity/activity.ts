@@ -12,7 +12,7 @@ import ActivityController from "@app/modules/activity/activity-controller";
 
 export default class Activity extends Model {
 
-    id?: string
+    id?: string | null
     name?: string
     label?: string
 

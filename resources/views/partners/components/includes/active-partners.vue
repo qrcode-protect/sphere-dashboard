@@ -67,8 +67,8 @@
     import CardCompanyInfo   from "@/components/commons/cards/card-company-info.vue";
     import ActivePartnerCard from "@/views/partners/components/includes/active-partner-card.vue";
     import ModalEditPartner  from "@/views/partners/components/includes/modal-edit-partner.vue";
-    import Activity          from "@app/modules/activity/activity";
-    import { reverse }       from "lodash";
+    import Activity            from "@app/modules/activity/activity";
+    import { filter, reverse } from "lodash";
 
     export default defineComponent({
         name      : "active-partners",
@@ -167,14 +167,13 @@
 
         computed: {
             allActivities() {
-                let activities = null
-                if (this.activities) {
-                    activities = reverse(this.activities)
-                    activities.push(this.activity)
-                    activities = reverse(activities)
+                let activities = reverse(this.activities ?? [])
+                if (activities && activities.length) {
+                    if (filter(activities, activity => activity.name === "all" && activity.id === null).length === 0)
+                        activities.push(this.activity)
                 }
 
-                return activities
+                return reverse(activities)
             }
         },
 

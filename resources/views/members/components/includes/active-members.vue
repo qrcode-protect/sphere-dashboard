@@ -69,8 +69,8 @@
     import CardCompanyInfo  from "@/components/commons/cards/card-company-info.vue";
     import ActiveMemberCard from "@/views/members/components/includes/active-member-card.vue";
     import ModalEditMember  from "@/views/members/components/includes/modal-edit-member.vue";
-    import Activity         from "@app/modules/activity/activity";
-    import { reverse }      from "lodash";
+    import Activity                     from "@app/modules/activity/activity";
+    import { filter, indexOf, reverse } from "lodash";
 
     export default defineComponent({
         name      : "active-members",
@@ -169,14 +169,13 @@
 
         computed: {
             allActivities() {
-                let activities = null
-                if (this.activities) {
-                    activities = reverse(this.activities)
-                    activities.push(this.activity)
-                    activities = reverse(activities)
+                let activities = reverse(this.activities ?? [])
+                if (activities && activities.length) {
+                    if (filter(activities, activity => activity.name === "all" && activity.id === null).length === 0)
+                        activities.push(this.activity)
                 }
 
-                return activities
+                return reverse(activities)
             }
         },
 
