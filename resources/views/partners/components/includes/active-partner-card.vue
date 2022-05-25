@@ -68,7 +68,7 @@
 
             ////////// methods
             const destroy = () => MainWarning.fire({
-                html             : "<span>Êtes-vous sûr(e) de vouloir supprimer cet adhérent ? <br/><span class='small'>(Cette action est irréversible)</span></span>",
+                html             : "<span>Êtes-vous sûr(e) de vouloir supprimer ce partenaire ? <br/><span class='small'>(Cette action est irréversible)</span></span>",
                 confirmButtonText: "Oui, j'en suis sûr",
                 showCancelButton : true,
                 cancelButtonText : "J'hésite encore",
@@ -86,7 +86,7 @@
                     .catch((error: AxiosApiError) => MainError.fire({ text: error.message }))
                 : null)
 
-            const forgotPassword = () => (props.partner.forgotPassword(props.partner.email)).then(() => toast("Le lien a bien été envoyé à l'adhérent"))
+            const forgotPassword = () => (props.partner.forgotPassword(props.partner.email)).then(() => toast("Le lien a bien été envoyé à au partenaire"))
             const openEditModal = () => emit('edit:partner', props.partner)
             const updateActions = () => actions.value = actionsList()
             const toggleActive = () => (props.partner.available === true ? props.partner.block() : props.partner.unblock()).then(() => updateActions())
