@@ -17,7 +17,7 @@ export default class Activity extends Model {
     label?: string
 
     static icon = {
-        name: 'test',
+        name: 'chart-network',
         type: 'la'
     }
 

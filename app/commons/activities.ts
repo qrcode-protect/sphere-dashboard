@@ -14,8 +14,8 @@ import { computed } from "@vue/reactivity";
 
 export const activities = computed(() => store.getters['activity/activities'])
 
-export const fetchActivities = () => {
-    if (activities.value === null) {
+export const fetchActivities = (force= false) => {
+    if (force === true || activities.value === null) {
         return store.dispatch('activity/fetchAll');
     }
     return null

@@ -37,7 +37,10 @@ Route.group({ guard: 'auth' }, () => {
             Route.view('/create', 'partners.create').name('partners.create');
         })
 
-        Route.view('/members3', 'members').name('members.index2');
+        Route.group({ prefix: 'activities' }, () => {
+            Route.view('/', 'activities').name('activities.index');
+        });
+
         Route.view('/members5', 'members').name('members.index5');
         Route.view('/members6', 'members').name('members.index6');
     });
