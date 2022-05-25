@@ -16,6 +16,7 @@ import SsfParallax    from './components/parallax'
 import SsfInitial     from './components/initial'
 import SsfText        from './components/text.vue'
 import SsfShape        from './components/shape.vue'
+import SsfTitle        from './components/title.vue'
 
 // import Message from './components/message/index.js'
 
@@ -37,6 +38,7 @@ export default {
         Vue.component('ssf-initial', SsfInitial)
         Vue.component('ssf-text', SsfText)
         Vue.component('ssf-shape', SsfShape)
+        Vue.component('ssf-title', SsfTitle)
 
         // Vue.config.globalProperties.$message = Message
     }
