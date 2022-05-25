@@ -161,7 +161,7 @@
                 urlType  : UrlType.image,
                 titleOnly: true
             }), new CompanyInfo({
-                icon : 'asterisk',
+                icon : 'stamp',
                 key  : 'siret',
                 title: 'Siret',
             }) ]
@@ -169,13 +169,7 @@
 
         computed: {
             allActivities() {
-                let activities = reverse(this.activities ?? [])
-                if (activities && activities.length) {
-                    if (filter(activities, activity => activity.name === "all" && activity.id === null).length === 0)
-                        activities.push(this.activity)
-                }
-
-                return reverse(activities)
+                return this.activities && this.activities.length ? [ this.activity ].concat(this.activities!) : this.activities;
             }
         },
 
