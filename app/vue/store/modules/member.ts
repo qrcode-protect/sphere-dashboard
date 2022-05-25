@@ -3,7 +3,7 @@ import { fetchAllActiveMembers, fetchAllInactiveMembers, fetchAllMembers } from 
 const fetchAll = ({ commit }: any) => fetchAllMembers()
     .then((members: any) => commit('SET_MEMBERS', members))
 
-const fetchActive = ({ commit }: any) => fetchAllActiveMembers()
+const fetchActive = ({ commit }: any, payload: { activityId?: string }) => fetchAllActiveMembers(payload?.activityId)
     .then((members: any) => commit('SET_ACTIVE_MEMBERS', members))
 
 const fetchInactive = ({ commit }: any) => fetchAllInactiveMembers()

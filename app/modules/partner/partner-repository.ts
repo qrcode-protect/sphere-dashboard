@@ -5,13 +5,14 @@
  * File app/modules/partner/partner-repository
  */
 
-import Partner from './partner'
+import Partner      from './partner'
+import { Nullable } from "../../../types/nullable";
 
 const partner = new Partner()
 
 const fetchAllPartners = () => partner.all()
-const fetchAllActivePartners = () => partner.findActive()
-const fetchAllInactivePartners = () => partner.findInactive()
+const fetchAllActivePartners = (activityId?: Nullable<string>) => partner.findActive(activityId)
+const fetchAllInactivePartners = (activityId?: Nullable<string>) => partner.findInactive(activityId)
 
 export {
     fetchAllPartners,

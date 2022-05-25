@@ -27,6 +27,8 @@ export default class Example extends Model {
     }
 
     constructor(options: any = { controller: ExampleController }) {
+        if (!options.controller)
+            options.controller = ExampleController
         super(options);
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }

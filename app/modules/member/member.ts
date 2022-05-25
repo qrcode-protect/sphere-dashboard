@@ -9,6 +9,7 @@
 import Model from "@sofiakb/vue3-framework/models/model";
 
 import MemberController from "@app/modules/member/member-controller";
+import { Nullable }     from "../../../types/nullable";
 
 
 export default class Member extends Model {
@@ -56,8 +57,8 @@ export default class Member extends Model {
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
 
-    findActive(options: any = {}) {
-        return this.fetchBy('active')
+    findActive(activityId?: Nullable<string>, options: any = {}) {
+        return this.fetchBy(`active${activityId ? '/' + activityId : ''}`)
     }
 
     findInactive(options: any = {}) {

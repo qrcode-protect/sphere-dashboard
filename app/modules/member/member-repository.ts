@@ -5,12 +5,13 @@
  * File app/modules/member/member-repository
  */
 
-import Member from './member'
+import Member       from './member'
+import { Nullable } from "../../../types/nullable";
 
 const member = new Member()
 
 const fetchAllMembers = () => member.all()
-const fetchAllActiveMembers = () => member.findActive()
+const fetchAllActiveMembers = (activityId?: Nullable<string>) => member.findActive(activityId)
 const fetchAllInactiveMembers = () => member.findInactive()
 
 export {
