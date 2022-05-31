@@ -3,6 +3,7 @@
         :key="`input-component-${name}-${inputKey}`"
         :ref="el => { input = el }"
         :autocomplete="autocomplete"
+        :autosize="autosize"
         :col="col"
         :disabled="disabled"
         :error-messages="errorMessages"
@@ -11,6 +12,8 @@
         :icon="icon"
         :input-class="`qrcp-form-control ${inputClass}`"
         :label="label"
+        :max-height="maxHeight"
+        :min-height="minHeight"
         :multiple="multiple"
         :name="name"
         :optionField="optionField"
@@ -23,9 +26,10 @@
         :scrollX="scrollX"
         :select="select"
         :selectHeight="selectHeight"
-        :wheel-propagation="wheelPropagation"
+        :textarea="textarea"
         :type="type"
         :value="value"
+        :wheel-propagation="wheelPropagation"
 
         @update:value="onUpdateValue">
 
@@ -59,9 +63,9 @@
 
 
     export default defineComponent({
-        name: "qrcp-input",
+        name      : "qrcp-input",
         components: { FormInput },
-        emits: [ 'update:value', 'input' ],
+        emits     : [ 'update:value', 'input' ],
 
         props: {
             /* CONTAINERS */
@@ -82,16 +86,22 @@
             placeholder : { type: [ Boolean, String ], required: false, default: false },
             autocomplete: { type: [ Boolean, String ], required: false, default: false },
 
+            /* TEXTAREA */
+            textarea : { type: Boolean, required: false, default: false },
+            autosize : { type: Boolean, default: true },
+            minHeight: { type: [ Number ], default: null },
+            maxHeight: { type: [ Number ], default: null },
+
             /* SELECT */
-            select      : { type: Boolean, required: false, default: false },
-            optionItems : { type: [ Array, Object ], required: false },
-            optionField : { type: String, required: false, default: null },
-            optionLabel : { type: String, required: false, default: 'label' },
-            optionGroup : { type: Boolean, required: false, default: false },
-            multiple    : { type: Boolean, required: false, default: false },
-            scrollX     : { type: Boolean, required: false, default: false },
+            select          : { type: Boolean, required: false, default: false },
+            optionItems     : { type: [ Array, Object ], required: false },
+            optionField     : { type: String, required: false, default: null },
+            optionLabel     : { type: String, required: false, default: 'label' },
+            optionGroup     : { type: Boolean, required: false, default: false },
+            multiple        : { type: Boolean, required: false, default: false },
+            scrollX         : { type: Boolean, required: false, default: false },
             wheelPropagation: { type: Boolean, required: false, default: false },
-            selectHeight: { type: [ Number, String ], required: false, default: 350 },
+            selectHeight    : { type: [ Number, String ], required: false, default: 350 },
 
             icon: { type: [ String ], required: false },
 
