@@ -3,213 +3,210 @@
 
         <page-title title="ajouter un article"/>
 
-        <article-form :article="article" :error="error" :errors="errors" @has-error="event => error = event"/>
+        <article-form :article="article"
+                      :error="error"
+                      :errors="errors"
+                      @saved="onSaved"
+                      @has-error="event => error = event"/>
 
-<!--        <ssf-row>
+        <!--        <ssf-row>
 
-            <ssf-col size="6">
+                    <ssf-col size="6">
 
-                <ssf-row v-if="error" class="mb-3">
+                        <ssf-row v-if="error" class="mb-3">
 
-                    <ssf-col class="form-fallback-container align-flex text-danger"
-                             size="12">
+                            <ssf-col class="form-fallback-container align-flex text-danger"
+                                     size="12">
 
-                        <ssf-icon class="mr-2"
-                                  icon="times-circle"
-                                  light
-                                  size="1x5"/>
+                                <ssf-icon class="mr-2"
+                                          icon="times-circle"
+                                          light
+                                          size="1x5"/>
 
-                        <span v-html="error"></span>
-                    </ssf-col>
-
-                </ssf-row>
-
-                <form id="formCreateArticle" novalidate @submit.prevent="save">
-
-                    <ssf-container class="py-3">
-
-                        <ssf-title center h6>Informations concernant l'article</ssf-title>
-
-
-                        <ssf-row>
-                            <qrcp-input :errors="errors"
-                                        :option-items="networks"
-                                        :value="article.networks"
-                                        form-group-class="mb-0"
-                                        icon="network-wired"
-                                        label="Réseau"
-                                        multiple
-                                        name="networks"
-                                        option-field="id"
-                                        option-label="name"
-                                        row
-                                        select
-                                        @update:value="(event) => article.networks = event"/>
-
-                            <ssf-row class="mb-3">
-                                <ssf-col size="12">
-                                    <ssf-text class="secondary-item-small">Par défaut, il sera disponible pour tous les
-                                        réseaux
-                                    </ssf-text>
-                                </ssf-col>
-                            </ssf-row>
-                        </ssf-row>
-
-                        <ssf-row>
-
-                            <qrcp-input :errors="errors"
-                                        :value="article.writer"
-                                        form-group-class="mb-0"
-                                        icon="user"
-                                        label="Auteur"
-                                        name="writer"
-                                        row
-                                        @update:value="(event) => article.writer = event"/>
-                            <ssf-row class="mb-3">
-                                <ssf-col size="12">
-                                    <ssf-text class="secondary-item-small">Par défaut, ce sera "Réseau Sphère"
-                                    </ssf-text>
-                                </ssf-col>
-                            </ssf-row>
-                        </ssf-row>
-
-                        <qrcp-input :errors="errors"
-                                    :value="article.image"
-                                    icon="file-image"
-                                    label="Image de l'article"
-                                    mimes="jpg, jpeg, png, gif"
-                                    name="articleImage"
-                                    required
-                                    row
-                                    type="file"
-                                    @change="onFileChange"/>
-
-                        <qrcp-input :errors="errors"
-                                    :value="article.title"
-                                    icon="font"
-                                    label="Titre de l'article"
-                                    name="title"
-                                    required
-                                    row
-                                    @update:value="(event) => article.title = event"/>
-
-                    </ssf-container>
-
-                    <hr class="w-50 bg-color-2 border-strong my-3">
-
-                    <ssf-container class="py-3">
-
-                        <ssf-title center h6>Thèmes de l'article</ssf-title>
-
-                        <ssf-row>
-
-                            <qrcp-input v-for="(theme, $idx) in article.themes"
-                                        :errors="errors"
-                                        :label="`Thème n°${$idx + 1}`"
-                                        :name="`article-theme-${$idx}`"
-                                        :value="article.themes[$idx]"
-                                        icon="affiliatetheme"
-                                        row
-                                        @update:value="(event) => article.themes[$idx] = event"/>
-
-                            <ssf-row v-if="article.themes?.length < 6">
-
-                                <ssf-col class="text-center" size="12" @click="addTheme">
-                                    <ssf-icon icon="plus-circle"/>
-                                </ssf-col>
-
-                            </ssf-row>
-
-                        </ssf-row>
-
-
-                    </ssf-container>
-
-                    <hr class="w-50 bg-color-2 border-strong my-3">
-
-                    <ssf-container class="py-3">
-
-                        <ssf-title center h6>Paragraphes</ssf-title>
-
-                        <ssf-row v-for="(paragraph, $idx) in article.paragraphs">
-
-                            <qrcp-input
-                                :errors="errors"
-                                :label="`Titre du paragraphe n°${$idx + 1}`"
-                                :name="`article-paragraph-title-${$idx}`"
-                                :value="paragraph.title"
-                                icon="heading"
-                                row
-                                @update:value="(event) => paragraph.title = event"/>
-
-
-                            <qrcp-input
-                                :errors="errors"
-                                :name="`article-paragraph-content-${$idx}`"
-                                :placeholder="`Paragraphe n°${$idx + 1}`"
-                                :value="paragraph.content"
-                                icon="heading"
-                                row
-                                textarea
-                                @update:value="(event) => paragraph.content = event"/>
-
-
-                        </ssf-row>
-
-                        <ssf-row>
-
-                            <ssf-col class="text-center" size="12" @click="addParagraph">
-                                <ssf-icon icon="plus-circle"/>
+                                <span v-html="error"></span>
                             </ssf-col>
 
                         </ssf-row>
 
-                    </ssf-container>
+                        <form id="formCreateArticle" novalidate @submit.prevent="save">
 
-                    <ssf-row>
+                            <ssf-container class="py-3">
 
-                        <ssf-col class="text-center" size="12">
+                                <ssf-title center h6>Informations concernant l'article</ssf-title>
 
-                            <button class="btn bg-color-2">
-                                Enregistrer
-                                <ssf-icon icon="floppy-disk"/>
-                            </button>
 
-                        </ssf-col>
+                                <ssf-row>
+                                    <qrcp-input :errors="errors"
+                                                :option-items="networks"
+                                                :value="article.networks"
+                                                form-group-class="mb-0"
+                                                icon="network-wired"
+                                                label="Réseau"
+                                                multiple
+                                                name="networks"
+                                                option-field="id"
+                                                option-label="name"
+                                                row
+                                                select
+                                                @update:value="(event) => article.networks = event"/>
 
-                    </ssf-row>
+                                    <ssf-row class="mb-3">
+                                        <ssf-col size="12">
+                                            <ssf-text class="secondary-item-small">Par défaut, il sera disponible pour tous les
+                                                réseaux
+                                            </ssf-text>
+                                        </ssf-col>
+                                    </ssf-row>
+                                </ssf-row>
 
-                </form>
+                                <ssf-row>
 
-            </ssf-col>
+                                    <qrcp-input :errors="errors"
+                                                :value="article.writer"
+                                                form-group-class="mb-0"
+                                                icon="user"
+                                                label="Auteur"
+                                                name="writer"
+                                                row
+                                                @update:value="(event) => article.writer = event"/>
+                                    <ssf-row class="mb-3">
+                                        <ssf-col size="12">
+                                            <ssf-text class="secondary-item-small">Par défaut, ce sera "Réseau Sphère"
+                                            </ssf-text>
+                                        </ssf-col>
+                                    </ssf-row>
+                                </ssf-row>
 
-            <ssf-col size="6">
+                                <qrcp-input :errors="errors"
+                                            :value="article.image"
+                                            icon="file-image"
+                                            label="Image de l'article"
+                                            mimes="jpg, jpeg, png, gif"
+                                            name="articleImage"
+                                            required
+                                            row
+                                            type="file"
+                                            @change="onFileChange"/>
 
-                <x-article :article="article"/>
+                                <qrcp-input :errors="errors"
+                                            :value="article.title"
+                                            icon="font"
+                                            label="Titre de l'article"
+                                            name="title"
+                                            required
+                                            row
+                                            @update:value="(event) => article.title = event"/>
 
-            </ssf-col>
+                            </ssf-container>
 
-        </ssf-row>-->
+                            <hr class="w-50 bg-color-2 border-strong my-3">
+
+                            <ssf-container class="py-3">
+
+                                <ssf-title center h6>Thèmes de l'article</ssf-title>
+
+                                <ssf-row>
+
+                                    <qrcp-input v-for="(theme, $idx) in article.themes"
+                                                :errors="errors"
+                                                :label="`Thème n°${$idx + 1}`"
+                                                :name="`article-theme-${$idx}`"
+                                                :value="article.themes[$idx]"
+                                                icon="affiliatetheme"
+                                                row
+                                                @update:value="(event) => article.themes[$idx] = event"/>
+
+                                    <ssf-row v-if="article.themes?.length < 6">
+
+                                        <ssf-col class="text-center" size="12" @click="addTheme">
+                                            <ssf-icon icon="plus-circle"/>
+                                        </ssf-col>
+
+                                    </ssf-row>
+
+                                </ssf-row>
+
+
+                            </ssf-container>
+
+                            <hr class="w-50 bg-color-2 border-strong my-3">
+
+                            <ssf-container class="py-3">
+
+                                <ssf-title center h6>Paragraphes</ssf-title>
+
+                                <ssf-row v-for="(paragraph, $idx) in article.paragraphs">
+
+                                    <qrcp-input
+                                        :errors="errors"
+                                        :label="`Titre du paragraphe n°${$idx + 1}`"
+                                        :name="`article-paragraph-title-${$idx}`"
+                                        :value="paragraph.title"
+                                        icon="heading"
+                                        row
+                                        @update:value="(event) => paragraph.title = event"/>
+
+
+                                    <qrcp-input
+                                        :errors="errors"
+                                        :name="`article-paragraph-content-${$idx}`"
+                                        :placeholder="`Paragraphe n°${$idx + 1}`"
+                                        :value="paragraph.content"
+                                        icon="heading"
+                                        row
+                                        textarea
+                                        @update:value="(event) => paragraph.content = event"/>
+
+
+                                </ssf-row>
+
+                                <ssf-row>
+
+                                    <ssf-col class="text-center" size="12" @click="addParagraph">
+                                        <ssf-icon icon="plus-circle"/>
+                                    </ssf-col>
+
+                                </ssf-row>
+
+                            </ssf-container>
+
+                            <ssf-row>
+
+                                <ssf-col class="text-center" size="12">
+
+                                    <button class="btn bg-color-2">
+                                        Enregistrer
+                                        <ssf-icon icon="floppy-disk"/>
+                                    </button>
+
+                                </ssf-col>
+
+                            </ssf-row>
+
+                        </form>
+
+                    </ssf-col>
+
+                    <ssf-col size="6">
+
+                        <x-article :article="article"/>
+
+                    </ssf-col>
+
+                </ssf-row>-->
 
     </ssf-container>
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onMounted, ref } from "vue";
-    import { useMeta }                                   from "vue-meta";
-    import XArticle                                      from "./includes/x-article/x-article.vue";
-    import Article                     from "@app/modules/_article/article/article";
-    import QrcpInput                   from "@/components/commons/qrcp-input.vue";
-    import ArticleParagraph
-                                       from "@app/modules/_article/article-paragraph/article-paragraph";
-    import { MainError, MainSuccess }  from "@app/vue/utils/swal";
-    import PageTitle                   from "@/components/commons/partials/page-title.vue";
-    import { filter }                  from "lodash";
-    import { filled }                  from "@app/commons";
-    import { fetchNetworks, networks } from "@app/modules/_network/utils/networks";
-    import { useStore }                from "vuex";
-    import { articleGetter }           from "@app/modules/_article/utils/articles";
-    import ArticleForm                 from "@/views/articles/components/article-form.vue";
+    import { defineComponent, ref } from "vue";
+    import { useMeta }              from "vue-meta";
+    import XArticle                 from "./includes/x-article/x-article.vue";
+    import Article                  from "@app/modules/_article/article/article";
+    import QrcpInput                from "@/components/commons/qrcp-input.vue";
+    import ArticleParagraph         from "@app/modules/_article/article-paragraph/article-paragraph";
+    import PageTitle                from "@/components/commons/partials/page-title.vue";
+    import ArticleForm              from "@/views/articles/components/article-form.vue";
 
     export default defineComponent({
         name: "articles-create",
@@ -246,6 +243,16 @@
         }),
 
         methods: {
+            onSaved() {
+                this.article = (new Article()).__setItemAttributes({
+                    writer    : null,
+                    image     : null,
+                    title     : null,
+                    themes    : [ '' ],
+                    paragraphs: [ new ArticleParagraph() ],
+                    networks  : null
+                })
+            }
             /*onFileChange(e: any) {
                 let event = (e || window.event);
                 const reader = new FileReader()

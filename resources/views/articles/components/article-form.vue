@@ -210,6 +210,8 @@
             edition: { type: Boolean, required: false, default: false },
         },
 
+        emits: [ 'saved', 'has-error' ],
+
         setup(props) {
             ////////// init
             const store = useStore()
@@ -286,8 +288,8 @@
                     if (this.edition) {
                         // @ts-ignore
                         this.$store.commit('article/SET_ARTICLE', null)
-                        this.$router.push({ name: 'articles.index' })
-                    }
+                        return this.$router.push({ name: 'articles.index' })
+                    } this.$emit('saved')
                 })
                     .catch((error) => {
                         this.$emit('has-error', error.message)
