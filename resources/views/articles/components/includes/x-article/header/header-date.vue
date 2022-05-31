@@ -49,7 +49,7 @@
             ////////// data
 
             ////////// computed
-            const updatedAt = computed((): string => (props.article.updated ?? $date.moment()).format("DD MMMM YYYY"))
+            const updatedAt = computed((): string => ($date.moment(props.article.updated ?? null, Article.dateFormat)).format("DD MMMM YYYY"))
             const writer = computed((): string => props.article.writer ?? 'réseau sphère')
             const data = computed(() => [
                 {

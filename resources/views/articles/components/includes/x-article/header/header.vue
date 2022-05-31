@@ -8,6 +8,10 @@
 
         <article-header-image :article="article"/>
 
+			<article-header-author :writer="article.writer"
+														 class="d-block d-md-none position-absolute" style="top: 0"/>
+			<article-header-date :article="article" class="d-block d-md-none"/>
+
         <ssf-container class="full-absolute article-header-theme-container my-auto align-items-end d-none d-md-flex"
                        not-full>
             <ssf-container class="theme-content p-2 p-md-4 my-2 mt-md-0 mx-auto mr-md-0" not-full>
@@ -85,12 +89,12 @@
         .article-header-writer-container {
             top: var(--articleHeaderWriterContainer) !important;
             left: var(--leftAbsolutePosition) !important;
-            z-index: 1050;
+            z-index: 3;
         }
 
         .article-header-theme-container {
             position: var(--articleHeaderThemeContainerPosition) !important;
-            z-index: 1050;
+            z-index: 3;
 
             .theme-content {
                 margin-left: var(--leftAbsolutePosition) !important;
