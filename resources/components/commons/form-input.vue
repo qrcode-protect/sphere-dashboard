@@ -1,12 +1,15 @@
 <template>
     <ssf-form-group
         :autocomplete="autocomplete"
+        :autosize="autosize"
         :col="col"
         :disabled="disabled"
         :form-group-class="`qrcp-form-group ${formGroupClass}${hasError ? ' has-own-slot' : ''}`"
         :icon="{icon, type: iconType, weight: iconWeight}"
         :input-class="`qrcp-form-control ${inputClass}`"
         :label="label"
+        :max-height="maxHeight"
+        :min-height="minHeight"
         :multiple="multiple"
         :name="name"
         :optionField="optionField"
@@ -19,6 +22,7 @@
         :scrollX="scrollX"
         :select="select"
         :selectHeight="selectHeight"
+        :textarea="textarea"
         :type="type"
         :value="value"
         :wheel-propagation="wheelPropagation"
@@ -66,6 +70,12 @@
             disabled    : { type: Boolean, required: false, default: false },
             placeholder : { type: [ Boolean, String ], required: false, default: false },
             autocomplete: { type: [ Boolean, String ], required: false, default: false },
+
+            /* TEXTAREA */
+            textarea : { type: Boolean, required: false, default: false },
+            autosize : { type: Boolean, default: true },
+            minHeight: { type: [ Number ], 'default': null },
+            maxHeight: { type: [ Number ], 'default': null },
 
             /* SELECT */
             select          : { type: Boolean, required: false, default: false },

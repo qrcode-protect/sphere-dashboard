@@ -45,7 +45,19 @@ Route.group({ guard: 'auth' }, () => {
         Route.view('/members6', 'members').name('members.index6');
     });
 
-    Route.view('/articles', 'articles').name('articles.index');
+    Route.group({ guard: 'marketing' }, () => {
+
+        Route.group({ prefix: 'articles' }, () => {
+            Route.view('/', 'articles').name('articles.index');
+            Route.view('/create', 'articles.create').name('articles.create');
+            Route.view('/edit', 'articles.edit').name('articles.edit');
+        })
+
+        Route.group({ prefix: 'networks' }, () => {
+            Route.view('/', 'networks').name('networks.index');
+        })
+
+    })
 })
 
 Route.group({ guard: 'guest' }, () => {

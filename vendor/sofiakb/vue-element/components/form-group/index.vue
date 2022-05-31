@@ -13,6 +13,7 @@
                 :autosize="autosize"
                 :maxHeight="maxHeight"
                 :minHeight="minHeight"
+                :value="value"
                 @change="$emit('change')"
                 @focus="$emit('focus')"
                 @input="onInput"/>

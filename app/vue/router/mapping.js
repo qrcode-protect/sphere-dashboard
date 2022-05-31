@@ -39,7 +39,15 @@ const mapping = {
     'articles.index': {
         name : 'articles.index',
         label: 'Articles',
+        routes: ['articles.index', 'articles.create', 'articles.edit'],
         icon : 'blog',
+        level: RoleType.marketing
+    },
+    'networks.index': {
+        name : 'networks.index',
+        label: 'Réseaux',
+        // routes: ['networks.index', 'articles.create'],
+        icon : 'network-wired',
         level: RoleType.marketing
     },
     'members.index5': {

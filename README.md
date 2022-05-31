@@ -22,8 +22,9 @@ npm run build
 
 ### Changelogs
 
-#### [v1.0.0-beta.2](./changelogs/v1.0.1-beta.2.md)
-#### [v1.0.0-beta.3](./changelogs/v1.0.1-beta.3.md)
+#### [v1.0.1-beta.2](./changelogs/v1.0.1-beta.2.md)
+#### [v1.0.1-beta.3](./changelogs/v1.0.1-beta.3.md)
+#### [v1.0.1-beta.4](./changelogs/v1.0.1-beta.4.md)
 
 
 ### Customize configuration
