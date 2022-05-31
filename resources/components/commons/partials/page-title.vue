@@ -1,6 +1,6 @@
 <template>
-    <ssf-container class="text-center py-3">
-        <ssf-title class="text-center">
+    <ssf-container class="py-3">
+        <ssf-title center class="text-uppercase" style="font-weight: 500;">
             {{ title }}
         </ssf-title>
     </ssf-container>
