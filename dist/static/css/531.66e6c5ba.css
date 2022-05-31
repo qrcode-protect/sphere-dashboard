@@ -1,0 +1,6 @@
+.modal-departments .modal-content{width:500px !important}.modal-departments .department-code{display:inline-block;width:30px;text-align:center}
+
+.france-map #map{max-width:100%;max-height:100%}.france-map #map path{fill:var(--color-1);stroke:#FFFFFF;stroke-width:0.6;transition:fill 0.2s, stroke 0.3s;transform:scale(5)}.france-map #map path:hover{fill:var(--color-2);stroke:var(--color-2)}.france-map #map .separator{stroke:#ccc;fill:none;stroke-width:1.5}.france-map #map .separator:hover{stroke:#ccc;fill:none}
+
+.ssf__section--networks .table-container[data-v-25ef8be2]{width:600px}.ssf__section--networks .table-container .table-networks[data-v-25ef8be2]{border-collapse:separate;border-spacing:0}.ssf__section--networks .table-container .table-networks tbody tr:last-child td[data-v-25ef8be2]:first-child{border-bottom-left-radius:var(--border-radius, 50px)}.ssf__section--networks .table-container .table-networks tbody tr:last-child td[data-v-25ef8be2]:last-child{border-bottom-right-radius:var(--border-radius, 50px)}
+
