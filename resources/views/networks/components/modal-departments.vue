@@ -76,10 +76,7 @@
             ////////// methods
 
 
-            watch(() => props.open, () => {
-                console.log("change", props)
-                return visible.value = props.open;
-            }, { immediate: true })
+            watch(() => props.open, () => visible.value = props.open, { immediate: true })
 
             return {
                 //// data

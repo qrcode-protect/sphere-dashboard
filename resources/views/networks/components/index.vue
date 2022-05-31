@@ -62,6 +62,7 @@
     import departments                                        from "@/assets/data/departments";
     import FranceMap                                          from "@/components/france-map/france-map.vue";
     import { MainError }                                      from "@app/vue/utils/swal";
+    import { fetchNetworks }                                  from "@app/modules/_network/utils/networks";
 
     export default defineComponent({
         name: "networks-index",
@@ -73,7 +74,7 @@
             useMeta({ title: 'Réseaux', })
             const store = useStore()
 
-            onMounted(async () => await store.dispatch('network/fetchAll'))
+            onMounted(async () => await fetchNetworks(true))
 
 
             ////////// data
