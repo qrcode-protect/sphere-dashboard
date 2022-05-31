@@ -30,8 +30,8 @@ export default class Auth extends Model {
     }
 
     casts = {
-        created: 'date',
-        updated: 'date'
+        created: 'firebaseDate',
+        updated: 'firebaseDate'
     }
 
     constructor(options: any = { controller: AuthController }) {

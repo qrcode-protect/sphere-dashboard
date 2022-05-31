@@ -43,8 +43,8 @@ export default class Article extends Model {
     }
 
     casts = {
-        created   : 'date',
-        updated   : 'date',
+        created   : 'firebaseDate',
+        updated   : 'firebaseDate',
         paragraphs: this.castParagraph
     }
 

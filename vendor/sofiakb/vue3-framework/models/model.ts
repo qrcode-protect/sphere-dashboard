@@ -11,6 +11,7 @@ import { namespaces }                           from "@config/app";
 import { each, keys, map, pick }                from 'lodash'
 import { clone, combine, jsonParse, renameKey } from "@app/vue/utils";
 import date                                     from "@app/vue/utils/date";
+import moment                                   from "moment";
 
 const pluralize = require('pluralize');
 
@@ -121,6 +122,10 @@ export default class Model {
                     switch (castTo) {
                         case 'date': {
                             result[modelKey] = date.momentSql(item[key]).format(this.model.dateFormat)
+                            break
+                        }
+                        case 'firebaseDate': {
+                            result[modelKey] = moment.unix(item[key]._seconds ?? null).format(this.model.dateFormat)
                             break
                         }
                         case 'int': {
