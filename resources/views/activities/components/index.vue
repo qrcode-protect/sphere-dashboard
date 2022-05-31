@@ -103,14 +103,12 @@
         },
         methods: {
             onSave() {
-                console.log("saved")
                 this.modals.activity.open = false
                 this.modals.activity.props.activity = null
                 this.fetch()
             },
             onEditActivity(activity: Activity) {
                 this.modals.activity.props.activity = activity
-                console.log(activity)
                 this.modals.activity.open = true
             }
         }
