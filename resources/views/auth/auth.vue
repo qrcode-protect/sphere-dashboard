@@ -8,10 +8,10 @@
                      :md="formContainerCol.md"
                      :lg="formContainerCol.lg"
                      :xl="formContainerCol.xl"
-                     class="mr-auto p-2"
+                     class="mr-auto p-0 p-md-2"
                      style="transition: all .5s">
 
-                <ssf-container class="bg-color-1 rounded h-100">
+                <ssf-container class="bg-color-1 rounded h-100 auth-form-container">
 
                     <ssf-container class="mx-auto form-container full-flex h-100" name="auth-form" not-full>
 
@@ -67,7 +67,7 @@
 
             <ssf-container
                 v-if="background"
-                class="full-absolute position-fixed bg-overlay bg-white behind" style="opacity: .2"/>
+                class="full-absolute position-fixed bg-overlay bg-black behind" style="opacity: .2"/>
 
             <img :src="background"
                  v-if="background"
@@ -112,9 +112,9 @@
                 formContainerCol.value = {
                     xs: 12,
                     sm: 10,
-                    md: 9,
-                    lg: 8,
-                    xl: 7,
+                    md: 8,
+                    lg: 7,
+                    xl: 6,
                 }
                 /*if (application) {
                     try {
@@ -167,6 +167,10 @@
             }
         }
 
+        .ssf-checkbox-group input[type=checkbox]:checked:before, .ssf-checkbox-group input[type=checkbox] .checked:before {
+            border-color: var(--color-2) !important;
+        }
+
         .auth-bg-color {
             background: rgba(255, 255, 255, .9) !important;
         }
@@ -190,7 +194,7 @@
             width: 450px;
             padding-left: 25px;
             padding-right: 25px;
-            max-width: 100vh;
+            max-width: 100%;
         }
 
         .auth-logo {
@@ -203,8 +207,11 @@
         }
 
         @media screen and (max-width: 768px) {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
+            //padding-left: 5px !important;
+            //padding-right: 5px !important;
+            .auth-form-container {
+                border-radius: 0 !important;
+            }
         }
 
         .form-fallback-container {
