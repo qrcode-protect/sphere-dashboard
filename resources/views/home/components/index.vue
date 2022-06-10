@@ -1,8 +1,19 @@
 <template>
-    <ssf-container class="full-absolute full-flex flex-column black-text" name="home">
+    <ssf-container class="full-absolute full-flex flex-column color-1 ahead bg-color-1" name="home">
 
-        <logo class="mb-3 home-logo"/>
-        <ssf-text class="font-weight-light text-uppercase h4-responsive">Dashboard</ssf-text>
+        <img alt="Animated logo" class="position-absolute img-fluid behind" src="@/assets/img/logo-animated.gif">
+
+        <ssf-container not-full class="bg-white p-3 rounded z-depth-1">
+
+            <ssf-container>
+                <logo class="mb-3 home-logo"/>
+            </ssf-container>
+
+            <ssf-container class="text-center">
+                <ssf-text class="font-weight-light text-uppercase h4-responsive">Dashboard</ssf-text>
+            </ssf-container>
+
+        </ssf-container>
 
     </ssf-container>
 </template>
@@ -12,15 +23,14 @@
     import Logo                from "@/components/commons/logo";
 
     export default defineComponent({
-        name      : "home-index",
+        name: "home-index",
+
         components: { Logo },
-        metaInfo  : {
+
+        metaInfo: {
             title: 'Accueil',
         },
 
-        data() {
-            return {}
-        }
     })
 </script>
 
