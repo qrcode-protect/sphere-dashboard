@@ -152,6 +152,7 @@
     import Logo                    from "@/components/commons/logo";
     import { user as currentUser } from "@app/commons/auth";
     import { routeExists }         from "@app/commons";
+    import { logout }              from "@/views/auth/utils";
 
     export default defineComponent({
         name: "x-sidebar",
@@ -203,8 +204,9 @@
                 return ''
             },
 
-            logout() {
+            async logout() {
                 cookie.delete(this.tokenName)
+                await logout()
                 location.reload()
             }
         }

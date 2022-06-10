@@ -49,6 +49,14 @@ export default class Auth extends Model {
         })
     }
 
+    static logout(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            AuthController.post(`${this.PREFIX}/logout`, { redirectIfNotLogged: false })
+                .then((response: any) => resolve(response))
+                .catch((error) => reject(error))
+        })
+    }
+
     static register(user: UserRegisterParameter) {
         return new Promise((resolve, reject) => {
             AuthController.post(`${this.PREFIX}/register`, user, { redirectIfNotLogged: false })

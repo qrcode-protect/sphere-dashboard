@@ -43,6 +43,10 @@ export const login = (user: UserLoginParameter) => {
     return Auth.login(user)
 }
 
+export const logout = () => {
+    return Auth.logout()
+}
+
 export const register = (user: UserRegisterParameter) => {
     return Auth.register(user)
 }
