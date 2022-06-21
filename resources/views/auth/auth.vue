@@ -8,7 +8,7 @@
                      :md="formContainerCol.md"
                      :lg="formContainerCol.lg"
                      :xl="formContainerCol.xl"
-                     class="mr-auto p-0 p-md-2"
+                     class="mx-auto p-0 p-md-2"
                      style="transition: all .5s">
 
                 <ssf-container class="bg-color-1 rounded h-100 auth-form-container">
