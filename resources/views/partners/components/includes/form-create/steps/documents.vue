@@ -4,7 +4,6 @@
         <qrcp-input v-if="showInputFile"
                     :errors="errors"
                     :value="partner.certificate"
-                    file-preview
                     icon="file-certificate"
                     label="KBIS partenaire"
                     mimes="jpg, jpeg, png, gif, pdf"
@@ -26,6 +25,8 @@
 
         </ssf-row>
 
+        <file-preview v-if="certificateUrl" :src="certificateUrl"/>
+
     </ssf-container>
 </template>
 
@@ -36,10 +37,14 @@
     import NextButton                  from "@/views/partners/components/includes/form-create/steps/next-button.vue";
     import QrcpInput                   from "@/components/commons/qrcp-input.vue";
     import { validator as xValidator } from "@app/commons/validation";
+    import { isPdf }                   from "@app/commons/file";
+    import { defined }                 from "@app/commons";
+    import { Nullable }                from "../../../../../../../types/nullable";
+    import FilePreview                 from "@/components/commons/file-preview.vue";
 
     export default defineComponent({
         name      : "documents",
-        components: { QrcpInput, NextButton, PreviousButton },
+        components: { FilePreview, QrcpInput, NextButton, PreviousButton },
 
         props: {
             partner: { type: Partner, required: true },
@@ -53,6 +58,8 @@
 
             ////////// data
             const showInputFile = ref(true)
+            const isCertificatePdf = ref<Nullable<boolean>>(null)
+            const certificateUrl = ref<Nullable<string>>(null)
 
             ////////// computed
 
@@ -60,6 +67,10 @@
             const onFileChange = (e: any) => {
                 let event = (e || window.event);
                 props.partner.certificate = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
+                // @ts-ignore
+                isCertificatePdf.value = isPdf(props.member.certificate?.type);
+                // @ts-ignore
+                certificateUrl.value = defined(props.member.certificate) && !isCertificatePdf.value ? URL.createObjectURL(props.member.certificate!) : null;
             }
             const next = () => {
 
@@ -76,6 +87,8 @@
             return {
                 //// data
                 showInputFile,
+                isCertificatePdf,
+                certificateUrl,
 
                 //// methods
                 onFileChange,
