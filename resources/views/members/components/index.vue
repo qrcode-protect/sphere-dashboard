@@ -22,6 +22,12 @@
             <active-premium-members v-if="currentTab === 3"/>
 		</ssf-container>
 
+        <router-link :to="{name: 'members.create'}" class="btn-create-member">
+            <ssf-shape size="75"  circle class="bg-color-2 full-flex text-white z-depth-1">
+                <ssf-icon icon="layer-plus" size="2x" light/>
+            </ssf-shape>
+        </router-link>
+
 	</ssf-container>
 </template>
 
@@ -86,6 +92,12 @@
 		.member-nav-tabs {
 			width: 650px;
 		}
+
+        .btn-create-member {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+        }
 
 	}
 

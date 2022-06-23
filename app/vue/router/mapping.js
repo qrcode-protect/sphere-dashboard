@@ -14,6 +14,7 @@ const mapping = {
     'members.index' : {
         name : 'members.index',
         label: 'Adhérents',
+        routes: ['members.index', 'members.create'],
         icon : Member.icon.name,
         level: RoleType.admin
     },

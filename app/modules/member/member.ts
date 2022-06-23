@@ -8,8 +8,11 @@
 
 import Model from "@sofiakb/vue3-framework/models/model";
 
-import MemberController from "@app/modules/member/member-controller";
-import { Nullable }     from "../../../types/nullable";
+import MemberController  from "@app/modules/member/member-controller";
+import { Nullable }      from "../../../types/nullable";
+import Upload            from "@sofiakb/vue3-framework/models/upload";
+import configAttributes  from "@config/api";
+import { __createError } from "@sofiakb/axios-api";
 
 
 export default class Member extends Model {
@@ -34,15 +37,15 @@ export default class Member extends Model {
 
     attributes = {
         id         : { prop: 'id', comment: "Identifiant" },
-        firstname  : { prop: 'firstname' },
-        lastname   : { prop: 'lastname' },
-        username   : { prop: 'username' },
-        email      : { prop: 'email' },
-        phone      : { prop: 'phone' },
-        activityId : { prop: 'activityId' },
-        companyName: { prop: 'companyName' },
-        certificate: { prop: 'certificate' },
-        siret      : { prop: 'siret' },
+        firstname  : { prop: 'firstname', comment: "Prénom" },
+        lastname   : { prop: 'lastname', comment: "Nom" },
+        username   : { prop: 'username', comment: "Nom d'utilisateur" },
+        email      : { prop: 'email', comment: "Adresse e-mail" },
+        phone      : { prop: 'phone', comment: "Numéro de téléphone" },
+        activityId : { prop: 'activityId', comment: "Domaine d'activité" },
+        companyName: { prop: 'companyName', comment: "Nom commercial" },
+        certificate: { prop: 'certificate', comment: "KBIS" },
+        siret      : { prop: 'siret', comment: "SIRET" },
         active     : { prop: 'active' },
         available  : { prop: 'available' },
     }
@@ -97,6 +100,27 @@ export default class Member extends Model {
 
     forgotPassword(email: string | undefined, options = {}) {
         return MemberController.create(`/auth/password/forgot?app=website`, { email }, options)
+    }
+
+    static send(data: any, options: any = {}) {
+
+        const member = new Member()
+        const upload = new Upload(data, data, [
+            'firstname',
+            'lastname',
+            'username',
+            'email',
+            'phone',
+            'activityId',
+            'companyName',
+            'certificate',
+            'siret', ])
+
+        return new Promise((resolve, reject) => {
+            upload.send(`${member.table}/from-dashboard`, { controller: { attributes: { server: configAttributes.server } } })
+                .then((response) => resolve(response))
+                .catch((error) => reject(__createError(error)))
+        })
     }
 }
 

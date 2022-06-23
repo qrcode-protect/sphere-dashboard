@@ -29,7 +29,12 @@ Route.group({ guard: 'auth' }, () => {
     Route.view('/', 'home').name('home');
 
     Route.group({ guard: 'admin' }, () => {
-        Route.view('/members', 'members').name('members.index');
+
+        Route.group({ prefix: 'members' }, () => {
+            Route.view('/', 'members').name('members.index');
+            Route.view('/create', 'members.create').name('members.create');
+        });
+
         Route.view('/users', 'users').name('users.index');
 
         Route.group({ prefix: 'partners' }, () => {
