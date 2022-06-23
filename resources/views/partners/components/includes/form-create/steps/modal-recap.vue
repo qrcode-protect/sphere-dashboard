@@ -28,6 +28,18 @@
 
                 </ssf-row>
 
+                <ssf-row class="py-1">
+
+                    <ssf-col size="5" style="font-weight: 600">
+                        KBIS
+                    </ssf-col>
+
+                    <ssf-col size="7">
+                        {{ partner.certificate.name }}
+                    </ssf-col>
+
+                </ssf-row>
+
             </ssf-container>
 
         </template>
