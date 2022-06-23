@@ -3,9 +3,9 @@
 
         <qrcp-input v-if="showInputFile"
                     :errors="errors"
-                    :value="partner.certificate"
+                    :value="member.certificate"
                     icon="file-certificate"
-                    label="KBIS partenaire"
+                    label="KBIS adhérent"
                     mimes="jpg, jpeg, png, gif, pdf"
                     name="certificate"
                     required
@@ -32,28 +32,28 @@
 
 <script lang="ts">
     import { defineComponent, ref }    from "vue"
-    import Partner                     from "@app/modules/partner/partner";
-    import PreviousButton              from "@/views/partners/components/includes/form-create/steps/previous-button.vue";
-    import NextButton                  from "@/views/partners/components/includes/form-create/steps/next-button.vue";
+    import Partner                     from "@app/modules/member/member";
+    import PreviousButton              from "@/views/members/components/includes/form-create/steps/previous-button.vue";
+    import NextButton                  from "@/views/members/components/includes/form-create/steps/next-button.vue";
     import QrcpInput                   from "@/components/commons/qrcp-input.vue";
     import { validator as xValidator } from "@app/commons/validation";
-    import { isPdf }                   from "@app/commons/file";
-    import { defined }                 from "@app/commons";
     import { Nullable }                from "../../../../../../../types/nullable";
+    import { isPdf }                   from "@app/commons/file";
     import FilePreview                 from "@/components/commons/file-preview.vue";
+    import { defined }                 from "@app/commons";
 
     export default defineComponent({
         name      : "documents",
         components: { FilePreview, QrcpInput, NextButton, PreviousButton },
 
         props: {
-            partner: { type: Partner, required: true },
-            errors : { type: Array, required: true },
+            member: { type: Partner, required: true },
+            errors: { type: Array, required: true },
         },
 
         emits: [ 'next:step', 'previous:step', 'has:error' ],
 
-        setup(props, {emit}) {
+        setup(props, { emit }) {
             ////////// init
 
             ////////// data
@@ -66,7 +66,7 @@
             ////////// methods
             const onFileChange = (e: any) => {
                 let event = (e || window.event);
-                props.partner.certificate = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
+                props.member.certificate = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
                 // @ts-ignore
                 isCertificatePdf.value = isPdf(props.member.certificate?.type);
                 // @ts-ignore
@@ -75,7 +75,7 @@
             const next = () => {
 
                 const result = xValidator({
-                    certificate: props.partner.certificate,
+                    certificate: props.member.certificate,
                 })
 
                 return result.valid ? emit('next:step') : emit('has:error', {
