@@ -88,8 +88,10 @@
     import { Nullable }                                  from "../../../types/nullable";
     import { useStore }                                  from "vuex";
 
-    import cookie      from '@sofiakb/cookie'
-    import { loading } from "@app/vue/utils/helpers";
+    import cookie                         from '@sofiakb/cookie'
+    import { loading }                    from "@app/vue/utils/helpers";
+    import { signInWithEmailAndPassword } from "@firebase/auth";
+    import { firebaseAuth }               from "@app/core/firebase/firebase";
 
     export default defineComponent({
         name      : "login",
@@ -152,10 +154,18 @@
                     return login(this.user)
                         .then((response) => {
                             loading(true)
-                            cookie.set(this.tokenName, response.token.bearer)
-                            this.$router.push({ name: 'members.index' })
-                            location.reload()
-                            this.loading = false
+                            // cookie.set(this.tokenName, response.token.bearer)
+                            // location.reload()
+                            // this.loading = false
+
+                            signInWithEmailAndPassword(firebaseAuth, response.email ?? this.user.email!, this.user.password!)
+                                .then(() => {
+                                    cookie.set(this.tokenName, response.token.bearer)
+                                    this.$router.push({ name: 'members.index' })
+                                    location.reload()
+                                })
+                                .catch(() => null);
+
                         })
                         .catch((error) => {
                             this.loading = false
