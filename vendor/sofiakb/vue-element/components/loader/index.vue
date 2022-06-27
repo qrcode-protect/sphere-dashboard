@@ -1,7 +1,6 @@
 <template>
 
-	<simple-circle v-if="circle"/>
-	<blasting-circle v-else-if="blast"/>
+	<blasting-circle v-if="blast"/>
 	<rotating-plane v-else-if="rotatingPlane"/>
 	<bouncing-circle v-else-if="bouncing"/>
 	<blasting-ripple v-else-if="ripple"/>
@@ -11,6 +10,8 @@
 	<quantum-spinner v-else-if="spinner"/>
 	<box-rotation v-else-if="box"/>
 	<hour-glass v-else-if="hour"/>
+
+    <simple-circle v-else/>
 
 </template>
 

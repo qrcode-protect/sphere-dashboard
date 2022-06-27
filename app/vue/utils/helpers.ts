@@ -28,7 +28,7 @@ const helpers: HelpersMethods = {
 
     number: {
         twoDigits: (number: string | number) => typeof number === 'string' ? (parseInt(number) < 10 ? `0${parseInt(number)}` : parseInt(number)) : (number < 10 ? `0${number}` : number),
-        pretty   : (x?: string | number, separator = ' ') => x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator) : '?'
+        pretty   : (x?: string | number, separator = ' ') => x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator) ?? '?'
     },
 
     window: {
