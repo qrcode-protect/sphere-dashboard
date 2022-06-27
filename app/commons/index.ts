@@ -62,3 +62,5 @@ export enum UrlPrefix {
     phone = "tel:",
     empty = ""
 }
+
+export const defined = (value: any, strict = true): boolean => typeof value !== 'undefined' && (strict ? value !== null : true)

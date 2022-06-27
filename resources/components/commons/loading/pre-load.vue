@@ -3,6 +3,8 @@
          :class="className"
          class="section--pre-loader position-fixed justify-content-center align-items-center bg-color-1 flex-column">
 
+        <img alt="Animated logo" class="position-absolute behind img-fluid" src="@/assets/img/logo-animated.gif">
+
         <ssf-container not-full class="mb-4 text-center">
             <logo height="75" class="d-block mb-2"/>
             <ssf-text class="text-white font-weight-light">DASHBOARD</ssf-text>

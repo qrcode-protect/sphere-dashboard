@@ -14,6 +14,7 @@ const mapping = {
     'members.index' : {
         name : 'members.index',
         label: 'Adhérents',
+        routes: ['members.index', 'members.create'],
         icon : Member.icon.name,
         level: RoleType.admin
     },
@@ -53,6 +54,12 @@ const mapping = {
     'members.index5': {
         name : 'members.index5',
         label: 'RFA',
+        icon : 'receipt',
+        level: RoleType.admin
+    },
+    'members.index7': {
+        name : 'members.index5',
+        label: 'Historique des conversations',
         icon : 'receipt',
         level: RoleType.admin
     },

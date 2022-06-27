@@ -1,29 +1,46 @@
 <template>
-  <textarea
-      :id="parent.name"
-      ref="inputComponent"
-      :autocomplete="autocomplete"
-      :class="`ssf-form-control ${parent.inputClass}`"
-      :disabled="parent.disabled"
-      :inputmode="parent.type"
-      :name="parent.name"
-      :placeholder="placeholder"
-      :required="parent.required"
-      :style="computedStyles"
-      :value="val"
-      @change="$emit('change')"
-      @focus="resize"
-      @input="onInput()"
-  ></textarea>
+
+    <div class="ssf-input-container ssf-form-text">
+
+        <ssf-input-label
+            :label="parent.label"
+            :placeholder="placeholder"
+            :icon="icon"
+            @label-click="onLabelClick"
+            :key="`text-label-${parent.label}`"
+            v-if="parent.label"/>
+
+        <textarea
+            :id="parent.name"
+            ref="inputComponent"
+            :autocomplete="autocomplete"
+            :class="`ssf-form-control ${parent.inputClass}`"
+            :disabled="parent.disabled"
+            :inputmode="parent.type"
+            :name="parent.name"
+            :placeholder="placeholder"
+            :required="parent.required"
+            :style="computedStyles"
+            :value="val"
+            @change="$emit('change')"
+            @focus="resize"
+            @input="onInput()"
+        ></textarea>
+
+    </div>
 </template>
 <script>
 
     import { defineComponent, ref, watch } from "vue";
 
+    import SsfInputLabel from "./input-label";
+
     export default defineComponent({
         name: 'ssf-textarea',
 
         emits: [ 'focus', 'change', 'input' ],
+
+        components: {SsfInputLabel},
 
         props: {
             value    : {
@@ -69,7 +86,7 @@
         },
         computed: {
             icon() {
-                return this.parent.$data.options.icon
+                return this.parent.xIcon
             },
 
             parent() {
@@ -107,8 +124,12 @@
             }
         },
         watch   : {
+            value(val) {
+                this.resize()
+                this.$emit('input', val)
+            },
             val(val) {
-                this.$nextTick(this.resize)
+                this.resize()
                 this.$emit('input', val)
             },
             minHeight() {
@@ -118,6 +139,7 @@
                 this.$nextTick(this.resize)
             },
             autosize(val) {
+
                 if (val) this.resize()
             }
         },
@@ -126,7 +148,7 @@
                 const important = this.isHeightImportant ? 'important' : ''
                 this.height = `auto${important ? ' !important' : ''}`
                 this.$nextTick(() => {
-                    let contentHeight = this.$el.scrollHeight + 1
+                    let contentHeight = this.$refs.inputComponent.scrollHeight + 1
 
                     if (this.minHeight) {
                         contentHeight = contentHeight < this.minHeight ? this.minHeight : contentHeight
@@ -146,6 +168,14 @@
                 })
 
                 return this
+            },
+
+            onLabelClick() {
+                this.$nextTick(() => {
+                    this.focused = true
+                    this.$refs.inputComponent.focus()
+                    this.$forceUpdate()
+                })
             },
 
             onInput() {

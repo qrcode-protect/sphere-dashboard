@@ -8,9 +8,10 @@
  */
 
 import { namespaces }                           from "@config/app";
-import { each, keys, map, pick }                from 'lodash'
+import { each, includes, keys, map, pick }      from 'lodash'
 import { clone, combine, jsonParse, renameKey } from "@app/vue/utils";
 import date                                     from "@app/vue/utils/date";
+import { AxiosApiError }                        from "@sofiakb/axios-api/lib/tools/api";
 import moment                                   from "moment";
 
 const pluralize = require('pluralize');
@@ -26,6 +27,8 @@ export default class Model {
     attributes: any;
     casts: any;
     appends: any;
+    only?: string[] | null;
+    except?: string[] | null;
     static dateFormat: any = 'DD/MM/YYYY HH:mm:ss';
     columnID: any = 'id'
     __original: any;
@@ -43,6 +46,8 @@ export default class Model {
 
     all(options = {}) {
         return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'all')) || (this.except && includes(this.except, 'all')))
+                return reject(<AxiosApiError>{ message: "Method [all] not allowed", status: 400 })
             this.controller.fetch(`/${this.table}`, options)
                 .then((data: any) => resolve(this.setAttributes(data)))
                 .catch((error: any) => reject(error))
@@ -51,6 +56,8 @@ export default class Model {
 
     fetchBy(parameter: any, options = {}) {
         return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'fetchBy')) || (this.except && includes(this.except, 'fetchBy')))
+                return reject(<AxiosApiError>{ message: "Method [fetchBy] not allowed", status: 400 })
             this.controller.fetchBy(`/${this.table}`, parameter, options)
                 .then((data: any) => resolve(this.setAttributes(data)))
                 .catch((error: any) => reject(error))
@@ -63,6 +70,8 @@ export default class Model {
 
     store(data: any = null, options = {}) {
         return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'store')) || (this.except && includes(this.except, 'store')))
+                return reject(<AxiosApiError>{ message: "Method [store] not allowed", status: 400 })
             this.controller.create(`/${this.table}`, this.__data(data), options)
                 .then((data: any) => resolve(this.setAttributes(data)))
                 .catch((error: any) => reject(error))
@@ -71,6 +80,8 @@ export default class Model {
 
     search(payload: any, options = {}) {
         return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'search')) || (this.except && includes(this.except, 'search')))
+                return reject(<AxiosApiError>{ message: "Method [search] not allowed", status: 400 })
             this.controller.search(`/${this.table}/search`, payload, options)
                 .then((data: any) => resolve(this.setAttributes(data)))
                 .catch((error: any) => reject(error))
@@ -79,25 +90,36 @@ export default class Model {
 
     update(id: any = null, data: any = null, options = {}) {
         return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'update')) || (this.except && includes(this.except, 'update')))
+                return reject(<AxiosApiError>{ message: "Method [update] not allowed", status: 400 })
             this.controller.update(`/${this.table}`, this.__id(id), this.__data(data), options)
                 .then((data: any) => resolve(this.setAttributes(data)))
                 .catch((error: any) => reject(error))
         })
     }
 
-    destroy(id = null, options = {}) {
-        return this.controller.destroy(`/${this.table}`, this.__id(id), options)
+    destroy(id: any = null, options = {}) {
+        return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'destroy')) || (this.except && includes(this.except, 'destroy')))
+                return reject(<AxiosApiError>{ message: "Method [destroy] not allowed", status: 400 })
+            this.controller.destroy(`/${this.table}`, this.__id(id), options)
+                .then((data: any) => resolve(data))
+                .catch((error: any) => reject(error))
+        })
     }
 
     paginate(page = 1, limit = 18, options = {}) {
-        return new Promise((resolve, reject) =>
+        return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'paginate')) || (this.except && includes(this.except, 'paginate')))
+                return reject(<AxiosApiError>{ message: "Method [paginate] not allowed", status: 400 })
             this.controller.paginate(`/${this.table}`, page, limit, options)
                 .then((data: any) => {
                     let items = data.data, result = data
                     result.data = this.setAttributes(items)
                     return resolve(result)
                 })
-                .catch((error: any) => reject(error)))
+                .catch((error: any) => reject(error))
+        })
     }
 
     setAttributes(values: any) {
@@ -144,10 +166,6 @@ export default class Model {
                             break
                     }
             } else result[modelKey] = item[key]
-            if (self) {
-                // @ts-ignore
-                this[modelKey] = result[modelKey]
-            }
         })
 
         if (this.appends) {
