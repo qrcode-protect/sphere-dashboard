@@ -28,7 +28,7 @@
         components: { FormCreateMember },
         setup() {
             ////////// init
-            useMeta({ title: 'Partenaires - Ajouter', })
+            useMeta({ title: 'Adhérents - Ajouter', })
 
             ////////// data
 
