@@ -13,6 +13,18 @@
                     type="file"
                     @change="onFileChange"/>
 
+        <qrcp-input v-if="showInputFile"
+                    :errors="errors"
+                    :value="partner.avatar"
+                    icon="image-polaroid"
+                    label="Logo de la société"
+                    mimes="jpg, jpeg, png, gif, pdf"
+                    name="avatar"
+                    required
+                    row
+                    type="file"
+                    @change="onAvatarChange"/>
+
         <ssf-row>
 
             <ssf-col no-padding size="6">
@@ -25,8 +37,6 @@
 
         </ssf-row>
 
-        <file-preview v-if="certificateUrl" :src="certificateUrl"/>
-
     </ssf-container>
 </template>
 
@@ -37,14 +47,10 @@
     import NextButton                  from "@/views/partners/components/includes/form-create/steps/next-button.vue";
     import QrcpInput                   from "@/components/commons/qrcp-input.vue";
     import { validator as xValidator } from "@app/commons/validation";
-    import { isPdf }                   from "@app/commons/file";
-    import { defined }                 from "@app/commons";
-    import { Nullable }                from "../../../../../../../types/nullable";
-    import FilePreview                 from "@/components/commons/file-preview.vue";
 
     export default defineComponent({
         name      : "documents",
-        components: { FilePreview, QrcpInput, NextButton, PreviousButton },
+        components: { QrcpInput, NextButton, PreviousButton },
 
         props: {
             partner: { type: Partner, required: true },
@@ -58,8 +64,6 @@
 
             ////////// data
             const showInputFile = ref(true)
-            const isCertificatePdf = ref<Nullable<boolean>>(null)
-            const certificateUrl = ref<Nullable<string>>(null)
 
             ////////// computed
 
@@ -67,15 +71,16 @@
             const onFileChange = (e: any) => {
                 let event = (e || window.event);
                 props.partner.certificate = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
-                // @ts-ignore
-                isCertificatePdf.value = isPdf(props.member.certificate?.type);
-                // @ts-ignore
-                certificateUrl.value = defined(props.member.certificate) && !isCertificatePdf.value ? URL.createObjectURL(props.member.certificate!) : null;
+            }
+            const onAvatarChange = (e: any) => {
+                let event = (e || window.event);
+                props.partner.avatar = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
             }
             const next = () => {
 
                 const result = xValidator({
                     certificate: props.partner.certificate,
+                    avatar: props.partner.avatar,
                 })
 
                 return result.valid ? emit('next:step') : emit('has:error', {
@@ -87,11 +92,10 @@
             return {
                 //// data
                 showInputFile,
-                isCertificatePdf,
-                certificateUrl,
 
                 //// methods
                 onFileChange,
+                onAvatarChange,
                 next
             }
         }
