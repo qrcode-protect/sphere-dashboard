@@ -5,7 +5,7 @@
 
             <qrcp-input :errors="errors"
                         :value="partner.companyName"
-                        col="col-8"
+                        col="col-12 col-md-8"
                         icon="building"
                         label="Nom commercial"
                         name="companyName"
@@ -14,7 +14,7 @@
 
             <qrcp-input :errors="errors"
                         :value="partner.siret"
-                        col="col-4"
+                        col="col-12 col-md-4"
                         icon="stamp"
                         label="Siret"
                         name="siret"
@@ -35,6 +35,17 @@
                     row
                     select
                     @update:value="(event) => partner.activityId = event"/>
+
+        <qrcp-input :errors="errors"
+                    :option-items="activities"
+                    :value="partner.description"
+                    icon="text"
+                    label="Description"
+                    name="description"
+                    required
+                    row
+                    textarea
+                    @update:value="(event) => partner.description = event"/>
 
         <ssf-row>
 
@@ -88,6 +99,7 @@
                     companyName: props.partner.companyName,
                     siret      : props.partner.siret,
                     activityId : props.partner.activityId,
+                    description : props.partner.description,
                 })
 
                 return result.valid ? emit('next:step') : emit('has:error', {
