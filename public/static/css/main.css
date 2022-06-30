@@ -269,3 +269,7 @@ ul.ul-icon li {
     content: '*';
     color: var(--color-danger);
 }
+
+.font-weight-semi-bold {
+    font-weight: 500;
+}

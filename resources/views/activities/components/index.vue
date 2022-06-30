@@ -3,47 +3,53 @@
 
         <page-title title="Domaines d'activités"/>
 
-        <ssf-container container>
+        <ssf-container v-if="activities" container>
 
             <ssf-container class="border rounded table-container mx-auto" not-full>
 
-                <table class="table table-sm table-striped mb-0 table-activities">
+                <!--                <table-activity-header @create-activity="modals.activity.open = true"/>-->
 
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nom du domaine</th>
-                            <th class="text-center" colspan="2">
-                                <ssf-icon class="cursor-pointer" icon="plus-circle"
-                                          @click="modals.activity.open = true"/>
-                            </th>
-                        </tr>
-                    </thead>
+                <table-activity :activities="activities"
+                                @create-activity="modals.activity.open = true"
+                                @edit-activity="(activity) => onEditActivity(activity)"/>
 
-                    <tbody>
+                <!--                <table class="table table-sm table-striped mb-0 table-activities">
 
-                        <tr v-for="(activity, $idx) in activities">
-                            <td>{{ $idx + 1 }}</td>
-                            <td>{{ activity.label.capitalize() }}</td>
-                            <td class="text-center" colspan="2">
-                                <!--                                <ssf-icon class="mx-2 cursor-pointer" icon="trash-alt"/>-->
-                                <ssf-icon class="mx-2 cursor-pointer" icon="pencil" @click="onEditActivity(activity)"/>
-                            </td>
-                        </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nom du domaine</th>
+                                            <th class="text-center" colspan="2">
+                                                <ssf-icon class="cursor-pointer" icon="plus-circle"
+                                                          @click="modals.activity.open = true"/>
+                                            </th>
+                                        </tr>
+                                    </thead>
 
-                    </tbody>
+                                    <tbody>
 
-                </table>
+                                        <tr v-for="(activity, $idx) in activities">
+                                            <td>{{ $idx + 1 }}</td>
+                                            <td>{{ activity.label.capitalize() }}</td>
+                                            <td class="text-center" colspan="2">
+                                                &lt;!&ndash;                                <ssf-icon class="mx-2 cursor-pointer" icon="trash-alt"/>&ndash;&gt;
+                                                <ssf-icon class="mx-2 cursor-pointer" icon="pencil" @click="onEditActivity(activity)"/>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>-->
 
             </ssf-container>
 
         </ssf-container>
 
         <modal-activity v-if="modals.activity.open"
+                        :activity="modals.activity.props.activity"
                         :modal-name="modals.activity.name"
                         :open="modals.activity.open"
-                        :activity="modals.activity.props.activity"
-                        @close="modals.activity.open = false"
+                        @close="onClose"
                         @save="onSave"/>
 
     </ssf-container>
@@ -57,11 +63,13 @@
     import ModalActivity                                      from "@/views/activities/components/modal-activity.vue";
     import Activity                                           from "@app/modules/activity/activity";
     import store                                              from "@app/vue/store";
+    import TableActivity
+                                                              from "@/views/activities/components/includes/table-activity/table-activity.vue";
 
     export default defineComponent({
         name: "activity-index",
 
-        components: { ModalActivity, PageTitle },
+        components: { TableActivity, ModalActivity, PageTitle },
 
         setup() {
             ////////// init
@@ -102,9 +110,12 @@
             }
         },
         methods: {
-            onSave() {
+            onClose() {
                 this.modals.activity.open = false
                 this.modals.activity.props.activity = null
+            },
+            onSave() {
+                this.onClose()
                 this.fetch()
             },
             onEditActivity(activity: Activity) {
@@ -127,7 +138,7 @@
                 border-collapse: separate;
                 border-spacing: 0;
 
-                tbody tr:last-child  {
+                tbody tr:last-child {
 
                     td:first-child {
                         border-bottom-left-radius: var(--border-radius, 50px);

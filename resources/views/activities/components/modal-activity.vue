@@ -6,11 +6,12 @@
                :name="modalName"
                attach="#app"
                body-classes="pt-2 border-0"
-               classes="modal-container full-flex modal-activity"
-               content-class="modal-content z-depth-1 full-flex rounded"
+               classes="modal-container modal-activity"
+               content-class="modal-content z-depth-1 full-flex rounded mx-auto my-2"
                fit-parent
                header-classes="pt-4 pb-2 d-block border-0"
-               lock-scroll>
+               lock-scroll
+               scrollable>
 
         <template #header>
 
@@ -46,6 +47,32 @@
                                 required
                                 row
                                 @update:value="(event) => activityObject.label = event"/>
+
+                </ssf-row>
+
+
+                <ssf-row>
+
+                    <ssf-container>
+
+                        <ssf-title center class="h6-responsive w-100" h6>Sous-domaines d'activités</ssf-title>
+
+                    </ssf-container>
+
+                    <qrcp-input v-for="(subActivity, $idx) in activityObject.activities"
+                                :errors="errors"
+                                :label="`Nom du sous-domaine n°${$idx + 1}`"
+                                :value="activityObject.activities[$idx].label"
+                                icon="font"
+                                name="label"
+                                required
+                                row
+                                @update:value="(event) => activityObject.activities[$idx].label = event"/>
+
+                    <ssf-shape center circle class="border border-color-2 color-2 cursor-pointer mx-auto my-2" size="50" @click="addSubDomain">
+                        <ssf-icon icon="plus"/>
+                    </ssf-shape>
+
 
                 </ssf-row>
 
@@ -109,7 +136,10 @@
 
             ////////// data
             const duplicated = ref(false)
-            const activityObject = ref(props.activity ?? new Activity({ attributes: { label: null } }))
+            const activityObject = ref(props.activity ?? (new Activity()).__setItemAttributes({
+                label     : null,
+                activities: []
+            }))
             const isEditing = ref(!!props.activity)
             //// form
             const errors = ref<string[]>([])
@@ -117,6 +147,7 @@
             ////////// computed
 
             ////////// methods
+            const addSubDomain = () => activityObject.value.activities?.push((new Activity()).__setItemAttributes({ label: null }))
             const save = () => {
                 if (!activityObject.value.label || activityObject.value.label.trim() === '')
                     return errors.value.push('label.required')
@@ -141,7 +172,8 @@
                 errors,
 
                 //// methods
-                save
+                save,
+                addSubDomain,
             }
         }
 
@@ -153,6 +185,8 @@
     .modal-activity {
         .modal-content {
             width: 500px !important;
+            right: 0;
+            left: 0;
         }
     }
 

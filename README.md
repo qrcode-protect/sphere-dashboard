@@ -3,7 +3,8 @@
 ## Description
 Ce [Dashboard](https://dashboard.reseau-sphere.com/) permet de gérer les données de
 - [SPHÈRE](https://reseau-sphere.com)
-- [SPHÈRE Partenaire](https://partner.reseau-sphere.com)
+- [SPHÈRE Partenaire](https://partenaires.reseau-sphere.com)
+- [SPHÈRE Application](https://sphere-application.web.app)
 
 ## Project setup
 ```
