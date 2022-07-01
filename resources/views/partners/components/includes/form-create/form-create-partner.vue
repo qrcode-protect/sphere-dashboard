@@ -181,6 +181,7 @@
             nextStep(last = false) {
                 if (last) {
                     this.modals.recapBeforeSave.open = true
+                    this.modals.recapBeforeSave.props.partner = this.partner
                 }
 
                 return this.currentStep += this.currentStep === this.steps.length ? 0 : 1

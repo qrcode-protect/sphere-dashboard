@@ -33,7 +33,8 @@ export default class Activity extends Model {
     casts = {
         created: 'firebaseDate',
         updated: 'firebaseDate',
-        activities: (value: any) => map(value, item => (new Activity()).__setItemAttributes(item))
+        activities: (value: any) => map(value, item => (new Activity()).__setItemAttributes(item)),
+        label: (value: string | null | undefined) => value?.capitalize()
     }
 
     constructor(options: any = { controller: ActivityController }) {

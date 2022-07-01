@@ -11,7 +11,8 @@ declare let window: CustomWindow
 window._ = require('lodash');
 window.$ = require('jquery')
 
-import './app/vue/utils/native/string'
+import './app/vue/utils/native/string.extension'
+import './app/vue/utils/native/window.extension'
 // import 'app/vue/register/serviceWorker'
 
 import './public/static/css/main.css'
