@@ -1,16 +1,16 @@
 <template>
 
-    <ssf-modal v-model="open"
-               :click-to-close="false"
-               :esc-to-close="false"
+    <ssf-modal v-model="visible"
                :name="modalName"
                attach="#app"
                body-classes="pt-2 border-0"
-               classes="modal-container full-flex modal-edit-partner"
-               content-class="modal-content z-depth-1 full-flex rounded"
+               classes="modal-container modal-edit-partner"
+               content-class="modal-content z-depth-1 full-flex rounded mx-auto"
                fit-parent
                header-classes="pt-4 pb-2 d-block border-0"
-               lock-scroll>
+               scrollable
+               lock-scroll
+               @before-close="closeModal">
 
         <template #header>
 
@@ -38,7 +38,7 @@
 
                         <ssf-row>
                             <ssf-col class="text-center" size="12">
-                                <h5 class="h5-responsive color-2 font-weight-bold">Informations personnelles</h5>
+                                <h5 class="h5-responsive color-2 font-weight-semi-bold">Informations personnelles</h5>
                             </ssf-col>
                         </ssf-row>
 
@@ -91,7 +91,7 @@
 
                         <ssf-row>
                             <ssf-col class="text-center" size="12">
-                                <h5 class="h5-responsive color-2 font-weight-bold">Société / organisation</h5>
+                                <h5 class="h5-responsive color-2 font-weight-semi-bold">Société / organisation</h5>
                             </ssf-col>
                         </ssf-row>
 
@@ -125,6 +125,32 @@
                                         select
                                         @update:value="(event) => partner.activityId = event"/>
 
+                        <ssf-row v-if="subActivitiesVisible" class="mb-4 col-12">
+
+                            <ssf-container>
+
+                                <ssf-title class="h6-responsive" h6>Sous-domaines d'activités</ssf-title>
+
+                            </ssf-container>
+
+                            <ssf-container>
+
+                                <ssf-row>
+
+                                    <subdomain-checkbox v-for="subActivity in activity.activities"
+                                                        :activity="subActivity"
+                                                        :selected="partner.activities?.includes(subActivity.id)"
+                                                        @select="onSubDomainSelect"
+                                                        class="mx-auto"
+                                                        @unselect="onSubDomainUnselect"/>
+
+                                </ssf-row>
+
+                            </ssf-container>
+
+
+                        </ssf-row>
+
                     </ssf-container>
 
 
@@ -156,15 +182,19 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, PropType, ref } from "vue"
-    import Partner                             from "@app/modules/partner/partner";
-    import Activity                           from "@app/modules/activity/activity";
-    import { MainError, MainSuccess }         from "@app/vue/utils/swal";
-    import { AxiosApiError }                  from "@sofiakb/axios-api/lib/tools/api";
+    import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue"
+    import Partner                                                        from "@app/modules/partner/partner";
+    import Activity                                                       from "@app/modules/activity/activity";
+    import { MainError, MainSuccess }                                     from "@app/vue/utils/swal";
+    import { AxiosApiError }                                              from "@sofiakb/axios-api/lib/tools/api";
+    import { filter, includes }                                           from "lodash";
+    import { useActivity }                                                from "@app/modules/activity/activity-module";
+    import SubdomainCheckbox
+                                                                          from "@/views/partners/components/includes/form-create/steps/subdomain-checkbox.vue";
 
     export default defineComponent({
         name: "modal-edit-partner",
-
+        components: { SubdomainCheckbox },
         props: {
             modalName : { type: String, required: false, default: 'modal-create-user' },
             open      : { type: Boolean, required: false, default: false },
@@ -179,6 +209,7 @@
 
             ////////// data
             const duplicated = ref(false)
+            const visible = ref<boolean>(false)
 
             ////////// computed
 
@@ -188,12 +219,39 @@
                     .then(() => MainSuccess.fire() && emit('close'))
                     .catch((error: AxiosApiError) => MainError.fire({ text: error.message }))
 
+            const { activity, fetchActivityById } = useActivity()
+            watch(() => props.partner.activityId, async (value: any) => value ? activity.value = await fetchActivityById(props.partner.activityId!).catch(() => null) : null, { immediate: true })
+            const subActivitiesVisible = computed(() => props.partner.activityId && activity.value && activity.value.activities && activity.value.activities.length)
+            const onSubDomainSelect = (subDomainId: string) => {
+                if (!props.partner.activities) {
+                    props.partner.activities = []
+                }
+                return includes(props.partner.activities, subDomainId) ? null : props.partner.activities.push(subDomainId);
+            }
+            const onSubDomainUnselect = (subDomainId: string) => {
+                if (!props.partner.activities) {
+                    props.partner.activities = []
+                }
+                if (includes(props.partner.activities, subDomainId)) {
+                    props.partner.activities = filter(props.partner.activities, item => item !== subDomainId);
+                }
+            }
+
+            watch(() => props.open, () => visible.value = props.open, { immediate: true })
+
             return {
                 //// data
                 duplicated,
+                visible,
 
                 //// methods
-                save
+                save,
+                closeModal: () => emit('close'),
+
+                activity,
+                subActivitiesVisible,
+                onSubDomainSelect,
+                onSubDomainUnselect
             }
         }
 
@@ -205,6 +263,8 @@
     .modal-edit-partner {
         .modal-content {
             width: 650px !important;
+            right: 0;
+            left: 0;
         }
     }
 

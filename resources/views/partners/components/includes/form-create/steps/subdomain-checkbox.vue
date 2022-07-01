@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, reactive, toRefs } from "vue"
-    import Activity                                        from "@app/modules/activity/activity";
+    import { computed, defineComponent, reactive, toRefs, watch } from "vue"
+    import Activity                                               from "@app/modules/activity/activity";
 
 
     export default defineComponent({
@@ -27,21 +27,26 @@
         setup(props, { emit }) {
             ////////// init
 
-            const { selected, toggleSelected } = (() => {
+            const { selected, toggleSelected, setSelected } = (() => {
                 const state = reactive({
                     selected: false
                 })
 
+                const setSelected = (value: boolean) => {
+                    state.selected = value;
+                    emit(state.selected ? 'select' : 'unselect', props.activity.id)
+                }
+
                 return {
                     ...toRefs(state),
-                    toggleSelected: () => {
-                        state.selected = !state.selected;
-                        emit(state.selected ? 'select' : 'unselect', props.activity.id)
-                    }
+                    toggleSelected: () => setSelected(!state.selected),
+                    setSelected
                 }
             })()
 
-            const isSelected =  computed(() => props.selected === true && selected.value)
+            const isSelected = computed(() => props.selected === true && selected.value)
+
+            watch(() => props.selected, () => setSelected(props.selected === true), { immediate: true })
 
             return {
                 isSelected,
