@@ -273,3 +273,19 @@ ul.ul-icon li {
 .font-weight-semi-bold {
     font-weight: 500;
 }
+
+.left-absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+.right-absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+}
