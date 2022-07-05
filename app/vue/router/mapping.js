@@ -63,8 +63,8 @@ const mapping = {
         icon : 'receipt',
         level: RoleType.admin
     },
-    'members.index6': {
-        name : 'members.index6',
+    'tenders.index': {
+        name : 'tenders.index',
         label: 'Bourse aux affaires',
         icon : 'shop',
         level: RoleType.admin

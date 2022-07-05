@@ -3,7 +3,8 @@
 ## Description
 Ce [Dashboard](https://dashboard.reseau-sphere.com/) permet de gérer les données de
 - [SPHÈRE](https://reseau-sphere.com)
-- [SPHÈRE Partenaire](https://partner.reseau-sphere.com)
+- [SPHÈRE Partenaire](https://partenaires.reseau-sphere.com)
+- [SPHÈRE Application](https://sphere-application.web.app)
 
 ## Project setup
 ```
@@ -26,6 +27,7 @@ npm run build
 #### [v1.0.1-beta.3](./changelogs/v1.0.1-beta.3.md)
 #### [v1.0.1-beta.4](./changelogs/v1.0.1-beta.4.md)
 #### [v1.0.1-beta.5](./changelogs/v1.0.1-beta.5.md)
+#### [v1.0.1-beta.6](./changelogs/v1.0.1-beta.6.md)
 
 
 ### Customize configuration

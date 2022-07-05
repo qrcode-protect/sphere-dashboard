@@ -1,5 +1,5 @@
 <template>
-    <ssf-container :class="{'rounded-circle': circle}" :style="`height: ${size}px; width: ${width ?? size}px`" not-full>
+    <ssf-container :class="{'rounded-circle': circle, 'full-flex': center}" :style="`height: ${size}px; width: ${width ?? size}px`" not-full>
         <slot/>
     </ssf-container>
 </template>
@@ -13,7 +13,8 @@
         props: {
             size  : { type: [ String, Number ], required: true },
             width : { type: [ String, Number ], required: false },
-            circle: { type: Boolean, required: false, default: false }
+            circle: { type: Boolean, required: false, default: false },
+            center: { type: Boolean, required: false, default: false },
         },
 
         setup() {

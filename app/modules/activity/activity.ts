@@ -9,12 +9,14 @@
 import Model from "@sofiakb/vue3-framework/models/model";
 
 import ActivityController from "@app/modules/activity/activity-controller";
+import { map }            from "lodash";
 
 export default class Activity extends Model {
 
     id?: string | null
     name?: string
     label?: string
+    activities?: Activity[]
 
     static icon = {
         name: 'chart-network',
@@ -25,11 +27,14 @@ export default class Activity extends Model {
         id: { prop: 'id', comment: "Identifiant" },
         name: { prop: 'name', comment: "Nom court" },
         label: { prop: 'label', comment: "Libéllé" },
+        activities: { prop: 'activities', comment: "Sous-domaines" },
     }
 
     casts = {
         created: 'firebaseDate',
-        updated: 'firebaseDate'
+        updated: 'firebaseDate',
+        activities: (value: any) => map(value, item => (new Activity()).__setItemAttributes(item)),
+        label: (value: string | null | undefined) => value?.capitalize()
     }
 
     constructor(options: any = { controller: ActivityController }) {

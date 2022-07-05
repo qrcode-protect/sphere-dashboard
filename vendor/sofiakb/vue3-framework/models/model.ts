@@ -13,6 +13,7 @@ import { clone, combine, jsonParse, renameKey } from "@app/vue/utils";
 import date                                     from "@app/vue/utils/date";
 import { AxiosApiError }                        from "@sofiakb/axios-api/lib/tools/api";
 import moment                                   from "moment";
+import { defined }                              from "@sofiakb/vue3-framework/utils";
 
 const pluralize = require('pluralize');
 
@@ -143,23 +144,23 @@ export default class Model {
                 else
                     switch (castTo) {
                         case 'date': {
-                            result[modelKey] = date.momentSql(item[key]).format(this.model.dateFormat)
+                            result[modelKey] = defined(item[key]) ? date.momentSql(item[key]) : item[key]
                             break
                         }
                         case 'firebaseDate': {
-                            result[modelKey] = moment.unix(item[key]._seconds ?? null).format(this.model.dateFormat)
+                            result[modelKey] = defined(item[key]) ? moment.unix(item[key]?._seconds ?? item[key]?.seconds ?? null) : item[key]
                             break
                         }
                         case 'int': {
-                            result[modelKey] = parseInt(item[key])
+                            result[modelKey] = defined(item[key]) ? parseInt(item[key]) : item[key]
                             break
                         }
                         case 'boolean': {
-                            result[modelKey] = item[key] === 'true' || item[key] === true
+                            result[modelKey] = defined(item[key]) ? item[key] === 'true' || item[key] === true : item[key]
                             break
                         }
                         case 'json': {
-                            result[modelKey] = jsonParse(item[key])
+                            result[modelKey] = defined(item[key]) ? jsonParse(item[key]) : item[key]
                             break
                         }
                         default:

@@ -1,6 +1,6 @@
 {
   "name": "sphere-dashboard",
-  "version": "1.0.1-beta.5",
+  "version": "1.0.1-beta.6",
   "private": true,
   "scripts": {
     "serve": "VUE_CLI_SERVICE_CONFIG_PATH=$PWD/config/vue/vue.config.js vue-cli-service serve --mode development",

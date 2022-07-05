@@ -29,6 +29,9 @@ export default class Partner extends Model {
     siret?: string
     active?: boolean
     available?: boolean
+    avatar?: string
+    description?: string
+    activities?: string[]
 
     static icon = {
         name: 'handshake-angle',
@@ -48,6 +51,9 @@ export default class Partner extends Model {
         siret      : { prop: 'siret', comment: "SIRET" },
         active     : { prop: 'active' },
         available  : { prop: 'available' },
+        avatar  : { prop: 'avatar' },
+        description  : { prop: 'description', comment: "Description" },
+        activities  : { prop: 'activities', comment: "Sous-domaines" },
     }
 
     casts = {
@@ -84,6 +90,9 @@ export default class Partner extends Model {
             'activityId',
             'companyName',
             'certificate',
+            'avatar',
+            'description',
+            'activities',
             'siret', ])
 
         return new Promise((resolve, reject) => {

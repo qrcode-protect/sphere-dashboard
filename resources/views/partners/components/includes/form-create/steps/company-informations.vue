@@ -5,7 +5,7 @@
 
             <qrcp-input :errors="errors"
                         :value="partner.companyName"
-                        col="col-8"
+                        col="col-12 col-md-8"
                         icon="building"
                         label="Nom commercial"
                         name="companyName"
@@ -14,7 +14,7 @@
 
             <qrcp-input :errors="errors"
                         :value="partner.siret"
-                        col="col-4"
+                        col="col-12 col-md-4"
                         icon="stamp"
                         label="Siret"
                         name="siret"
@@ -36,6 +36,43 @@
                     select
                     @update:value="(event) => partner.activityId = event"/>
 
+        <ssf-row v-if="subActivitiesVisible" class="mb-4 col-12">
+
+            <ssf-container>
+
+                <ssf-title class="h6-responsive" h6>Sous-domaines d'activités</ssf-title>
+
+            </ssf-container>
+
+            <ssf-container>
+
+                <ssf-row>
+
+                    <subdomain-checkbox v-for="subActivity in activity.activities"
+                                        :activity="subActivity"
+                                        :selected="partner.activities?.includes(subActivity.id)"
+                                        @select="onSubDomainSelect"
+                                        class="mx-auto"
+                                        @unselect="onSubDomainUnselect"/>
+
+                </ssf-row>
+
+            </ssf-container>
+
+
+        </ssf-row>
+
+        <qrcp-input :errors="errors"
+                    :option-items="activities"
+                    :value="partner.description"
+                    icon="text"
+                    label="Description"
+                    name="description"
+                    required
+                    row
+                    textarea
+                    @update:value="(event) => partner.description = event"/>
+
         <ssf-row>
 
             <ssf-col no-padding size="6">
@@ -53,20 +90,24 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, onBeforeMount } from "vue"
-    import { activities, fetchActivities }    from "@app/commons/activities";
-    import Partner                            from "@app/modules/partner/partner";
+    import { computed, defineComponent, onBeforeMount, watch } from "vue"
+    import { activities, fetchActivities }                     from "@app/commons/activities";
+    import Partner                                             from "@app/modules/partner/partner";
     import NextButton
-                                              from "@/views/partners/components/includes/form-create/steps/next-button.vue";
+                                                               from "@/views/partners/components/includes/form-create/steps/next-button.vue";
     import PreviousButton
-                                              from "@/views/partners/components/includes/form-create/steps/previous-button.vue";
-    import QrcpInput                          from "@/components/commons/qrcp-input.vue";
-    import { validator as xValidator }        from "@app/commons/validation";
+                                                               from "@/views/partners/components/includes/form-create/steps/previous-button.vue";
+    import QrcpInput                                           from "@/components/commons/qrcp-input.vue";
+    import { validator as xValidator }                         from "@app/commons/validation";
+    import { useActivity }                                     from "@app/modules/activity/activity-module";
+    import SubdomainCheckbox
+                                                               from "@/views/partners/components/includes/form-create/steps/subdomain-checkbox.vue";
+    import { filter, includes }                                from "lodash";
 
     export default defineComponent({
-        name: "company-informations",
-        components: { QrcpInput, PreviousButton, NextButton },
-        props: {
+        name      : "company-informations",
+        components: { SubdomainCheckbox, QrcpInput, PreviousButton, NextButton },
+        props     : {
             partner: { type: Partner, required: true },
             errors : { type: Array, required: true },
         },
@@ -78,6 +119,7 @@
             onBeforeMount(() => fetchActivities())
 
             ////////// data
+            const { activity, fetchActivityById } = useActivity()
 
             ////////// computed
 
@@ -88,6 +130,7 @@
                     companyName: props.partner.companyName,
                     siret      : props.partner.siret,
                     activityId : props.partner.activityId,
+                    description: props.partner.description,
                 })
 
                 return result.valid ? emit('next:step') : emit('has:error', {
@@ -96,12 +139,34 @@
                 })
             }
 
+            watch(() => props.partner.activityId, async (value: any) => value ? activity.value = await fetchActivityById(props.partner.activityId!).catch(() => null) : null, { immediate: true })
+            const subActivitiesVisible = computed(() => props.partner.activityId && activity.value && activity.value.activities && activity.value.activities.length)
+            const onSubDomainSelect = (subDomainId: string) => {
+                if (!props.partner.activities) {
+                    props.partner.activities = []
+                }
+                return includes(props.partner.activities, subDomainId) ? null : props.partner.activities.push(subDomainId);
+            }
+            const onSubDomainUnselect = (subDomainId: string) => {
+                if (!props.partner.activities) {
+                    props.partner.activities = []
+                }
+                if (includes(props.partner.activities, subDomainId)) {
+                    props.partner.activities = filter(props.partner.activities, item => item !== subDomainId);
+                }
+            }
+
             return {
                 //// computed
                 activities,
 
                 //// methods
-                next
+                next,
+
+                activity,
+                subActivitiesVisible,
+                onSubDomainSelect,
+                onSubDomainUnselect
             }
         }
 

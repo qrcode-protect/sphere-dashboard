@@ -153,4 +153,21 @@
     .v--modal-overlay {
         z-index: 1051 !important;
     }
+
+
+    .box-item {
+        background-color: #FFFFFF;
+        --webkit-box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px !important;
+        box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px !important;
+        --webkit-border-radius: var(--border-radius);
+        border-radius: var(--border-radius);
+    }
+
+    .box-item-simple {
+        background-color: #FFFFFF;
+        --webkit-border-radius: var(--border-radius);
+        border-radius: var(--border-radius);
+    }
+
+
 </style>
