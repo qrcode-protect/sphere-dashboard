@@ -98,5 +98,13 @@ export default class Tender extends Model {
                 .catch((error: any) => reject(error))
         })
     }
+
+    findActive(options: any = {}) {
+        return this.fetchBy('active')
+    }
+
+    findInactive(options: any = {}) {
+        return this.fetchBy('inactive')
+    }
 }
 

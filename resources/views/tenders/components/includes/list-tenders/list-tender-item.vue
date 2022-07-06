@@ -174,6 +174,22 @@
             </ssf-container>
         </ssf-container>
 
+        <ssf-container class="text-right" v-if="!isActive">
+
+            <button
+                class="btn text-danger rounded text-white border border-danger inactive-tender-action-button d-inline-block mr-3"
+                @click="deny()">
+                <ssf-icon icon="ban" size="1x5" thin/>
+            </button>
+
+            <button
+                class="btn text-success rounded text-white border border-success inactive-tender-action-button d-inline-block ml-2"
+                @click="accept()">
+                <ssf-icon icon="check" size="1x5" thin/>
+            </button>
+
+        </ssf-container>
+
     </ssf-container>
 </template>
 
@@ -206,8 +222,11 @@
                 expiresAt,
                 full,
                 shortDescription,
+                actions,
+                isActive,
                 toggleFull,
-                actions
+                accept,
+                deny,
             } = useTender(tender.value)
 
             return {
@@ -219,14 +238,23 @@
                 endAt,
                 shortDescription,
                 full,
+                actions,
+                isActive,
                 toggleFull,
-                actions
+                accept,
+                deny,
             }
         }
     })
 </script>
 
 <style lang="scss" scoped>
+
+    .inactive-tender-action-button {
+        height: 50px;
+        width: 50px;
+        padding: 0 !important;
+    }
 
     ul {
         list-style-type: none !important;

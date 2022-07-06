@@ -1,7 +1,7 @@
 <template>
     <ssf-container name="list-tenders">
 
-        <ssf-container name="list-tenders-container" class="px-4">
+        <ssf-container name="list-tenders-container" class="px-4" container>
 
             <list-tender-item v-for="tender in tenders" :key="key(tender)" :tender="tender" class="my-3"/>
 

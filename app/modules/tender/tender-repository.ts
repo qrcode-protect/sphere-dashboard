@@ -10,7 +10,11 @@ import Tender from './tender'
 const tender = new Tender()
 
 const fetchAllTenders = () => tender.all()
+const fetchActiveTenders = () => tender.findActive()
+const fetchInactiveTenders = () => tender.findInactive()
 
 export {
     fetchAllTenders,
+    fetchActiveTenders,
+    fetchInactiveTenders
 }
