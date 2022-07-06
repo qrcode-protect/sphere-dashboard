@@ -72,9 +72,11 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
             },*/
         ]
 
+    const { fetchInactiveTenders, fetchActiveTenders } = useTenders()
+
     const updateActions = () => state.actions = actionsList()
 
-    const destroy = () => tender.destroy()
+    const destroy = () => tender.destroy().then(() => tender.active ? fetchActiveTenders() : fetchInactiveTenders())
     const toggleActive = () => (tender.available ? tender.block() : tender.unblock()).then((response: any) => {
         tender.available = response.available
         return updateActions();
@@ -82,7 +84,6 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
 
     onMounted(() => state.actions = actionsList())
 
-    const { fetchInactiveTenders } = useTenders()
 
     return {
         ...toRefs(state),
