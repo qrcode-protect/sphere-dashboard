@@ -167,7 +167,7 @@
 
         </ssf-container>
 
-        <ssf-container v-if="!(tender.available === true)" class="blocked-banner full-absolute px-3 rounded">
+        <ssf-container v-if="isActive && !(tender.available === true)" class="blocked-banner full-absolute px-3 rounded">
             <ssf-container class="blocked-banner-bg bg-danger rounded"/>
             <ssf-container class="blocked-banner-text full-flex full-absolute">
                 <ssf-text class="text-white text-uppercase font-weight-bold">bloquée</ssf-text>
