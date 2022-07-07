@@ -29,6 +29,7 @@
         :textarea="textarea"
         :type="type"
         :value="value"
+        :date-format="dateFormat"
         :wheel-propagation="wheelPropagation"
 
         @update:value="onUpdateValue">
@@ -106,6 +107,9 @@
             icon: { type: [ String ], required: false },
 
             errors: { type: Array },
+
+            /* DATE */
+            dateFormat: { type: String, required: false, default: 'DD/MM/YYYY' },
 
             withHelp : { type: Boolean, required: false, default: false },
             helpText : { type: String, required: false },
