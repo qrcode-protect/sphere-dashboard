@@ -37,6 +37,8 @@ module.exports = {
                 'FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
                 'FIREBASE_APP_ID'             : JSON.stringify(process.env.FIREBASE_APP_ID),
 
+                'GOOGLE_MAPS_API_KEY'             : JSON.stringify(process.env.GOOGLE_MAPS_API_KEY),
+
 				'VERSION': JSON.stringify(version)
 			}
 		})
