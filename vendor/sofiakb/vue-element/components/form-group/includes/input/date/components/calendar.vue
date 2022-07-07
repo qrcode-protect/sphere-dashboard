@@ -4,7 +4,7 @@
     <div class="calendar-header">
 
       <div class="month-selector" @click="openSelector">
-        <span class="month-label">{{ current.day.format('MMMM') | capitalize }}</span>
+        <span class="month-label">{{ current.day.format('MMMM').capitalize() }}</span>
         <span class="year space-year">{{ current.year }}</span>
         <div class="selector-triangle"></div>
         <!--        <span class="year">{{ currentDay.format('YYYY') | capitalize }}</span>-->
@@ -26,7 +26,7 @@
       <div class="ssf-row">
         <div class="ssf-calendar-grid date-container" v-for="d in daysLabels">
           <div class="date-label">
-            {{ d.substr(0, windowSmall() ? 1 : 3) | capitalize }}
+            {{ d.substring(0, windowSmall() ? 1 : 3).capitalize() }}
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@
               <ul>
                 <li v-for="(month, $idx) in months" :id="`${$idx + 1 === selected.month ? 'currentMonth' : ''}`"
                     @click="selected.month = $idx + 1">
-                  <span>{{ month | capitalize }}</span>
+                  <span>{{ month.capitalize() }}</span>
                 </li>
               </ul>
             </vue-custom-scrollbar>
@@ -139,13 +139,13 @@
       return this.run()
     },
 
-    filters: {
+    /*filters: {
       capitalize: function (value) {
         if (!value) return '';
         value = value.toString();
         return value.charAt(0).toUpperCase() + value.slice(1)
       }
-    },
+    },*/
 
     computed: {
       complete() {
@@ -229,7 +229,7 @@
       },
 
       run() {
-        this.current.day = this.current.day || this.$date.moment(this.value, this.$parent.format);
+        this.current.day = this.current.day || this.$date.moment(this.value/*, this.$parent.format*/);
         this.current.month = this.current.day.month();
         this.current.year = this.current.day.year();
         this.fillCalendar()
@@ -243,9 +243,9 @@
         if (date === 0)
           return false;
         if (dom === null)
-          return this.$emit('selected', this.value ? this.$date.moment(this.value, this.$parent.format) : null);
-        let date = dom > 0 ? this.$date.moment(`${this.current.year}-${this.$helpers.number.twoDigits(this.current.month + 1)}-${this.$helpers.number.twoDigits(dom)}`, 'YYYY-MM-DD')
-          : this.$date.moment(`${this.current.year}-${this.$helpers.number.twoDigits(this.current.month)}-${this.$helpers.number.twoDigits(Math.abs(dom))}`, 'YYYY-MM-DD');
+          return this.$emit('selected', this.value ? this.$date.moment(this.value/*, this.$parent.format*/) : null);
+        let date = dom > 0 ? this.$date.moment(`${this.current.year}-${this.$helpers.number.twoDigits(this.current.month + 1)}-${this.$helpers.number.twoDigits(dom)}`)
+          : this.$date.moment(`${this.current.year}-${this.$helpers.number.twoDigits(this.current.month)}-${this.$helpers.number.twoDigits(Math.abs(dom))}`);
         this.$emit('selected', date)
       }
 

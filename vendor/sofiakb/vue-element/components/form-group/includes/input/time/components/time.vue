@@ -7,16 +7,16 @@
     <div class="ssf-time-container" @click="toggleShowItems">
       <div class="ssf-form-control" :class="parent.inputClass">
         <div class="ssf-text-container" ref="ssfTextContainer">
-          <input v-if="parent.value && value" v-model="value" class="h-100 w-100 bg-transparent ssf-form-control"
+          <input v-if="parent.modelValue && value" v-model="value" class="h-100 w-100 bg-transparent ssf-form-control"
                  @keyup.enter="onSelected(value, true)"/>
-          <!--          <span v-if="parent.value" :value="parent.value">{{ parent.value }}</span>-->
+          <!--          <span v-if="parent.modelValue" :value="parent.modelValue">{{ parent.modelValue }}</span>-->
         </div>
         <div class="ssf-time-input-container" :class="{open: show.items}" :style="{height: ssfContainerHeight}">
           <ssf-clock ref="clockContainer"
                      v-show="show.items"
                      @selected="onSelected"
                      @click.stop="removeEvent"
-                     :value="parent.value"/>
+                     :value="parent.modelValue"/>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
     this.$nextTick(() => {
       this.ssfContainerHeight = this.getSsfContainerHeight()
     })
-    this.value = this.$date.moment(this.parent.value, this.format).format(this.format)
+    this.value = this.$date.moment(this.parent.modelValue, this.format).format(this.format)
   },
 
   watch: {
