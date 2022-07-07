@@ -73,6 +73,7 @@
 <script>
 
     import { PerfectScrollbar as VueCustomScrollbar } from 'vue3-perfect-scrollbar'
+    import { find }                                   from 'lodash'
 
     import SsfInputLabel from "./input-label";
 
@@ -94,7 +95,7 @@
             textValue() {
                 if (this.parent.value && this.parent.multiple === false && !Array.isArray(this.parent.value)) {
                     if (this.parent.optionLabel) {
-                        const result = this.parent.optionItems.find(item => (this.parent.optionField ? item[this.parent.optionField] : item) === this.parent.value)
+                        const result = find(this.parent.optionItems, item => (this.parent.optionField ? item[this.parent.optionField] : item) === this.parent.value)
                         return result[this.parent.optionLabel] ?? result
                     } else {
                         return this.parent.value

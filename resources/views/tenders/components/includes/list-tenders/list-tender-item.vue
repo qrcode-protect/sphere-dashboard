@@ -298,7 +298,7 @@
             padding: 20px;
             border-radius: var(--border-radius);
             color: var(--color-1);
-            min-width: 200px !important;
+            min-width: 250px !important;
         }
 
         :deep(.popper #arrow::before) {

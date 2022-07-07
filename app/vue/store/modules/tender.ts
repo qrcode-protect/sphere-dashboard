@@ -1,9 +1,10 @@
 import {
+    editTender,
     fetchActiveTenders,
-    fetchAllTenders,
+    fetchAllTenders, fetchById,
     fetchInactiveTenders,
     storeTender
-}             from "@app/modules/tender/tender-repository";
+} from "@app/modules/tender/tender-repository";
 import Tender from "@app/modules/tender/tender";
 
 const fetchAll = ({ commit }: any) => fetchAllTenders()
@@ -28,7 +29,9 @@ const actions = {
     fetchActive,
     fetchInactive,
 
-    store: (_: any, payload: { tender: Tender }) => storeTender(payload.tender)
+    store: (_: any, payload: { tender: Tender }) => storeTender(payload.tender),
+    edit: (_: any, payload: { tender: any }) => editTender(payload.tender),
+    fetchById: (_: any, payload: { tenderId: string }) => fetchById(payload.tenderId),
 }
 
 const getters = {

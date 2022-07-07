@@ -160,7 +160,8 @@
         emits: [ 'prev', 'next' ],
 
         props: {
-            tender: { type: Tender, required: true }
+            tender: { type: Tender, required: true },
+            isEdition: { type: Boolean, required: false, default: false },
         },
 
         setup(props, { emit }) {
@@ -174,7 +175,7 @@
 
             const onNext = () => {
                 const tenderValue = props.tender.address
-                return validator({
+                return props.isEdition || validator({
                     street_number: tenderValue.street_number,
                     address      : tenderValue.address,
                     city         : tenderValue.city,

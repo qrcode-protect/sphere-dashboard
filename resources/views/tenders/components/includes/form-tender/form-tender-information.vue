@@ -58,6 +58,7 @@
                     required
                     row
                     select
+                    v-if="members"
                     @update:value="(event) => tender.memberId = event"/>
 
         <form-next-button @next="onNext"/>
@@ -85,7 +86,8 @@
         emits: [ 'next' ],
 
         props: {
-            tender: { type: Tender, required: true }
+            tender: { type: Tender, required: true },
+            isEdition: { type: Boolean, required: false, default: false },
         },
 
         setup(props, { emit }) {
@@ -112,7 +114,7 @@
 
             const onNext = () => {
                 const tenderValue = props.tender
-                return validator({
+                return props.isEdition || validator({
                     title      : tenderValue.title,
                     description: tenderValue.description,
                     memberId   : tenderValue.memberId

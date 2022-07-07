@@ -130,7 +130,7 @@ export default class Tender extends Model {
         return this.fetchBy('inactive')
     }
 
-    static send(data: any, options: any = {}) {
+    static send(data: any, id?: string) {
         const tender = new Tender()
 
         data.expiresAt = data.expiresAt ? DateJs.moment(data.expiresAt).valueOf() : null
@@ -138,6 +138,8 @@ export default class Tender extends Model {
         data.endAt = data.endAt ? DateJs.moment(data.endAt).valueOf() : null
 
         data.address = JSON.stringify(data.address)
+
+        delete data.file
 
         const upload = new Upload(data, data, [
             'title',
@@ -154,7 +156,7 @@ export default class Tender extends Model {
         ])
 
         return new Promise((resolve, reject) => {
-            upload.send(`${tender.table}/from-dashboard`, { controller: { attributes: { server: configAttributes.server } } })
+            upload.send(`${tender.table}/from-dashboard${id ? '/' + id : ''}`, { controller: { attributes: { server: configAttributes.server } } })
                 .then((response) => resolve(response))
                 .catch((error) => reject(__createError(error)))
         })

@@ -17,6 +17,9 @@ import Tender                                     from "@app/modules/tender/tend
 import { number }                                 from "@app/vue/utils/helpers";
 import { fetchAllPremiumMembers, premiumByEmail } from "@app/modules/member/member-repository";
 import Member                                     from "@app/modules/member/member";
+import { useRouter }                              from "vue-router";
+import tender                                     from "@app/vue/store/modules/tender";
+import { omit }                                   from "lodash";
 
 export const useTenders = () => {
 
@@ -45,6 +48,8 @@ interface ActionList {
 
 export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
 
+    const router = useRouter()
+
     const state = reactive({
         full   : false,
         actions: [] as ActionList[],
@@ -53,10 +58,15 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
     const actionsList = (): ActionList[] =>
         [
             /*{
-                method: openEditModal,
+                method: () => router.push({ name: 'tenders.edit', params: { id: tender.id } }),
                 label : 'Modifier',
                 icon  : 'pen',
             },*/
+            {
+                method: () => tender.file && typeof tender.file === 'string' && tender.file.trim() !== '' ? window.open(tender.file, '_blank') : null,
+                label : 'Ouvrir le document',
+                icon  : 'file-pdf'
+            },
             {
                 method: destroy,
                 label : 'Supprimer',
@@ -109,7 +119,8 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
 
 interface TenderFormState {
     tender: Tender,
-    members: Nullable<Member[]>
+    members: Nullable<Member[]>,
+    initialState: Nullable<Tender>
 }
 
 export const useTenderForm = () => {
@@ -118,18 +129,30 @@ export const useTenderForm = () => {
 
     const state = reactive<TenderFormState>({
         tender : Tender.create(),
+        initialState : null,
         members: null
     })
 
     const fetchPremiumMembersByEmail = (email: string) => premiumByEmail(email).then((members: unknown) => state.members = <Member[]>members)
     const fetchPremiumMembers = () => fetchAllPremiumMembers().then((members: unknown) => state.members = <Member[]>members)
     const storeTender = () => store.dispatch('tender/store', { tender: state.tender }).then(() => state.tender = Tender.create())
+    const editTender = () => {
+        // @ts-ignore
+        return store.dispatch('tender/edit', { tender: omit(state.tender, (v, k) =>  state.initialState[k] === v) }).then(() => fetchById(state.tender.id));
+    }
+
+    const fetchById = (tenderId: string) => store.dispatch('tender/fetchById', { tenderId }).then((response) => {
+        state.initialState = response
+        return state.tender = response;
+    })
 
     return {
         ...toRefs(state),
         fetchPremiumMembersByEmail,
         fetchPremiumMembers,
-        storeTender
+        storeTender,
+        editTender,
+        fetchById
     }
 
 }

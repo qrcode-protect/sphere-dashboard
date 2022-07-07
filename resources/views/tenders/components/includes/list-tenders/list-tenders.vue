@@ -5,9 +5,7 @@
 
             <ssf-row>
 
-                <ssf-col size="12" md="6" v-for="tender in tenders" >
-
-                    <h1>AJOUTER LE DOCUMENT + MODIFICATIONS</h1>
+                <ssf-col size="12" lg="6" v-for="tender in tenders" >
 
                     <list-tender-item :key="key(tender)" :tender="tender" class="my-3"/>
 

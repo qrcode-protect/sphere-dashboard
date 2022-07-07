@@ -22,21 +22,25 @@
         <form id="tender" novalidate>
 
             <form-tender-information v-if="currentStep === FormTenderSteps.informations"
+                                     :is-edition="isEdition"
                                      :tender="tender"
                                      @next="onNextStep"/>
 
             <form-tender-address v-else-if="currentStep === FormTenderSteps.address"
+                                 :is-edition="isEdition"
                                  :tender="tender"
                                  icon="user"
                                  @next="onNextStep"
                                  @prev="onPrevStep"/>
 
             <form-tender-dates v-else-if="currentStep === FormTenderSteps.dates"
+                               :is-edition="isEdition"
                                :tender="tender"
                                @next="onNextStep"
                                @prev="onPrevStep"/>
 
             <form-tender-documents v-else-if="currentStep === FormTenderSteps.documents"
+                                   :is-edition="isEdition"
                                    :tender="tender"
                                    @next="save"
                                    @prev="onPrevStep"/>
@@ -47,17 +51,22 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from "vue"
-    import FormTenderStepTabs       from "@/views/tenders/components/includes/form-tender/form-tender-steps-tab.vue";
-    import { FormTenderSteps }      from "@/views/tenders/utils";
-    import FormTenderInformation    from "@/views/tenders/components/includes/form-tender/form-tender-information.vue";
-    import FormTenderAddress        from "@/views/tenders/components/includes/form-tender/form-tender-address.vue";
-    import FormTenderDates          from "@/views/tenders/components/includes/form-tender/form-tender-dates.vue";
-    import FormTenderDocuments      from "@/views/tenders/components/includes/form-tender/form-tender-documents.vue";
-    import { useForm }              from "@app/commons/form";
-    import { useTenderForm }        from "@app/modules/tender/tender-module";
-    import { AxiosApiError }        from "@sofiakb/axios-api/lib/tools/api";
-    import { loading }              from "@app/vue/utils/helpers";
+    import { defineComponent, onMounted, ref } from "vue"
+    import FormTenderStepTabs
+                                               from "@/views/tenders/components/includes/form-tender/form-tender-steps-tab.vue";
+    import { FormTenderSteps }                 from "@/views/tenders/utils";
+    import FormTenderInformation
+                                               from "@/views/tenders/components/includes/form-tender/form-tender-information.vue";
+    import FormTenderAddress
+                                               from "@/views/tenders/components/includes/form-tender/form-tender-address.vue";
+    import FormTenderDates
+                                               from "@/views/tenders/components/includes/form-tender/form-tender-dates.vue";
+    import FormTenderDocuments
+                                               from "@/views/tenders/components/includes/form-tender/form-tender-documents.vue";
+    import { useForm }                         from "@app/commons/form";
+    import { useTenderForm }                   from "@app/modules/tender/tender-module";
+    import { AxiosApiError }                   from "@sofiakb/axios-api/lib/tools/api";
+    import { loading }                         from "@app/vue/utils/helpers";
 
     export default defineComponent({
         name: "form-tender",
@@ -70,20 +79,32 @@
             FormTenderStepTabs
         },
 
-        setup() {
+        props: {
+            isEdition: { type: Boolean, required: false, default: false },
+            tenderId : { type: String, required: false, default: null },
+        },
 
-            const currentStep = ref<FormTenderSteps>(FormTenderSteps.informations)
+        setup(props) {
+
+            const currentStep = ref<FormTenderSteps>(FormTenderSteps.documents)
+            // const currentStep = ref<FormTenderSteps>(FormTenderSteps.informations)
 
             const onNextStep = () => currentStep.value += 1
             const onPrevStep = () => currentStep.value -= 1
 
-            const { tender, storeTender } = useTenderForm()
+            const { tender, storeTender, editTender, fetchById } = useTenderForm()
             const { error, success, validator, setSuccess, setError } = useForm()
+
+            onMounted(() => {
+                if (props.tenderId) {
+                    fetchById(props.tenderId)
+                }
+            })
 
             const save = () => {
                 if (currentStep.value === FormTenderSteps.documents) {
                     const tenderValue = tender.value
-                    if (validator({
+                    if (props.isEdition || validator({
                         title        : tenderValue.title,
                         description  : tenderValue.description,
                         memberId     : tenderValue.memberId,
@@ -94,7 +115,7 @@
                         file         : tenderValue.file,
                     })) {
                         loading(true)
-                        storeTender()
+                        (props.tenderId ? editTender() : storeTender())
                             .then(() => setSuccess("L'affaire a bien été ajoutée !"))
                             .catch((error: AxiosApiError) => setError(error.message))
                             .finally(() => {
@@ -117,6 +138,7 @@
 
                 //// tender module
                 tender,
+                isEdition: props.isEdition,
 
                 ////
                 currentStep,

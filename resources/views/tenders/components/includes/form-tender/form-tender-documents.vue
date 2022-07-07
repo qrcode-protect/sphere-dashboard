@@ -51,7 +51,8 @@
         emits: [ 'next', 'prev' ],
 
         props: {
-            tender: { type: Tender, required: true }
+            tender: { type: Tender, required: true },
+            isEdition: { type: Boolean, required: false, default: false },
         },
 
         setup(props, { emit }) {
@@ -61,12 +62,12 @@
             const { showInputFile, onFileChange, file } = useFormFile()
 
             const documents = ref([
-                { key: 'file', required: true, label: 'Date de début' },
+                { key: 'file', required: true, label: 'Appel d\'offres' },
             ])
 
             const onNext = () => {
                 const tenderValue = props.tender
-                return validator({
+                return props.isEdition || validator({
                     file    : tenderValue.file,
                 }) ? emit('next') : null
             }

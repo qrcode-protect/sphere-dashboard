@@ -71,7 +71,8 @@
         emits: [ 'next', 'prev' ],
 
         props: {
-            tender: { type: Tender, required: true }
+            tender: { type: Tender, required: true },
+            isEdition: { type: Boolean, required: false, default: false },
         },
 
         setup(props, { emit }) {
@@ -87,7 +88,7 @@
 
             const onNext = () => {
                 const tenderValue = props.tender
-                return validator({
+                return props.isEdition || validator({
                     // beginAt    : tenderValue.beginAt,
                     // endAt: tenderValue.endAt,
                     // expiresAt   : tenderValue.expiresAt,
