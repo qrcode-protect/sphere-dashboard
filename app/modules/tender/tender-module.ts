@@ -10,11 +10,13 @@
  */
 
 
-import { computed, onMounted, reactive, toRef, toRefs } from "vue";
-import { useStore }                                     from "vuex";
-import { Nullable }                              from "../../../types/nullable";
-import Tender                                    from "@app/modules/tender/tender";
-import { number }                                from "@app/vue/utils/helpers";
+import { computed, onMounted, reactive, toRefs }  from "vue";
+import { useStore }                               from "vuex";
+import { Nullable }                               from "../../../types/nullable";
+import Tender                                     from "@app/modules/tender/tender";
+import { number }                                 from "@app/vue/utils/helpers";
+import { fetchAllPremiumMembers, premiumByEmail } from "@app/modules/member/member-repository";
+import Member                                     from "@app/modules/member/member";
 
 export const useTenders = () => {
 
@@ -96,10 +98,38 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
         amount          : computed(() => tender.amount ? `${number.pretty(tender.amount)}€` : 'aucun'),
         publishedAt     : computed(() => tender.publishedAt?.format(dateFormat) ?? 'inconnue'),
         expiresAt       : computed(() => tender.expiresAt?.format(dateFormat) ?? 'aucune'),
-        beginAt         : computed(() => tender.beginAt?.format(dateFormat) ?? 'inconnue'),
-        endAt           : computed(() => tender.endAt?.format(dateFormat) ?? 'inconnue'),
+        beginAt         : computed(() => tender.beginAt?.format(dateFormat) ?? 'aucune'),
+        endAt           : computed(() => tender.endAt?.format(dateFormat) ?? 'aucune'),
         shortDescription: computed(() => tender.description?.substring(0, 200)),
         isActive        : computed(() => tender.active)
+    }
+
+}
+
+
+interface TenderFormState {
+    tender: Tender,
+    members: Nullable<Member[]>
+}
+
+export const useTenderForm = () => {
+
+    const store = useStore()
+
+    const state = reactive<TenderFormState>({
+        tender : Tender.create(),
+        members: null
+    })
+
+    const fetchPremiumMembersByEmail = (email: string) => premiumByEmail(email).then((members: unknown) => state.members = <Member[]>members)
+    const fetchPremiumMembers = () => fetchAllPremiumMembers().then((members: unknown) => state.members = <Member[]>members)
+    const storeTender = () => store.dispatch('tender/store', { tender: state.tender }).then(() => state.tender = Tender.create())
+
+    return {
+        ...toRefs(state),
+        fetchPremiumMembersByEmail,
+        fetchPremiumMembers,
+        storeTender
     }
 
 }

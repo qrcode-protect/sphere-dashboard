@@ -8,9 +8,13 @@
 
 import Model from "@sofiakb/vue3-framework/models/model";
 
-import TenderController from "@app/modules/tender/tender-controller";
-import { Moment }       from "moment";
-import Address          from "@app/modules/address/address";
+import TenderController  from "@app/modules/tender/tender-controller";
+import { Moment }        from "moment";
+import Address           from "@app/modules/address/address";
+import Upload            from "@sofiakb/vue3-framework/models/upload";
+import configAttributes  from "@config/api";
+import { __createError } from "@sofiakb/axios-api";
+import DateJs            from "@app/vue/utils/date";
 
 export default class Tender extends Model {
 
@@ -18,13 +22,13 @@ export default class Tender extends Model {
     title: string
     description: string
     amount: number
-    file: string
+    file: string | File
     beginAt: Moment
     endAt: Moment
     expiresAt?: Moment
     publishedAt?: Moment
     address: Address
-    memberId: string
+    memberId: string | null
     reporter: string
     available: boolean
     active: boolean
@@ -67,6 +71,25 @@ export default class Tender extends Model {
         this.model = eval(this.__resolve.model(options.name || this.constructor.name))
     }
 
+    static create(properties?: any) {
+        return (new Tender()).__setItemAttributes({
+            id         : properties?.id ?? null,
+            title      : properties?.title ?? null,
+            description: properties?.description ?? null,
+            amount     : properties?.amount ?? null,
+            file       : properties?.file ?? null,
+            beginAt    : properties?.beginAt ?? null,
+            endAt      : properties?.endAt ?? null,
+            expiresAt  : properties?.expiresAt ?? null,
+            publishedAt: properties?.publishedAt ?? null,
+            address    : properties?.address ?? Address.create(),
+            memberId   : properties?.memberId ?? null,
+            reporter   : properties?.reporter ?? null,
+            available  : properties?.available ?? false,
+            active     : properties?.active ?? false,
+        })
+    }
+
     accept(options: any = {}) {
         return new Promise((resolve, reject) => {
             this.controller.update(`/${this.table}/validate`, this.__id(this.id), this.__data({ active: true }), options)
@@ -105,6 +128,36 @@ export default class Tender extends Model {
 
     findInactive(options: any = {}) {
         return this.fetchBy('inactive')
+    }
+
+    static send(data: any, options: any = {}) {
+        const tender = new Tender()
+
+        data.expiresAt = data.expiresAt ? DateJs.moment(data.expiresAt).valueOf() : null
+        data.beginAt = data.beginAt ? DateJs.moment(data.beginAt).valueOf() : null
+        data.endAt = data.endAt ? DateJs.moment(data.endAt).valueOf() : null
+
+        data.address = JSON.stringify(data.address)
+
+        const upload = new Upload(data, data, [
+            'title',
+            'description',
+            'amount',
+            'file',
+            'beginAt',
+            'endAt',
+            'expiresAt',
+            'publishedAt',
+            'address',
+            'memberId',
+            'reporter',
+        ])
+
+        return new Promise((resolve, reject) => {
+            upload.send(`${tender.table}/from-dashboard`, { controller: { attributes: { server: configAttributes.server } } })
+                .then((response) => resolve(response))
+                .catch((error) => reject(__createError(error)))
+        })
     }
 }
 

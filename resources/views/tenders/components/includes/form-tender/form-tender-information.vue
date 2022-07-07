@@ -1,0 +1,156 @@
+<template>
+    <ssf-container name="form-tender-information">
+
+        <ssf-row>
+
+            <qrcp-input :errors="errors"
+                        :value="tender.title"
+                        col="col-12 col-md-8"
+                        icon="font"
+                        label="Titre de l'affaire"
+                        name="title"
+                        required
+                        @update:value="(event) => tender.title = event"/>
+
+            <qrcp-input :errors="errors"
+                        :value="tender.amount"
+                        col="col-12 col-md-4"
+                        icon="euro-sign"
+                        label="Budget maximum"
+                        min="1"
+                        name="amount"
+                        type="number"
+                        @update:value="(event) => tender.amount = event"/>
+
+        </ssf-row>
+
+        <qrcp-input :errors="errors"
+                    :value="tender.description"
+                    icon="message-captions"
+                    label="Description"
+                    name="description"
+                    required
+                    row
+                    textarea
+                    @update:value="(event) => tender.description = event"/>
+
+        <qrcp-input :errors="errors"
+                    :value="searchPremiumMember"
+                    form-group-class="mb-0"
+                    icon="magnifying-glass"
+                    input-class="members-search"
+                    label="Rechercher un adhérent (avec l'adresse e-mail)"
+                    name="searchPremiumMember"
+                    row
+                    @input="onSearchInput"
+                    @update:value="onSearchPremiumMemberUpdateValue"/>
+
+        <qrcp-input :errors="errors"
+                    :icon="Member.icon.name"
+                    :option-items="members"
+                    :value="tender.memberId"
+                    form-group-class="mt-0"
+                    input-class="border-top-0 members-select"
+                    label="Adhérents"
+                    name="memberId"
+                    option-field="id"
+                    option-label="companyName"
+                    required
+                    row
+                    select
+                    @update:value="(event) => tender.memberId = event"/>
+
+        <form-next-button @next="onNext"/>
+
+    </ssf-container>
+</template>
+
+<script lang="ts">
+    import { defineComponent, onMounted, ref } from "vue"
+    import { useTenderForm }                   from "@app/modules/tender/tender-module";
+    import QrcpInput                           from "@/components/commons/qrcp-input.vue";
+    import { useForm }                         from "@app/commons/form";
+    import { Nullable }                        from "../../../../../../types/nullable";
+    import Member                              from "@app/modules/member/member";
+
+    import { debounce } from "lodash";
+    import FormNextButton from "@/views/tenders/components/includes/form-tender/form-next-button.vue";
+    import Tender from "@app/modules/tender/tender";
+
+    export default defineComponent({
+        name: "form-tender-information",
+
+        components: { FormNextButton, QrcpInput },
+
+        emits: [ 'next' ],
+
+        props: {
+            tender: { type: Tender, required: true }
+        },
+
+        setup(props, { emit }) {
+            ////////// init
+
+            const { members, fetchPremiumMembersByEmail, fetchPremiumMembers } = useTenderForm()
+            const { errors, validator } = useForm()
+
+            const searchPremiumMember = ref<Nullable<string>>(null)
+            const isTyping = ref<boolean>(false)
+            const onSearchPremiumMemberUpdateValue = (value: string) => {
+                isTyping.value = true
+                searchPremiumMember.value = value
+            }
+            const onSearchInput = debounce(async () => {
+                isTyping.value = false
+                props.tender.memberId = null
+                if (searchPremiumMember.value && searchPremiumMember.value.trim() !== '')
+                    await fetchPremiumMembersByEmail(searchPremiumMember.value)
+                else await fetchPremiumMembers()
+            }, 500)
+
+            onMounted(() => fetchPremiumMembers())
+
+            const onNext = () => {
+                const tenderValue = props.tender
+                return validator({
+                    title      : tenderValue.title,
+                    description: tenderValue.description,
+                    memberId   : tenderValue.memberId
+                }) ? emit('next') : null
+            }
+
+            return {
+                //// form module
+                errors,
+
+                onNext,
+
+                //// tender form module
+                members,
+
+                onSearchInput,
+                onSearchPremiumMemberUpdateValue,
+                searchPremiumMember,
+                Member
+            }
+        }
+    })
+</script>
+
+<style lang="scss" scoped>
+
+    .form-tender-information {
+
+        :deep(.members-search) {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+
+        :deep(.members-select) {
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+        }
+
+    }
+
+</style>

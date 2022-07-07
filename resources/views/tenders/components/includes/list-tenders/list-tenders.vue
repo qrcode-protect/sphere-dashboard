@@ -1,9 +1,20 @@
 <template>
     <ssf-container name="list-tenders">
 
-        <ssf-container name="list-tenders-container" class="px-4" container>
+        <ssf-container name="list-tenders-container" class="px-4" >
 
-            <list-tender-item v-for="tender in tenders" :key="key(tender)" :tender="tender" class="my-3"/>
+            <ssf-row>
+
+                <ssf-col size="12" md="6" v-for="tender in tenders" >
+
+                    <h1>AJOUTER LE DOCUMENT + MODIFICATIONS</h1>
+
+                    <list-tender-item :key="key(tender)" :tender="tender" class="my-3"/>
+
+                </ssf-col>
+
+            </ssf-row>
+
 
         </ssf-container>
 

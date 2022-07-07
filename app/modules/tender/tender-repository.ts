@@ -13,8 +13,11 @@ const fetchAllTenders = () => tender.all()
 const fetchActiveTenders = () => tender.findActive()
 const fetchInactiveTenders = () => tender.findInactive()
 
+const storeTender = (tender: Tender) => Tender.send(tender)
+
 export {
     fetchAllTenders,
     fetchActiveTenders,
-    fetchInactiveTenders
+    fetchInactiveTenders,
+    storeTender
 }

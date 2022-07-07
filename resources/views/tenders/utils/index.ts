@@ -10,6 +10,7 @@
  */
 
 export enum FormTenderSteps {
+    empty,
     informations,
     address,
     dates,

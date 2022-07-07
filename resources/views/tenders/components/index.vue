@@ -28,11 +28,11 @@
 
         </ssf-container>
 
-        <!--        <router-link :to="{name: 'partners.create'}" class="btn-create-tender">
-                    <ssf-shape size="75"  circle class="bg-color-2 full-flex text-white z-depth-1">
-                        <ssf-icon icon="layer-plus" size="2x" light/>
-                    </ssf-shape>
-                </router-link>-->
+        <router-link :to="{name: 'tenders.create'}" class="btn-create-tender">
+            <ssf-shape circle class="bg-color-2 full-flex text-white z-depth-1" size="75">
+                <ssf-icon icon="layer-plus" light size="2x"/>
+            </ssf-shape>
+        </router-link>
 
     </ssf-container>
 </template>
@@ -71,7 +71,7 @@
             watch(() => currentTab.value, async () => {
                 if (currentTab.value === TenderTabs.active) {
                     await fetchActiveTenders()
-                } else await  fetchInactiveTenders()
+                } else await fetchInactiveTenders()
             }, { immediate: true })
 
             return {
@@ -99,6 +99,8 @@
 <style lang="scss" scoped>
 
     .ssf__section--tenders {
+
+        padding-bottom: 90px;
 
         .tender-nav-tabs {
             width: 650px;

@@ -17,7 +17,7 @@
 
                     <vue-popper :interactive="false" arrow zIndex="1050">
 
-                        <ssf-shape size="25" class="cursor-pointer">
+                        <ssf-shape class="cursor-pointer" size="25">
                             <ssf-icon icon="ellipsis-vertical"/>
                         </ssf-shape>
 
@@ -39,7 +39,7 @@
 
                     </vue-popper>
 
-                    <ssf-shape size="25" class="cursor-pointer" @click="toggleFull">
+                    <ssf-shape class="cursor-pointer" size="25" @click="toggleFull">
 
                         <ssf-icon :icon="`angle-${full ? 'up' : 'down'}`"/>
 
@@ -113,7 +113,7 @@
 
                         <ssf-title h6>Description</ssf-title>
 
-                        <ssf-container v-if="full">
+                        <ssf-container v-if="full" class="full-description">
                             <p>{{ tender.description }}</p>
                         </ssf-container>
 
@@ -167,14 +167,15 @@
 
         </ssf-container>
 
-        <ssf-container v-if="isActive && !(tender.available === true)" class="blocked-banner full-absolute px-3 rounded">
+        <ssf-container v-if="isActive && !(tender.available === true)"
+                       class="blocked-banner full-absolute px-3 rounded">
             <ssf-container class="blocked-banner-bg bg-danger rounded"/>
             <ssf-container class="blocked-banner-text full-flex full-absolute">
                 <ssf-text class="text-white text-uppercase font-weight-bold">bloquée</ssf-text>
             </ssf-container>
         </ssf-container>
 
-        <ssf-container class="text-right" v-if="!isActive">
+        <ssf-container v-if="!isActive" class="text-right">
 
             <button
                 class="btn text-danger rounded text-white border border-danger inactive-tender-action-button d-inline-block mr-3"
@@ -196,7 +197,7 @@
 <script lang="ts">
     import { defineComponent, toRef } from "vue"
     import Tender                     from "@app/modules/tender/tender";
-    import { useTender }       from "@app/modules/tender/tender-module";
+    import { useTender }              from "@app/modules/tender/tender-module";
 
     import VuePopper from 'vue3-popper'
 
@@ -250,61 +251,75 @@
 
 <style lang="scss" scoped>
 
-    .inactive-tender-action-button {
-        height: 50px;
-        width: 50px;
-        padding: 0 !important;
-    }
 
-    ul {
-        list-style-type: none !important;
+    .list-tender-item {
 
-        .action-item {
+        .full-description {
+
+            p {
+                white-space: pre-line;
+                margin: 0 !important;
+            }
+
+        }
+
+        .inactive-tender-action-button {
+            height: 50px;
+            width: 50px;
+            padding: 0 !important;
+        }
+
+        ul {
+            list-style-type: none !important;
+
+            .action-item {
+                &:hover {
+                    background-color: var(--color-1);
+                    color: var(--color-2)
+                }
+            }
+        }
+
+        .blocked-banner-text, .blocked-banner-bg, .blocked-banner {
+            top: inherit;
+            height: 35px;
+        }
+
+        .blocked-banner {
+            overflow: hidden;
+        }
+
+        .blocked-banner-bg {
+            opacity: .6;
+        }
+
+        :deep(.popper) {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            color: var(--color-1);
+            min-width: 200px !important;
+        }
+
+        :deep(.popper #arrow::before) {
+            background: #ffffff;
+        }
+
+        :deep(.popper:hover),
+        :deep(.popper:hover > #arrow::before) {
+            background: #ffffff;
+        }
+
+        .item-link-action {
+            cursor: pointer;
+            transition: background-color .5s;
+            border-radius: var(--border-radius);
+
             &:hover {
-                background-color: var(--color-1);
-                color: var(--color-2)
+                background-color: var(--color-2);
             }
         }
     }
 
-    .blocked-banner-text, .blocked-banner-bg, .blocked-banner {
-        top: inherit;
-        height: 35px;
-    }
-
-    .blocked-banner {
-        overflow: hidden;
-    }
-
-    .blocked-banner-bg {
-        opacity: .6;
-    }
-
-    :deep(.popper) {
-        background: #ffffff;
-        padding: 20px;
-        border-radius: var(--border-radius);
-        color: var(--color-1);
-        min-width: 200px !important;
-    }
-
-    :deep(.popper #arrow::before) {
-        background: #ffffff;
-    }
-
-    :deep(.popper:hover),
-    :deep(.popper:hover > #arrow::before) {
-        background: #ffffff;
-    }
-
-    .item-link-action {
-        cursor: pointer;
-        transition: background-color .5s;
-        border-radius: var(--border-radius);
-
-        &:hover {
-            background-color: var(--color-2);
-        }
-    }
 
 </style>
