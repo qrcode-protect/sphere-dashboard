@@ -1,4 +1,10 @@
-import { fetchAllTenders, fetchActiveTenders, fetchInactiveTenders } from "@app/modules/tender/tender-repository";
+import {
+    fetchActiveTenders,
+    fetchAllTenders,
+    fetchInactiveTenders,
+    storeTender
+}             from "@app/modules/tender/tender-repository";
+import Tender from "@app/modules/tender/tender";
 
 const fetchAll = ({ commit }: any) => fetchAllTenders()
     .then((tenders: any) => commit('SET_TENDERS', tenders))
@@ -20,7 +26,9 @@ const state: State = {
 const actions = {
     fetchAll,
     fetchActive,
-    fetchInactive
+    fetchInactive,
+
+    store: (_: any, payload: { tender: Tender }) => storeTender(payload.tender)
 }
 
 const getters = {
