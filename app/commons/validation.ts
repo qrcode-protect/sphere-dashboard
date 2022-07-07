@@ -24,6 +24,14 @@ const fields: any = {
     activityId : "le domaine d'activité",
     certificate: "le kbis",
     label      : "le libellé",
+    title      : "le titre",
+    description: "la description",
+    memberId   : "l'adhérent",
+    file   : "le fichier",
+
+    address: "l'adresse",
+    zipcode: "le code postal",
+    city   : "la ville",
 }
 
 const requiredMessage = (field: string) => `${fields[field].capitalize()} est obligatoire`
@@ -43,10 +51,17 @@ export const messages = {
     'activityId.required'      : requiredMessage("activityId"),
     'certificate.required'     : requiredMessage("certificate"),
     'label.required'           : requiredMessage("label"),
+    'title.required'           : requiredMessage("title"),
+    'description.required'     : requiredMessage("description"),
+    'memberId.required'        : requiredMessage("memberId"),
+    'address.required'         : requiredMessage("address"),
+    'zipcode.required'         : requiredMessage("zipcode"),
+    'file.required'         : requiredMessage("file"),
+    'city.required'            : requiredMessage("city"),
     'confirmPassword.different': "Le mot de passe et la confirmation doivent être identiques",
 }
 
-const inputError = (key: string, clear: boolean = false) => clear ? $(`input[name=${key}]`).removeClass('invalid') : $(`input[name=${key}]`).addClass('invalid');
+const inputError = (key: string, clear: boolean = false) => clear ? $(`[name=${key}]`).removeClass('invalid') : $(`[name=${key}]`).addClass('invalid');
 
 export const validator = (data: any) => {
     if (!data) return { valid: false };
