@@ -13,6 +13,7 @@ const partner = new Partner()
 const fetchAllPartners = () => partner.all()
 const fetchAllActivePartners = (activityId?: Nullable<string>) => partner.findActive(activityId)
 const fetchAllInactivePartners = (activityId?: Nullable<string>) => partner.findInactive(activityId)
+export const fetchActiveMembersByNumber = (memberNumber: Nullable<string>) => partner.findActiveByNumber(memberNumber)
 
 export {
     fetchAllPartners,

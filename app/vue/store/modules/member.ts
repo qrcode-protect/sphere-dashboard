@@ -1,4 +1,5 @@
 import {
+    fetchActiveMembersByNumber,
     fetchAllActiveMembers,
     fetchAllInactiveMembers,
     fetchAllMembers,
@@ -35,7 +36,9 @@ const actions = {
     fetchAll,
     fetchActive,
     fetchInactive,
-    fetchPremium
+    fetchPremium,
+    fetchActiveByNumber : ({ commit }: any, payload: { memberNumber: string }) => fetchActiveMembersByNumber(payload.memberNumber)
+        .then((members: any) => commit('SET_ACTIVE_MEMBERS', members))
 }
 
 const getters = {

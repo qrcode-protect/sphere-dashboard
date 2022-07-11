@@ -6,7 +6,7 @@
 
             <ssf-row>
 
-                <ssf-col md="9" no-padding xs="12">
+                <ssf-col :md="byNumber ? 12 : 9" no-padding xs="12">
 
                     <ssf-row>
 
@@ -14,6 +14,7 @@
                                             :icon="Member.icon.name"
                                             :item-keys="itemKeys"
                                             :member="member"
+                                            :full-data="byNumber"
                                             @destroyed="onDestroyed"
                                             @edit:member="onEditMemberOpen"/>
 
@@ -31,7 +32,7 @@
 			</span>
         </ssf-container>
 
-        <ssf-col class="position-fixed ml-auto activity-selector" md="3" no-padding>
+        <ssf-col v-if="!byNumber" class="position-fixed ml-auto activity-selector" md="3" no-padding>
 
             <ul class="p-3 bg-white border rounded">
 
@@ -69,19 +70,25 @@
     import CardCompanyInfo  from "@/components/commons/cards/card-company-info.vue";
     import ActiveMemberCard from "@/views/members/components/includes/active-member-card.vue";
     import ModalEditMember  from "@/views/members/components/includes/modal-edit-member.vue";
-    import Activity                     from "@app/modules/activity/activity";
-    import { filter, indexOf, reverse } from "lodash";
+    import Activity         from "@app/modules/activity/activity";
+    import { useRoute }     from "vue-router";
 
     export default defineComponent({
         name      : "active-members",
         components: { ActiveMemberCard, CardCompanyInfo, ModalEditMember },
+
+        props: {
+            byNumber: { type: Boolean, required: false, default: false }
+        },
+
         setup() {
 
             ////////// init
             const store = useStore()
+            const route = useRoute()
 
             ////////// methods
-            const fetchActive = () => store.dispatch('member/fetchActive', { activityId: currentActivityId.value });
+            const fetchActive = () => memberNumber.value ?store.dispatch('member/fetchActiveByNumber', { memberNumber: memberNumber.value }) : store.dispatch('member/fetchActive', { activityId: currentActivityId.value });
             const onDestroyed = () => fetchActive()
 
             ////////// mounted
@@ -96,6 +103,8 @@
             ////////// computed
             const members = computed((): Member[] | null => store.getters['member/activeMembers'])
             const activities = computed((): Activity[] | null => store.getters['activity/activities'])
+            // @ts-ignore
+            const memberNumber = computed(() => route.params.memberNumber && route.params.memberNumber?.trim() !=='' ? route.params.memberNumber : null)
 
             ////////// data
             const currentActivityId = ref<string | null>(null)
@@ -115,6 +124,7 @@
             })
 
             watch(() => currentActivityId.value, () => fetchActive())
+            watch(() => memberNumber.value, () => fetchActive())
 
             return {
                 //// data
@@ -141,17 +151,20 @@
                 isLink   : true,
                 urlPrefix: UrlPrefix.email,
                 urlType  : UrlType.email,
-                copyable : true
+                copyable : true,
+                onlyFull: true
             }), new CompanyInfo({
                 icon     : 'mobile',
                 key      : 'phone',
                 isLink   : true,
                 urlPrefix: UrlPrefix.phone,
                 urlType  : UrlType.phone,
-                copyable : true
+                copyable : true,
+                onlyFull: false
             }), new CompanyInfo({
                 icon: 'circle-user',
                 key : 'username',
+                onlyFull: true
             }), new CompanyInfo({
                 icon     : 'file-certificate',
                 key      : 'certificate',
@@ -159,11 +172,13 @@
                 title    : 'KBIS',
                 urlPrefix: UrlPrefix.empty,
                 urlType  : UrlType.image,
-                titleOnly: true
+                titleOnly: true,
+                onlyFull: false
             }), new CompanyInfo({
                 icon : 'stamp',
                 key  : 'siret',
                 title: 'Siret',
+                onlyFull: false
             }) ]
         }),
 

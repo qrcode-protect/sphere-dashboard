@@ -64,6 +64,10 @@ export default class Member extends Model {
         return this.fetchBy(`active${activityId ? '/' + activityId : ''}`)
     }
 
+    findActiveByNumber(memberNumber: Nullable<string>, options: any = {}) {
+        return this.fetchBy(`active/by-number/${memberNumber}`)
+    }
+
     findPremium(activityId?: Nullable<string>, options: any = {}) {
         return this.fetchBy(`premium${activityId ? '/' + activityId : ''}`)
     }

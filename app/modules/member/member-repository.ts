@@ -10,16 +10,10 @@ import { Nullable } from "../../../types/nullable";
 
 const member = new Member()
 
-const fetchAllMembers = () => member.all()
-const fetchAllActiveMembers = (activityId?: Nullable<string>) => member.findActive(activityId)
-const fetchAllPremiumMembers = (activityId?: Nullable<string>) => member.findPremium(activityId)
-const fetchAllInactiveMembers = () => member.findInactive()
-const premiumByEmail = (email: string) => member.premiumByEmail({ email })
+export const fetchAllMembers = () => member.all()
+export const fetchAllActiveMembers = (activityId?: Nullable<string>) => member.findActive(activityId)
+export const fetchActiveMembersByNumber = (memberNumber: Nullable<string>) => member.findActiveByNumber(memberNumber)
+export const fetchAllPremiumMembers = (activityId?: Nullable<string>) => member.findPremium(activityId)
+export const fetchAllInactiveMembers = () => member.findInactive()
+export const premiumByEmail = (email: string) => member.premiumByEmail({ email })
 
-export {
-    fetchAllMembers,
-    fetchAllActiveMembers,
-    fetchAllInactiveMembers,
-    fetchAllPremiumMembers,
-    premiumByEmail
-}

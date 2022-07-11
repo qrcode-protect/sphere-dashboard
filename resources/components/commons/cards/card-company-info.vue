@@ -1,7 +1,7 @@
 <template>
 
     <ssf-card :body-class="`card-${dataType}-item-body card-company-item-body`"
-              :class="`position-relative card-${dataType}-item rounded mx-3 z-depth-1 card-company-item`"
+              :class="`position-relative card-${dataType}-item rounded mx-3 box-item card-company-item`"
               :footer-class="`${footerClass} rounded`"
               :header-class="`card-${dataType}-item-header card-company-item-header position-absolute rounded border-0 p-0 z-depth-1 text-white`">
 
@@ -19,10 +19,10 @@
         <template #body>
 
             <ssf-container class="position-relative">
-                <h3 class="h3-responsive mb-1">
+                <h3 class="h3-responsive" :class="{'mb-3': !fullData, 'mb-2': fullData}">
                     {{ item.companyName.capitalize() }}
                 </h3>
-                <h4 class="h4-responsive mb-3">
+                <h4 class="h4-responsive mb-3" v-if="fullData">
                     {{ item.lastname.capitalize() }}
                     {{ item.firstname.capitalize() }}
                 </h4>
@@ -48,58 +48,62 @@
             </ssf-container>
 
             <ul class="fa-ul">
-                <li v-for="itemKey in itemKeys">
+                <template v-for="itemKey in itemKeys">
+
+                    <li v-if="fullData || !itemKey.onlyFull">
 
 							<span class="fa-li">
 								<ssf-icon :icon="itemKey.icon" class="color-2" regular/>
 							</span>
 
 
-                    <vue-popper arrow class="h-100 border-bottom-0 mb-0" hover placement="top">
-                        <ssf-container>
+                        <vue-popper arrow class="h-100 border-bottom-0 mb-0" hover placement="top">
+                            <ssf-container>
 
-                            <span v-if="itemKey.title && !itemKey.titleOnly">{{ itemKey.title }} : </span>
+                                <span v-if="itemKey.title && !itemKey.titleOnly">{{ itemKey.title }} : </span>
 
-                            <span>{{ itemKey.titleOnly ? itemKey.title : item[itemKey.key] }}</span>
+                                <span>{{ itemKey.titleOnly ? itemKey.title : item[itemKey.key] }}</span>
 
-                            <span v-if="itemKey.copyable || itemKey.isLink">
+                                <span v-if="itemKey.copyable || itemKey.isLink">
                                 <ssf-icon class="ml-1" icon="info-circle" light size="sm"/>
                             </span>
 
-                        </ssf-container>
+                            </ssf-container>
 
-                        <template v-if="itemKey.copyable || itemKey.isLink" #content>
+                            <template v-if="itemKey.copyable || itemKey.isLink" #content>
 
-                            <ssf-row>
+                                <ssf-row>
 
-                                <ssf-col v-if="itemKey.copyable"
-                                         class="item-link-action mx-auto"
-                                         size="6"
-                                         @click.prevent="onClickCopy(item, itemKey)">
-                                    <ssf-text>Copier</ssf-text>
-                                </ssf-col>
+                                    <ssf-col v-if="itemKey.copyable"
+                                             class="item-link-action mx-auto"
+                                             size="6"
+                                             @click.prevent="onClickCopy(item, itemKey)">
+                                        <ssf-text>Copier</ssf-text>
+                                    </ssf-col>
 
-                                <ssf-col v-if="itemKey.isLink"
-                                         class="item-link-action mx-auto"
-                                         size="6"
-                                         @click.prevent="onUrlClick(item, itemKey)">
-                                    <ssf-text>
-                                        Ouvrir
-                                        <ssf-icon icon="link" light size="xs"/>
-                                    </ssf-text>
-                                </ssf-col>
+                                    <ssf-col v-if="itemKey.isLink"
+                                             class="item-link-action mx-auto"
+                                             size="6"
+                                             @click.prevent="onUrlClick(item, itemKey)">
+                                        <ssf-text>
+                                            Ouvrir
+                                            <ssf-icon icon="link" light size="xs"/>
+                                        </ssf-text>
+                                    </ssf-col>
 
-                            </ssf-row>
+                                </ssf-row>
 
-                        </template>
+                            </template>
 
-                    </vue-popper>
+                        </vue-popper>
 
-                    <!--                    <span v-else @click.prevent="onClickCopy(item[itemKey.key])">
-                                                        <span v-if="itemKey.title">{{ itemKey.title }} : </span>
-                                                        {{ item[itemKey.key] }}</span>-->
+                        <!--                    <span v-else @click.prevent="onClickCopy(item[itemKey.key])">
+                                                            <span v-if="itemKey.title">{{ itemKey.title }} : </span>
+                                                            {{ item[itemKey.key] }}</span>-->
 
-                </li>
+                    </li>
+
+                </template>
             </ul>
 
             <modal-show-image-info v-if="modals.showImageInfo.open"
@@ -143,6 +147,7 @@
             icon       : { type: String, required: false, default: 'building' },
             footerClass: { type: String, required: false },
             withAction : { type: Boolean, required: false, default: false },
+            fullData: { type: Boolean, required: false, default: true },
         },
 
         components: {

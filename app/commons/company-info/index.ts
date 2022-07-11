@@ -22,6 +22,7 @@ interface CompanyInfoAttributes {
     copyable?: boolean,
     title?: string,
     titleOnly?: boolean,
+    onlyFull?: boolean,
 }
 
 export default class CompanyInfo {
@@ -33,6 +34,7 @@ export default class CompanyInfo {
     urlType: UrlType | undefined
     title: string | undefined
     titleOnly: boolean
+    onlyFull: boolean
 
     constructor(attributes: CompanyInfoAttributes) {
         this.icon = attributes.icon
@@ -43,5 +45,6 @@ export default class CompanyInfo {
         this.title = attributes.title
         this.titleOnly = attributes.titleOnly === true && typeof attributes.title !== "undefined"
         this.copyable = attributes.copyable ?? false
+        this.onlyFull = attributes.onlyFull ?? false
     }
 }

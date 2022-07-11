@@ -2,7 +2,8 @@ import {
     fetchAllActivePartners,
     fetchAllInactivePartners,
     fetchAllPartners
-} from "@app/modules/partner/partner-repository";
+}                                     from "@app/modules/partner/partner-repository";
+import { fetchActiveMembersByNumber } from "@app/modules/partner/partner-repository";
 
 const fetchAll = ({ commit }: any) => fetchAllPartners()
     .then((partners: any) => commit('SET_PARTNERS', partners))
@@ -29,6 +30,8 @@ const actions = {
     fetchAll,
     fetchActive,
     fetchInactive,
+    fetchActiveByNumber : ({ commit }: any, payload: { partnerNumber: string }) => fetchActiveMembersByNumber(payload.partnerNumber)
+        .then((partners: any) => commit('SET_ACTIVE_PARTNERS', partners))
 }
 
 const getters = {

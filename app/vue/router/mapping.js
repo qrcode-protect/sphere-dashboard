@@ -14,14 +14,14 @@ const mapping = {
     'members.index' : {
         name : 'members.index',
         label: 'Adhérents',
-        routes: ['members.index', 'members.create'],
+        routes: ['members.index', 'members.create', 'members.by-number'],
         icon : Member.icon.name,
         level: RoleType.admin
     },
     'partners.index': {
         name : 'partners.index',
         label: 'Partenaires',
-        routes: ['partners.index', 'partners.create'],
+        routes: ['partners.index', 'partners.create', 'partners.by-number'],
         icon : Partner.icon.name,
         level: RoleType.admin
     },
