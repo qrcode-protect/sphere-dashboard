@@ -2,7 +2,8 @@
 
     <ssf-container class="position-relative" not-full>
 
-        <card-company-info :icon="icon"
+        <card-company-info :full-data="fullData"
+                           :icon="icon"
                            :item="partner"
                            :item-keys="itemKeys"
                            data-type="partner"
@@ -48,6 +49,7 @@
     import CardCompanyInfo      from "@/components/commons/cards/card-company-info.vue";
     import { SweetAlertResult } from "sweetalert2";
     import { AxiosApiError }    from "@sofiakb/axios-api/lib/tools/api";
+    import { useRouter }        from "vue-router";
 
     export default defineComponent({
         name      : "active-partner-card",
@@ -57,6 +59,7 @@
             partner : { type: Partner, required: true },
             itemKeys: { type: Array, required: true },
             icon    : { type: String, required: false },
+            fullData: { type: Boolean, required: false, default: true },
         },
 
         emits: [ 'destroyed', 'edit:partner' ],
@@ -65,6 +68,7 @@
 
             ////////// init
             const store = useStore()
+            const router = useRouter()
 
             ////////// methods
             const destroy = () => MainWarning.fire({
@@ -113,6 +117,11 @@
                     method: forgotPassword,
                     label : 'Réinitialiser le mot de passe',
                     icon  : 'lock-keyhole',
+                },
+                {
+                    method: () => router.push({name:  'partners.by-number', params:{partnerNumber : props.partner.partnerNumber} }),
+                    label : 'Afficher les détails',
+                    icon  : 'eye',
                 },
 
 

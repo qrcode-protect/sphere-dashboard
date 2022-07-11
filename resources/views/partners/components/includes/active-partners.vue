@@ -5,10 +5,11 @@
         <ssf-container v-if="partners && partners.length > 0" class="active-partners-container">
 
             <ssf-row>
-                <ssf-col md="9" no-padding xs="12">
+                <ssf-col :md="byNumber ? 12 : 9" no-padding xs="12">
                     <ssf-row>
 
                         <active-partner-card v-for="partner in partners"
+                                             :full-data="byNumber"
                                              :icon="Partner.icon.name"
                                              :item-keys="itemKeys"
                                              :partner="partner"
@@ -29,7 +30,7 @@
 			</span>
         </ssf-container>
 
-        <ssf-col class="position-fixed ml-auto activity-selector" md="3" no-padding>
+        <ssf-col v-if="!byNumber" class="position-fixed ml-auto activity-selector" md="3" no-padding>
 
             <ul class="p-3 bg-white border rounded">
 
@@ -68,17 +69,24 @@
     import ActivePartnerCard from "@/views/partners/components/includes/active-partner-card.vue";
     import ModalEditPartner  from "@/views/partners/components/includes/modal-edit-partner.vue";
     import Activity          from "@app/modules/activity/activity";
+    import { useRoute }      from "vue-router";
 
     export default defineComponent({
         name      : "active-partners",
         components: { ActivePartnerCard, CardCompanyInfo, ModalEditPartner },
+
+        props: {
+            byNumber: { type: Boolean, required: false, default: false }
+        },
+
         setup() {
 
             ////////// init
             const store = useStore()
+            const route = useRoute()
 
             ////////// methods
-            const fetchActive = () => store.dispatch('partner/fetchActive', { activityId: currentActivityId.value });
+            const fetchActive = () => partnerNumber.value ? store.dispatch('partner/fetchActiveByNumber', { partnerNumber: partnerNumber.value }) : store.dispatch('partner/fetchActive', { activityId: currentActivityId.value });
             const onDestroyed = () => fetchActive()
 
             ////////// mounted
@@ -93,6 +101,8 @@
             ////////// computed
             const partners = computed((): Partner[] | null => store.getters['partner/activePartners'])
             const activities = computed((): Activity[] | null => store.getters['activity/activities'])
+            // @ts-ignore
+            const partnerNumber = computed(() => route.params.partnerNumber && route.params.partnerNumber?.trim() !== '' ? route.params.partnerNumber : null)
 
             ////////// data
             const currentActivityId = ref<string | null>(null)
@@ -112,6 +122,7 @@
             })
 
             watch(() => currentActivityId.value, () => fetchActive())
+            watch(() => partnerNumber.value, () => fetchActive())
 
             return {
                 //// data
@@ -138,17 +149,20 @@
                 isLink   : true,
                 urlPrefix: UrlPrefix.email,
                 urlType  : UrlType.email,
-                copyable : true
+                copyable : true,
+                onlyFull : true
             }), new CompanyInfo({
                 icon     : 'mobile',
                 key      : 'phone',
                 isLink   : true,
                 urlPrefix: UrlPrefix.phone,
                 urlType  : UrlType.phone,
-                copyable : true
+                copyable : true,
+                onlyFull : false
             }), new CompanyInfo({
-                icon: 'circle-user',
-                key : 'username',
+                icon    : 'circle-user',
+                key     : 'username',
+                onlyFull: true
             }), new CompanyInfo({
                 icon     : 'file-certificate',
                 key      : 'certificate',
@@ -156,11 +170,13 @@
                 title    : 'KBIS',
                 urlPrefix: UrlPrefix.empty,
                 urlType  : UrlType.image,
-                titleOnly: true
+                titleOnly: true,
+                onlyFull : false
             }), new CompanyInfo({
-                icon : 'stamp',
-                key  : 'siret',
-                title: 'Siret',
+                icon    : 'stamp',
+                key     : 'siret',
+                title   : 'Siret',
+                onlyFull: false
             }) ]
         }),
 

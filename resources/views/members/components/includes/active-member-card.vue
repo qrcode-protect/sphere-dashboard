@@ -6,6 +6,7 @@
                            :item="member"
                            :item-keys="itemKeys"
                            data-type="member"
+                           :full-data="fullData"
                            with-action>
 
             <template #action-content>
@@ -48,6 +49,7 @@
     import CardCompanyInfo      from "@/components/commons/cards/card-company-info.vue";
     import { SweetAlertResult } from "sweetalert2";
     import { AxiosApiError }    from "@sofiakb/axios-api/lib/tools/api";
+    import { useRouter }        from "vue-router";
 
     export default defineComponent({
         name      : "active-member-card",
@@ -57,6 +59,7 @@
             member  : { type: Member, required: true },
             itemKeys: { type: Array, required: true },
             icon    : { type: String, required: false },
+            fullData: { type: Boolean, required: false, default: true },
         },
 
         emits: [ 'destroyed', 'edit:member' ],
@@ -65,6 +68,7 @@
 
             ////////// init
             const store = useStore()
+            const router = useRouter()
 
             ////////// methods
             const destroy = () => MainWarning.fire({
@@ -113,6 +117,11 @@
                     method: forgotPassword,
                     label : 'Réinitialiser le mot de passe',
                     icon  : 'lock-keyhole',
+                },
+                {
+                    method: () => router.push({name:  'members.by-number', params:{memberNumber : props.member.memberNumber} }),
+                    label : 'Afficher les détails',
+                    icon  : 'eye',
                 },
 
 

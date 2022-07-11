@@ -32,6 +32,7 @@ Route.group({ guard: 'auth' }, () => {
 
         Route.group({ prefix: 'members' }, () => {
             Route.view('/', 'members').name('members.index');
+            Route.view('/:memberNumber', 'members.by-number').name('members.by-number');
             Route.view('/create', 'members.create').name('members.create');
         });
 
@@ -39,6 +40,7 @@ Route.group({ guard: 'auth' }, () => {
 
         Route.group({ prefix: 'partners' }, () => {
             Route.view('/', 'partners').name('partners.index');
+            Route.view('/:partnerNumber', 'partners.by-number').name('partners.by-number');
             Route.view('/create', 'partners.create').name('partners.create');
         })
 

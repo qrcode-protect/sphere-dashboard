@@ -70,6 +70,10 @@ export default class Partner extends Model {
         return this.fetchBy(`active${activityId ? '/' + activityId : ''}`)
     }
 
+    findActiveByNumber(partnerNumber: Nullable<string>, options: any = {}) {
+        return this.fetchBy(`active/by-number/${partnerNumber}`)
+    }
+
     findInactive(activityId?: Nullable<string>, options: any = {}) {
         return this.fetchBy(`inactive${activityId ? '/' + activityId : ''}`)
     }
