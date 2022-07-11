@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "@fawmi/vue-google-maps": "^0.9.72",
     "@sofiakb/axios-api": "^1.0.0-beta.9",
     "@sofiakb/cookie": "^1.0.0-beta.3",
     "axios": "^0.27.2",

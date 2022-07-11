@@ -10,11 +10,16 @@
  */
 
 
-import { computed, onMounted, reactive, toRef, toRefs } from "vue";
-import { useStore }                                     from "vuex";
-import { Nullable }                              from "../../../types/nullable";
-import Tender                                    from "@app/modules/tender/tender";
-import { number }                                from "@app/vue/utils/helpers";
+import { computed, onMounted, reactive, toRefs }  from "vue";
+import { useStore }                               from "vuex";
+import { Nullable }                               from "../../../types/nullable";
+import Tender                                     from "@app/modules/tender/tender";
+import { number }                                 from "@app/vue/utils/helpers";
+import { fetchAllPremiumMembers, premiumByEmail } from "@app/modules/member/member-repository";
+import Member                                     from "@app/modules/member/member";
+import { useRouter }                              from "vue-router";
+import tender                                     from "@app/vue/store/modules/tender";
+import { omit }                                   from "lodash";
 
 export const useTenders = () => {
 
@@ -43,6 +48,8 @@ interface ActionList {
 
 export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
 
+    const router = useRouter()
+
     const state = reactive({
         full   : false,
         actions: [] as ActionList[],
@@ -51,10 +58,15 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
     const actionsList = (): ActionList[] =>
         [
             /*{
-                method: openEditModal,
+                method: () => router.push({ name: 'tenders.edit', params: { id: tender.id } }),
                 label : 'Modifier',
                 icon  : 'pen',
             },*/
+            {
+                method: () => tender.file && typeof tender.file === 'string' && tender.file.trim() !== '' ? window.open(tender.file, '_blank') : null,
+                label : 'Ouvrir le document',
+                icon  : 'file-pdf'
+            },
             {
                 method: destroy,
                 label : 'Supprimer',
@@ -96,10 +108,51 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
         amount          : computed(() => tender.amount ? `${number.pretty(tender.amount)}€` : 'aucun'),
         publishedAt     : computed(() => tender.publishedAt?.format(dateFormat) ?? 'inconnue'),
         expiresAt       : computed(() => tender.expiresAt?.format(dateFormat) ?? 'aucune'),
-        beginAt         : computed(() => tender.beginAt?.format(dateFormat) ?? 'inconnue'),
-        endAt           : computed(() => tender.endAt?.format(dateFormat) ?? 'inconnue'),
+        beginAt         : computed(() => tender.beginAt?.format(dateFormat) ?? 'aucune'),
+        endAt           : computed(() => tender.endAt?.format(dateFormat) ?? 'aucune'),
         shortDescription: computed(() => tender.description?.substring(0, 200)),
         isActive        : computed(() => tender.active)
+    }
+
+}
+
+
+interface TenderFormState {
+    tender: Tender,
+    members: Nullable<Member[]>,
+    initialState: Nullable<Tender>
+}
+
+export const useTenderForm = () => {
+
+    const store = useStore()
+
+    const state = reactive<TenderFormState>({
+        tender : Tender.create(),
+        initialState : null,
+        members: null
+    })
+
+    const fetchPremiumMembersByEmail = (email: string) => premiumByEmail(email).then((members: unknown) => state.members = <Member[]>members)
+    const fetchPremiumMembers = () => fetchAllPremiumMembers().then((members: unknown) => state.members = <Member[]>members)
+    const storeTender = () => store.dispatch('tender/store', { tender: state.tender }).then(() => state.tender = Tender.create())
+    const editTender = () => {
+        // @ts-ignore
+        return store.dispatch('tender/edit', { tender: omit(state.tender, (v, k) =>  state.initialState[k] === v) }).then(() => fetchById(state.tender.id));
+    }
+
+    const fetchById = (tenderId: string) => store.dispatch('tender/fetchById', { tenderId }).then((response) => {
+        state.initialState = response
+        return state.tender = response;
+    })
+
+    return {
+        ...toRefs(state),
+        fetchPremiumMembersByEmail,
+        fetchPremiumMembers,
+        storeTender,
+        editTender,
+        fetchById
     }
 
 }

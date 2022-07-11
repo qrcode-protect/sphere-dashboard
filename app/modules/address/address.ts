@@ -13,12 +13,14 @@ import AddressAttributes from "./address-attributes";
 
 export default class Address {
     id?: string
-    street_number: number
-    address: string
-    address2: string
-    zipcode: string
-    city: string
+    street_number: number | null
+    address: string | null
+    address2: string | null
+    zipcode: string | null
+    city: string | null
     country?: string
+    lat: number | null
+    lng: number | null
 
 
     constructor(attributes: AddressAttributes) {
@@ -29,5 +31,19 @@ export default class Address {
         this.zipcode = attributes.zipcode
         this.city = attributes.city
         this.country = (attributes.country ?? "FRANCE").toUpperCase()
+    }
+
+    static create(properties?: AddressAttributes) {
+        return new Address({
+            street_number: properties?.street_number ?? null,
+            address: properties?.address ?? null,
+            address2: properties?.address2 ?? null,
+            zipcode: properties?.zipcode ?? null,
+            city: properties?.city ?? null,
+        })
+    }
+
+    toJson() {
+        return JSON.parse(JSON.stringify(this))
     }
 }

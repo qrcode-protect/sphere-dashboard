@@ -25,6 +25,7 @@
         :textarea="textarea"
         :type="type"
         :value="value"
+        :date-format="dateFormat"
         :wheel-propagation="wheelPropagation"
         @update:value="onUpdateValue">
         <ssf-container v-if="hasError" class="form-input-error">
@@ -91,6 +92,9 @@
             icon      : { type: [ String ], required: false },
             iconType  : { type: [ String ], required: false, default: 'fa' },
             iconWeight: { type: [ String ], required: false, default: 'light' },
+
+            /* DATE */
+            dateFormat: { type: String, required: false, default: 'DD/MM/YYYY' },
 
             errors: { type: Array },
 

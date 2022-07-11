@@ -11,10 +11,10 @@
 
 export default interface AddressAttributes {
     id?: string
-    street_number: number
-    address: string
-    address2: string
-    zipcode: string
-    city: string
+    street_number: number | null
+    address: string | null
+    address2: string | null
+    zipcode: string | null
+    city: string | null
     country?: string
 }

@@ -14,10 +14,12 @@ const fetchAllMembers = () => member.all()
 const fetchAllActiveMembers = (activityId?: Nullable<string>) => member.findActive(activityId)
 const fetchAllPremiumMembers = (activityId?: Nullable<string>) => member.findPremium(activityId)
 const fetchAllInactiveMembers = () => member.findInactive()
+const premiumByEmail = (email: string) => member.premiumByEmail({ email })
 
 export {
     fetchAllMembers,
     fetchAllActiveMembers,
     fetchAllInactiveMembers,
-    fetchAllPremiumMembers
+    fetchAllPremiumMembers,
+    premiumByEmail
 }

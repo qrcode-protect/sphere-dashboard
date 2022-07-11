@@ -67,6 +67,7 @@ const mapping = {
         name : 'tenders.index',
         label: 'Bourse aux affaires',
         icon : 'shop',
+        routes: ['tenders.index', 'tenders.create', 'tenders.edit'],
         level: RoleType.admin
     },
 };
