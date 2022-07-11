@@ -72,6 +72,7 @@
                 }) ? emit('next') : null
             }
 
+            // @ts-ignore
             watch(() => file.value, () => props.tender.file = file.value, { immediate: true })
 
             return {
