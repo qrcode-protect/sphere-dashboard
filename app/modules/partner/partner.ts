@@ -32,6 +32,7 @@ export default class Partner extends Model {
     avatar?: string
     description?: string
     activities?: string[]
+    partnerNumber: string
 
     static icon = {
         name: 'handshake-angle',

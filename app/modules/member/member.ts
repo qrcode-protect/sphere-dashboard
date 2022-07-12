@@ -29,6 +29,7 @@ export default class Member extends Model {
     siret?: string
     active?: boolean
     available?: boolean
+    memberNumber: string
 
     static icon = {
         name: 'screen-users',
