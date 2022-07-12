@@ -15,6 +15,7 @@ import Upload            from "@sofiakb/vue3-framework/models/upload";
 import configAttributes  from "@config/api";
 import { __createError } from "@sofiakb/axios-api";
 import DateJs            from "@app/vue/utils/date";
+import { Nullable }      from "../../../types/nullable";
 
 export default class Tender extends Model {
 
@@ -23,10 +24,10 @@ export default class Tender extends Model {
     description: string
     amount: number
     file: string | File
-    beginAt: Moment
-    endAt: Moment
-    expiresAt?: Moment
-    publishedAt?: Moment
+    beginAt: Nullable<Moment | string>
+    endAt: Nullable<Moment | string>
+    expiresAt?: Nullable<Moment | string>
+    publishedAt?: Nullable<Moment | string>
     address: Address
     memberId: string | null
     reporter: string

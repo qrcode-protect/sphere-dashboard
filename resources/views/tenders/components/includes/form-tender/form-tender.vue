@@ -66,7 +66,7 @@
     import { useForm }                         from "@app/commons/form";
     import { useTenderForm }                   from "@app/modules/tender/tender-module";
     import { AxiosApiError }                   from "@sofiakb/axios-api/lib/tools/api";
-    import { loading }                         from "@app/vue/utils/helpers";
+    import { useStore }                        from "vuex";
 
     export default defineComponent({
         name: "form-tender",
@@ -86,8 +86,7 @@
 
         setup(props) {
 
-            const currentStep = ref<FormTenderSteps>(FormTenderSteps.documents)
-            // const currentStep = ref<FormTenderSteps>(FormTenderSteps.informations)
+            const currentStep = ref<FormTenderSteps>(FormTenderSteps.informations)
 
             const onNextStep = () => currentStep.value += 1
             const onPrevStep = () => currentStep.value -= 1
@@ -100,6 +99,9 @@
                     fetchById(props.tenderId)
                 }
             })
+
+            const store = useStore()
+            const loading = async (value: boolean) => await store.dispatch('loading', value)
 
             const save = () => {
                 if (currentStep.value === FormTenderSteps.documents) {
@@ -114,9 +116,11 @@
                         zipcode      : tenderValue.address.zipcode,
                         file         : tenderValue.file,
                     })) {
-                        loading(true)
+                        loading(true);
                         (props.tenderId ? editTender() : storeTender())
-                            .then(() => setSuccess("L'affaire a bien été ajoutée !"))
+                            .then(() => {
+                                return setSuccess(`L'affaire a bien été ${props.tenderId ? 'modifiée' : 'ajoutée'} !`);
+                            })
                             .catch((error: AxiosApiError) => setError(error.message))
                             .finally(() => {
                                 loading(false)

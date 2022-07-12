@@ -3,7 +3,7 @@
 
         <ssf-row>
 
-            <ssf-col  v-for="date in dates" size="12" md="5" lg="4" center>
+            <ssf-col v-for="date in dates" center lg="4" md="5" size="12">
 
                 <ssf-container class="ssf-form-group qrcp-form-group has-slot">
 
@@ -11,7 +11,7 @@
 
                     <ssf-container class="ssf-input-container ssf-form-text">
 
-                        <label class="active ssf__input-label" :class="{'label-required': date.required}">
+                        <label :class="{'label-required': date.required}" class="active ssf__input-label">
 
                             <i class="fal fa-calendar-days fa-1x mr-1"></i>
 
@@ -20,10 +20,10 @@
                         </label>
 
                         <input id="beginAt" v-model="tender[date.key]"
-                               class="ssf-form-control qrcp-form-control qrcp-form-control"
-                               inputmode="date"
                                :name="date.key"
                                :required="date.required"
+                               class="ssf-form-control qrcp-form-control qrcp-form-control"
+                               inputmode="date"
                                type="date">
 
                     </ssf-container>
@@ -55,13 +55,15 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from "vue"
-    import { useTenderForm }        from "@app/modules/tender/tender-module";
-    import QrcpInput                from "@/components/commons/qrcp-input.vue";
-    import { useForm }              from "@app/commons/form";
-    import FormNextButton           from "@/views/tenders/components/includes/form-tender/form-next-button.vue";
-    import FormPrevButton           from "@/views/tenders/components/includes/form-tender/form-prev-button.vue";
-    import Tender                   from "@app/modules/tender/tender";
+    import { defineComponent, onMounted, ref, watch } from "vue"
+    import QrcpInput                                  from "@/components/commons/qrcp-input.vue";
+    import { useForm }                                from "@app/commons/form";
+    import FormNextButton
+                                                      from "@/views/tenders/components/includes/form-tender/form-next-button.vue";
+    import FormPrevButton
+                                                      from "@/views/tenders/components/includes/form-tender/form-prev-button.vue";
+    import Tender                                     from "@app/modules/tender/tender";
+    import DateJs                                     from "@app/vue/utils/date";
 
     export default defineComponent({
         name: "form-tender-dates",
@@ -71,7 +73,7 @@
         emits: [ 'next', 'prev' ],
 
         props: {
-            tender: { type: Tender, required: true },
+            tender   : { type: Tender, required: true },
             isEdition: { type: Boolean, required: false, default: false },
         },
 
@@ -85,6 +87,13 @@
                 { key: 'endAt', required: false, label: 'Date de fin' },
                 { key: 'expiresAt', required: false, label: "Date d'expiration" },
             ])
+            const loaded = ref(true)
+
+            const formatDate = (date: any) => date ? DateJs.moment(date).format('yyyy-MM-DD') : null
+
+            watch(() => props.tender.beginAt, () => props.tender.beginAt = formatDate(props.tender.beginAt), { immediate: true })
+            watch(() => props.tender.endAt, () => props.tender.endAt = formatDate(props.tender.endAt), { immediate: true })
+            watch(() => props.tender.expiresAt, () => props.tender.expiresAt = formatDate(props.tender.expiresAt), { immediate: true })
 
             const onNext = () => {
                 const tenderValue = props.tender
@@ -101,6 +110,8 @@
 
                 onNext,
                 dates,
+
+                loaded
             }
         }
     })
