@@ -57,11 +57,11 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
 
     const actionsList = (): ActionList[] =>
         [
-            /*{
+            {
                 method: () => router.push({ name: 'tenders.edit', params: { id: tender.id } }),
                 label : 'Modifier',
                 icon  : 'pen',
-            },*/
+            },
             {
                 method: () => tender.file && typeof tender.file === 'string' && tender.file.trim() !== '' ? window.open(tender.file, '_blank') : null,
                 label : 'Ouvrir le document',
