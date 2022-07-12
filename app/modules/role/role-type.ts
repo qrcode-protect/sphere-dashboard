@@ -26,7 +26,7 @@ export const roleLabel = (role: RoleType) => {
         case RoleType.member:
             return "adhérent"
         case RoleType.partner:
-            return "partenaire"
+            return "fournisseur"
         case RoleType.user:
             return "utilisateur"
     }

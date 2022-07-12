@@ -20,7 +20,7 @@ const mapping = {
     },
     'partners.index'  : {
         name  : 'partners.index',
-        label : 'Partenaires',
+        label : 'fournisseurs',
         routes: [ 'partners.index', 'partners.create', 'partners.by-number' ],
         icon  : Partner.icon.name,
         level : RoleType.admin

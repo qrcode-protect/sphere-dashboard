@@ -55,7 +55,7 @@ export const useFirebaseUser = () => {
         { count: state.userCount, label: "Utilisateurs inscrits" },
         { count: state.memberCount, label: "Adhérents inscrits" },
         { count: state.memberPremiumCount, label: "Adhérents premiums" },
-        { count: state.partnerCount, label: "Partenaires inscrits" },
+        { count: state.partnerCount, label: "Fournisseurs inscrits" },
     ]))
 
     return {

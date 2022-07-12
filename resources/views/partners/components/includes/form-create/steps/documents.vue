@@ -5,7 +5,7 @@
                     :errors="errors"
                     :value="partner.certificate"
                     icon="file-certificate"
-                    label="KBIS partenaire"
+                    label="KBIS fournisseur"
                     mimes="jpg, jpeg, png, gif, pdf"
                     name="certificate"
                     required

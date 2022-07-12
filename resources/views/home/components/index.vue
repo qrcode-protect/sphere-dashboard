@@ -77,7 +77,7 @@
                     </ssf-container>
 
                     <ssf-container class="text-center">
-                        <ssf-text class="font-weight-light text-uppercase h4-responsive">partenaires inscrits</ssf-text>
+                        <ssf-text class="font-weight-light text-uppercase h4-responsive">fournisseurs inscrits</ssf-text>
                     </ssf-container>
 
                 </ssf-container>-->

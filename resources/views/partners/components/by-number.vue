@@ -25,13 +25,13 @@
 
         setup() {
             ////////// init
-            useMeta({ title: 'Partenaires' })
+            useMeta({ title: 'Fournisseurs' })
 
 
             const partnerNumber = computed(() => (useRoute()).params.partnerNumber)
 
             return {
-                pageTitle: computed(() => `Partenaire : n°${partnerNumber.value}`),
+                pageTitle: computed(() => `Fournisseur : n°${partnerNumber.value}`),
             }
         },
 
