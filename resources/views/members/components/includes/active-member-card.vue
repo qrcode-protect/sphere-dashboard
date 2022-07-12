@@ -2,24 +2,28 @@
 
     <ssf-container class="position-relative" not-full>
 
-        <card-company-info :icon="icon"
+        <card-company-info :full-data="fullData"
+                           :icon="icon"
                            :item="member"
                            :item-keys="itemKeys"
                            data-type="member"
-                           :full-data="fullData"
                            with-action>
 
             <template #action-content>
 
                 <ul class="pl-0 mb-0">
 
-                    <li v-for="(action, $idx) in actions"
-                        class="action-item p-2 cursor-pointer rounded"
-                        @click.prevent="action.method">
-                        <ssf-icon :icon="action.icon" fw light/>
+                    <template v-for="(action, $idx) in actions">
 
-                        <span class="ml-2">{{ action.label }}</span>
-                    </li>
+                        <li v-if="fullData || !action.onlyFull"
+                            class="action-item p-2 cursor-pointer rounded"
+                            @click.prevent="action.method">
+                            <ssf-icon :icon="action.icon" fw light/>
+
+                            <span class="ml-2">{{ action.label }}</span>
+                        </li>
+
+                    </template>
 
                 </ul>
 
@@ -99,29 +103,37 @@
             ////////// methods
             const actionsList = () => [
                 {
-                    method: openEditModal,
-                    label : 'Modifier',
-                    icon  : 'pen',
+                    method  : openEditModal,
+                    label   : 'Modifier',
+                    icon    : 'pen',
+                    onlyFull: true
                 },
                 {
-                    method: destroy,
-                    label : 'Supprimer',
-                    icon  : 'trash-can-list'
+                    method  : destroy,
+                    label   : 'Supprimer',
+                    icon    : 'trash-can-list',
+                    onlyFull: true
                 },
                 {
-                    method: toggleActive,
-                    label : props.member.available === true ? 'Bloquer' : 'Débloquer',
-                    icon  : props.member.available === true ? 'ban' : 'check-double',
+                    method  : toggleActive,
+                    label   : props.member.available === true ? 'Bloquer' : 'Débloquer',
+                    icon    : props.member.available === true ? 'ban' : 'check-double',
+                    onlyFull: true
                 },
                 {
-                    method: forgotPassword,
-                    label : 'Réinitialiser le mot de passe',
-                    icon  : 'lock-keyhole',
+                    method  : forgotPassword,
+                    label   : 'Réinitialiser le mot de passe',
+                    icon    : 'lock-keyhole',
+                    onlyFull: true
                 },
                 {
-                    method: () => router.push({name:  'members.by-number', params:{memberNumber : props.member.memberNumber} }),
-                    label : 'Afficher les détails',
-                    icon  : 'eye',
+                    method  : () => router.push({
+                        name  : 'members.by-number',
+                        params: { memberNumber: props.member.memberNumber }
+                    }),
+                    label   : 'Afficher les détails',
+                    icon    : 'eye',
+                    onlyFull: false
                 },
 
 

@@ -1,6 +1,8 @@
 <template>
 	<ssf-container name="partners">
 
+        <page-title title="Partenaires"/>
+
         <ssf-container class="partner-nav-tabs" not-full>
 
             <ssf-row class="px-3">
@@ -36,11 +38,12 @@
 	import { useMeta }         from "vue-meta";
     import ActivePartners      from "@/views/partners/components/includes/active-partners.vue";
     import InactivePartners    from "@/views/partners/components/includes/inactive-partners.vue";
+    import PageTitle           from "@/components/commons/partials/page-title.vue";
 
 	export default defineComponent({
 		name: "partners-index",
 
-		components: { InactivePartners, ActivePartners },
+		components: { PageTitle, InactivePartners, ActivePartners },
 
 		setup() {
 			////////// init

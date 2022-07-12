@@ -10,19 +10,22 @@
 
             <ssf-container class="full-flex h-100">
 
-                <ssf-icon :icon="icon" light/>
+                <img v-if="item.avatar && item.avatar !== ''" :src="item.avatar" alt="logo" class="img-fluid"/>
+
+                <ssf-icon v-else :icon="icon" light/>
 
             </ssf-container>
+
 
         </template>
 
         <template #body>
 
             <ssf-container class="position-relative">
-                <h3 class="h3-responsive" :class="{'mb-3': !fullData, 'mb-2': fullData}">
+                <h3 :class="{'mb-3': !fullData, 'mb-2': fullData}" class="h3-responsive">
                     {{ item.companyName.capitalize() }}
                 </h3>
-                <h4 class="h4-responsive mb-3" v-if="fullData">
+                <h4 v-if="fullData" class="h4-responsive mb-3">
                     {{ item.lastname.capitalize() }}
                     {{ item.firstname.capitalize() }}
                 </h4>
@@ -147,7 +150,7 @@
             icon       : { type: String, required: false, default: 'building' },
             footerClass: { type: String, required: false },
             withAction : { type: Boolean, required: false, default: false },
-            fullData: { type: Boolean, required: false, default: true },
+            fullData   : { type: Boolean, required: false, default: true },
         },
 
         components: {
@@ -172,8 +175,7 @@
             const onUrlClick = (data: any, item: CompanyInfo) => {
                 if (item.urlType === UrlType.image && !(data[item.key]).indexOf('.pdf')) {
                     modals.showImageInfo.open = true
-                }
-                else window?.open(`${item.urlPrefix}${data[item.key]}`, '_blank')?.focus();
+                } else window?.open(`${item.urlPrefix}${data[item.key]}`, '_blank')?.focus();
             }
             const onClickCopy = (data: any, item: CompanyInfo) => {
                 if (item.copyable && copy(data[item.key]))

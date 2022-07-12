@@ -148,10 +148,10 @@
                 urlPrefix: UrlPrefix.phone,
                 urlType  : UrlType.phone,
                 copyable : true
-            }), new CompanyInfo({
+            })/*, new CompanyInfo({
                 icon: 'circle-user',
                 key : 'username',
-            }), new CompanyInfo({
+            })*/, new CompanyInfo({
                 icon     : 'file-certificate',
                 key      : 'certificate',
                 isLink   : true,

@@ -159,11 +159,11 @@
                 urlType  : UrlType.phone,
                 copyable : true,
                 onlyFull : false
-            }), new CompanyInfo({
+            })/*, new CompanyInfo({
                 icon    : 'circle-user',
                 key     : 'username',
                 onlyFull: true
-            }), new CompanyInfo({
+            })*/, new CompanyInfo({
                 icon     : 'file-certificate',
                 key      : 'certificate',
                 isLink   : true,

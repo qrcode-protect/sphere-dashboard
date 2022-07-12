@@ -1,6 +1,8 @@
 <template>
 	<ssf-container name="members">
 
+        <page-title title="Adhérents"/>
+
 		<ssf-container class="member-nav-tabs" not-full>
 
 			<ssf-row class="px-3">
@@ -37,11 +39,12 @@
 	import ActiveMembers            from "@/views/members/components/includes/active-members";
 	import InactiveMembers          from "@/views/members/components/includes/inactive-members";
     import ActivePremiumMembers     from "@/views/members/components/includes/active-premium-members";
+    import PageTitle                from "@/components/commons/partials/page-title";
 
 	export default defineComponent({
 		name: "members-index",
 
-		components: { ActivePremiumMembers, InactiveMembers, ActiveMembers },
+		components: { PageTitle, ActivePremiumMembers, InactiveMembers, ActiveMembers },
 
 		setup() {
 			////////// init
