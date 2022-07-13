@@ -107,6 +107,10 @@ export default class Member extends Model {
         })
     }
 
+    allForTender(options: any = {}) {
+        return this.fetchBy('for-tender')
+    }
+
     unblock(options: any = {}) {
         this.available = true
         return this.update()

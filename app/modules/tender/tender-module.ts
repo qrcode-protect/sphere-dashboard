@@ -14,9 +14,9 @@ import { computed, onMounted, reactive, toRefs }  from "vue";
 import { useStore }                               from "vuex";
 import { Nullable }                               from "../../../types/nullable";
 import Tender                                     from "@app/modules/tender/tender";
-import { number }                                           from "@app/vue/utils/helpers";
-import { fetchAllPremiumMembers, byEmail, fetchAllMembers } from "@app/modules/member/member-repository";
-import Member                                               from "@app/modules/member/member";
+import { number }                                                         from "@app/vue/utils/helpers";
+import { fetchAllPremiumMembers, byEmail, fetchAllMembers, allForTender } from "@app/modules/member/member-repository";
+import Member                                                             from "@app/modules/member/member";
 import { useRouter }                              from "vue-router";
 import tender                                     from "@app/vue/store/modules/tender";
 import { omit }                                   from "lodash";
@@ -134,7 +134,7 @@ export const useTenderForm = () => {
     })
 
     const fetchMembersByEmail = (email: string) => byEmail(email).then((members: unknown) => state.members = <Member[]>members)
-    const fetchMembers = () => fetchAllMembers().then((members: unknown) => state.members = <Member[]>members)
+    const fetchMembers = () => allForTender().then((members: unknown) => state.members = <Member[]>members)
     const storeTender = () => store.dispatch('tender/store', { tender: state.tender }).then(() => state.tender = Tender.create())
     const editTender = () => {
         // @ts-ignore
