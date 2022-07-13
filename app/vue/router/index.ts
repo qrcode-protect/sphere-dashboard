@@ -48,6 +48,10 @@ Route.group({ guard: 'auth' }, () => {
             Route.view('/', 'activities').name('activities.index');
         });
 
+        Route.group({ prefix: 'rfa' }, () => {
+            Route.view('/', 'rfa').name('rfa.index');
+        });
+
         Route.group({ prefix: 'history' }, () => {
             Route.view('/', 'history.index').name('history.index');
             Route.view('/:id', 'history.messages').name('history.messages');

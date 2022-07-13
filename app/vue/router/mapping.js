@@ -53,8 +53,8 @@ const mapping = {
         icon : 'network-wired',
         level: RoleType.marketing
     },
-    'members.index7'  : {
-        name : 'members.index5',
+    'rfa.index'  : {
+        name : 'rfa.index',
         label: 'RFA',
         icon : 'receipt',
         level: RoleType.admin
@@ -63,6 +63,7 @@ const mapping = {
         name : 'history.index',
         label: 'Historique des conversations',
         icon : 'clock-rotate-left',
+        routes: [ 'history.index', 'history.messages' ],
         level: RoleType.admin
     },
     'tenders.index'   : {
