@@ -74,9 +74,10 @@
     import { Nullable }                        from "../../../../../../types/nullable";
     import Member                              from "@app/modules/member/member";
 
-    import { debounce } from "lodash";
-    import FormNextButton from "@/views/tenders/components/includes/form-tender/form-next-button.vue";
-    import Tender from "@app/modules/tender/tender";
+    import { debounce }        from "lodash";
+    import FormNextButton      from "@/views/tenders/components/includes/form-tender/form-next-button.vue";
+    import Tender              from "@app/modules/tender/tender";
+    import { fetchAllMembers } from "@app/modules/member/member-repository";
 
     export default defineComponent({
         name: "form-tender-information",
@@ -93,7 +94,7 @@
         setup(props, { emit }) {
             ////////// init
 
-            const { members, fetchPremiumMembersByEmail, fetchPremiumMembers } = useTenderForm()
+            const { members, fetchMembersByEmail, fetchMembers } = useTenderForm()
             const { errors, validator } = useForm()
 
             const searchPremiumMember = ref<Nullable<string>>(null)
@@ -106,11 +107,11 @@
                 isTyping.value = false
                 props.tender.memberId = null
                 if (searchPremiumMember.value && searchPremiumMember.value.trim() !== '')
-                    await fetchPremiumMembersByEmail(searchPremiumMember.value)
-                else await fetchPremiumMembers()
+                    await fetchMembersByEmail(searchPremiumMember.value)
+                else await fetchMembers()
             }, 500)
 
-            onMounted(() => fetchPremiumMembers())
+            onMounted(() => fetchMembers())
 
             const onNext = () => {
                 const tenderValue = props.tender

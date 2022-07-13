@@ -100,6 +100,13 @@ export default class Member extends Model {
         })
     }
 
+    byEmail(data: { email: string }, options: any = {}) {
+        return this.controller.post(`/${this.table}/search/by-email`, this.__id(this.id), this.__data(data), {
+            ...options,
+            withLoading: false
+        })
+    }
+
     unblock(options: any = {}) {
         this.available = true
         return this.update()
