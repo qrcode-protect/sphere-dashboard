@@ -30,7 +30,7 @@
 
                             <ssf-row class="side-link-label">
 
-                                <ssf-container class="side-link-label-content">
+                                <ssf-container class="side-link-label-content" relative>
 
                                     <ssf-row>
 
@@ -49,6 +49,12 @@
                                         </ssf-col>
 
                                     </ssf-row>
+
+                                    <ssf-container v-if="link.badge" class="right-absolute" not-full>
+                                        <ssf-shape size="20" class="small bg-danger" circle center>
+                                            <ssf-container not-full v-html="link.badge"/>
+                                        </ssf-shape>
+                                    </ssf-container>
 
                                 </ssf-container>
 
@@ -110,7 +116,7 @@
 
                                 <ssf-row>
 
-                                    <ssf-col no-padding size="10" class="text-center small ml-0">
+                                    <ssf-col class="text-center small ml-0" no-padding size="10">
 
                                         <span class="small">v{{ version }}</span>
 
@@ -144,10 +150,10 @@
 
     // import '@sofiakb/vue-element/assets/mdb.min'
 
-    import { computed, defineComponent, onBeforeMount, onMounted, ref, watch } from "vue";
-    import { useStore }                                                        from "vuex";
-    import { useRouter }                              from "vue-router";
-    import cookie                                     from "@sofiakb/cookie";
+    import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+    import { useStore }                                             from "vuex";
+    import { useRouter }                                            from "vue-router";
+    import cookie                                                   from "@sofiakb/cookie";
 
     import Logo                    from "@/components/commons/logo";
     import { user as currentUser } from "@app/commons/auth";
@@ -185,7 +191,7 @@
                 user,
                 firstname,
                 exists,
-                tokenName: (useStore()).getters.TOKEN_NAME
+                tokenName: (useStore()).getters.TOKEN_NAME,
             }
         },
 

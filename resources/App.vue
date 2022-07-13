@@ -47,10 +47,10 @@
 </template>
 
 <script>
-    import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
-    import { useStore }                                             from "vuex";
-    import { useMeta }                                              from 'vue-meta'
-    import { filter, find, values }                                 from "lodash";
+    import { computed, defineComponent, onBeforeMount, onMounted, ref, watch } from "vue";
+    import { useStore }                                                        from "vuex";
+    import { useMeta }                                                         from 'vue-meta'
+    import { filter, find, values }                                            from "lodash";
 
     import FormLoad    from '@/components/commons/loading/form-load'
     import PreLoad     from '@/components/commons/loading/pre-load'
@@ -61,6 +61,8 @@
     import { authorized, redirect, roles } from "@app/commons/auth";
     import { mapping }                     from "@app/vue/router/mapping";
     import { useRoute }                    from "vue-router";
+    import { useFirebaseMember }           from "@app/modules/firebase/member/firebase-member-module";
+    import { useFirebasePartner }           from "@app/modules/firebase/partner/firebase-partner-module";
 
     export default defineComponent({
 
@@ -101,6 +103,24 @@
                 loading.value = false
             })
 
+
+            const { countInactive:  countInactiveMembers, inactiveMembersCount } = useFirebaseMember()
+            const { countInactive: countInactivePartners, inactivePartnersCount } = useFirebasePartner()
+
+            onMounted(async () => {
+                await countInactiveMembers()
+                await countInactivePartners()
+                links.value = filter(links.value, item => {
+                    if (item.name === 'members.index') {
+                        item.badge = inactiveMembersCount
+                    }
+                    if (item.name === 'partners.index') {
+                        item.badge = inactivePartnersCount
+                    }
+                    return item
+                })
+            })
+
             ////////// watch
             watch(() => route.name, () => componentKey.value += 1)
             watch(() => componentKey.value, () => $(window).scrollTop(0))
@@ -114,7 +134,7 @@
 
                 //// computed
                 loaded,
-                maintenance
+                maintenance,
             }
         },
 
