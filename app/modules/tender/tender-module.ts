@@ -14,9 +14,9 @@ import { computed, onMounted, reactive, toRefs }  from "vue";
 import { useStore }                               from "vuex";
 import { Nullable }                               from "../../../types/nullable";
 import Tender                                     from "@app/modules/tender/tender";
-import { number }                                 from "@app/vue/utils/helpers";
-import { fetchAllPremiumMembers, premiumByEmail } from "@app/modules/member/member-repository";
-import Member                                     from "@app/modules/member/member";
+import { number }                                                         from "@app/vue/utils/helpers";
+import { fetchAllPremiumMembers, byEmail, fetchAllMembers, allForTender } from "@app/modules/member/member-repository";
+import Member                                                             from "@app/modules/member/member";
 import { useRouter }                              from "vue-router";
 import tender                                     from "@app/vue/store/modules/tender";
 import { omit }                                   from "lodash";
@@ -133,8 +133,8 @@ export const useTenderForm = () => {
         members: null
     })
 
-    const fetchPremiumMembersByEmail = (email: string) => premiumByEmail(email).then((members: unknown) => state.members = <Member[]>members)
-    const fetchPremiumMembers = () => fetchAllPremiumMembers().then((members: unknown) => state.members = <Member[]>members)
+    const fetchMembersByEmail = (email: string) => byEmail(email).then((members: unknown) => state.members = <Member[]>members)
+    const fetchMembers = () => allForTender().then((members: unknown) => state.members = <Member[]>members)
     const storeTender = () => store.dispatch('tender/store', { tender: state.tender }).then(() => state.tender = Tender.create())
     const editTender = () => {
         // @ts-ignore
@@ -148,8 +148,8 @@ export const useTenderForm = () => {
 
     return {
         ...toRefs(state),
-        fetchPremiumMembersByEmail,
-        fetchPremiumMembers,
+        fetchMembersByEmail,
+        fetchMembers,
         storeTender,
         editTender,
         fetchById

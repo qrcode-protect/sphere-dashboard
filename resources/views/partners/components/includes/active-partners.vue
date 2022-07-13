@@ -26,7 +26,7 @@
 
         <ssf-container v-else class="full-absolute full-flex">
 			<span class="secondary-item">
-				Aucun partenaire
+				Aucun fournisseur
 			</span>
         </ssf-container>
 

@@ -6,7 +6,7 @@
 
             <ssf-col size="12" class="text-center">
 
-                <h3>Ajouter un nouveau partenaire</h3>
+                <h3>Ajouter un nouveau fournisseur</h3>
 
             </ssf-col>
 
@@ -28,7 +28,7 @@
         components: { FormCreatePartner },
         setup() {
             ////////// init
-            useMeta({ title: 'Partenaires - Ajouter', })
+            useMeta({ title: 'Fournisseurs - Ajouter', })
 
             ////////// data
 

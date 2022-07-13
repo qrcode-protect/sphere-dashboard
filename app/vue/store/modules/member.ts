@@ -23,13 +23,19 @@ interface State {
     activeMembers: any | null,
     inactiveMembers: any | null,
     premiumMembers: any | null,
+    counts: {
+            inactive: number
+    }
 }
 
 const state: State = {
-    members: null,
-    activeMembers: null,
+    members        : null,
+    activeMembers  : null,
     inactiveMembers: null,
-    premiumMembers: null,
+    premiumMembers : null,
+    counts         : {
+            inactive: 0
+    }
 }
 
 const actions = {
@@ -37,22 +43,25 @@ const actions = {
     fetchActive,
     fetchInactive,
     fetchPremium,
-    fetchActiveByNumber : ({ commit }: any, payload: { memberNumber: string }) => fetchActiveMembersByNumber(payload.memberNumber)
+    fetchActiveByNumber: ({ commit }: any, payload: { memberNumber: string }) => fetchActiveMembersByNumber(payload.memberNumber)
         .then((members: any) => commit('SET_ACTIVE_MEMBERS', members))
 }
 
 const getters = {
-    members: (state: State) => state.members,
-    activeMembers: (state: State) => state.activeMembers,
+    members        : (state: State) => state.members,
+    activeMembers  : (state: State) => state.activeMembers,
     inactiveMembers: (state: State) => state.inactiveMembers,
-    premiumMembers: (state: State) => state.premiumMembers,
+    premiumMembers : (state: State) => state.premiumMembers,
+    counts         : (state: State) => state.counts,
 }
 
 const mutations = {
-    SET_MEMBERS: (state: State, members: any) => state.members = members,
-    SET_ACTIVE_MEMBERS: (state: State, members: any) => state.activeMembers = members,
+    SET_MEMBERS         : (state: State, members: any) => state.members = members,
+    SET_ACTIVE_MEMBERS  : (state: State, members: any) => state.activeMembers = members,
     SET_INACTIVE_MEMBERS: (state: State, members: any) => state.inactiveMembers = members,
-    SET_PREMIUM_MEMBERS: (state: State, members: any) => state.premiumMembers = members,
+    SET_PREMIUM_MEMBERS : (state: State, members: any) => state.premiumMembers = members,
+
+    SET_COUNT_MEMBER_INACTIVE: (state: State, count: any) => state.counts.inactive = count,
 }
 
 export default {

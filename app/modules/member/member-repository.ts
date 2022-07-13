@@ -15,5 +15,6 @@ export const fetchAllActiveMembers = (activityId?: Nullable<string>) => member.f
 export const fetchActiveMembersByNumber = (memberNumber: Nullable<string>) => member.findActiveByNumber(memberNumber)
 export const fetchAllPremiumMembers = (activityId?: Nullable<string>) => member.findPremium(activityId)
 export const fetchAllInactiveMembers = () => member.findInactive()
-export const premiumByEmail = (email: string) => member.premiumByEmail({ email })
+export const byEmail = (email: string) => member.byEmail({ email })
+export const allForTender = () => member.allForTender()
 

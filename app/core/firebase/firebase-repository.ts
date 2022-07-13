@@ -29,7 +29,8 @@ import {
     orderBy,
     OrderByDirection,
     query,
-    Query, QueryConstraint,
+    Query,
+    QueryConstraint,
     QueryDocumentSnapshot,
     QuerySnapshot,
     setDoc,
@@ -38,7 +39,7 @@ import {
     updateDoc,
     where,
     WhereFilterOp
-} from "@firebase/firestore";
+}                           from "@firebase/firestore";
 import { ClassConstructor } from "@app/core/types/class-constructor";
 import { redirect }         from "@app/commons/auth";
 import cookie               from "@sofiakb/cookie";
@@ -137,7 +138,7 @@ export default class FirebaseRepository {
         })
     }
 
-    async snapshots(callback?: Function): Promise<any[] | null> {
+    async snapshots(callback?: Function, cast?: boolean): Promise<any[] | null> {
 
         return new Promise((resolve, reject) => {
 
@@ -147,9 +148,9 @@ export default class FirebaseRepository {
 
             const _query: Query = this.snapshot;
 
-            onSnapshot(_query, async (querySnapshot: QuerySnapshot<DocumentData>) => {
+            onSnapshot(_query, { includeMetadataChanges: true }, async (querySnapshot: QuerySnapshot<DocumentData>) => {
                 this.snapshot = null
-                const results = await this._castData(querySnapshot)
+                const results = cast ? await this._castData(querySnapshot) : await Promise.all(querySnapshot.docs.map(async (doc: QueryDocumentSnapshot<DocumentData>) => await doc.data()))
                 if (callback) {
                     callback(results)
                 }
@@ -182,7 +183,7 @@ export default class FirebaseRepository {
         const _limit = 100;
         let count = 0;
 
-        const _query = _where ? query(this.collection, _where, orderBy('id', 'desc'), limit(_limit)): query(this.collection, orderBy('id', 'desc'), limit(_limit))
+        const _query = _where ? query(this.collection, _where, orderBy('id', 'desc'), limit(_limit)) : query(this.collection, orderBy('id', 'desc'), limit(_limit))
 
         let snapshot: QuerySnapshot = await getDocs(_query)
 

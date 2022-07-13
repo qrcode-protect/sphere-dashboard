@@ -1,7 +1,7 @@
 <template>
 	<ssf-container name="partners">
 
-        <page-title title="Partenaires"/>
+        <page-title title="Fournisseurs"/>
 
         <ssf-container class="partner-nav-tabs" not-full>
 
@@ -47,7 +47,7 @@
 
 		setup() {
 			////////// init
-			useMeta({ title: 'Partenaires', })
+			useMeta({ title: 'Fournisseurs', })
 
 
 			////////// data
@@ -71,7 +71,7 @@
         data: () => ({
             currentTab: 1,
             tabs: [ {
-                title   : "Partenaires actifs",
+                title   : "Fournisseurs actifs",
                 tabIndex: 1
             }, {
                 title   : "En attente de validation",
