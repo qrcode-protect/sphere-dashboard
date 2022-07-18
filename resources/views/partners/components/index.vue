@@ -7,11 +7,33 @@
 
             <ssf-row class="px-3">
 
-                <ssf-col class="partner-nav-tab-item py-3 cursor-pointer"
+                <ssf-col v-for="tab in tabs"
                          :class="{'border-bottom border-strong border-color-1': tab.tabIndex === currentTab}"
-                         @click="onTabChange(tab.tabIndex)"
-                         v-for="tab in tabs">
-                    <span>{{ tab.title }}</span>
+                         class="member-nav-tab-item py-3 cursor-pointer"
+                         @click="onTabChange(tab.tabIndex)">
+
+                    <ssf-row>
+
+                        <ssf-col no-padding>
+
+                            <span class="d-inline-block">{{ tab.title }}</span>
+
+                        </ssf-col>
+
+                        <ssf-col no-padding max-width="20">
+
+                            <ssf-shape v-if="tab.count && tab.count > 0"
+                                       center
+                                       circle
+                                       class="small bg-danger text-white d-inline-block"
+                                       size="20">
+                                {{ tab.count }}
+                            </ssf-shape>
+
+                        </ssf-col>
+
+                    </ssf-row>
+
                 </ssf-col>
 
             </ssf-row>
@@ -34,11 +56,13 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent } from "vue";
-	import { useMeta }         from "vue-meta";
-    import ActivePartners      from "@/views/partners/components/includes/active-partners.vue";
-    import InactivePartners    from "@/views/partners/components/includes/inactive-partners.vue";
-    import PageTitle           from "@/components/commons/partials/page-title.vue";
+	import { defineComponent }    from "vue";
+	import { useMeta }            from "vue-meta";
+    import ActivePartners         from "@/views/partners/components/includes/active-partners.vue";
+    import InactivePartners       from "@/views/partners/components/includes/inactive-partners.vue";
+    import PageTitle              from "@/components/commons/partials/page-title.vue";
+    import { useFirebaseMember }  from "@app/modules/firebase/member/firebase-member-module";
+    import { useFirebasePartner } from "@app/modules/firebase/partner/firebase-partner-module";
 
 	export default defineComponent({
 		name: "partners-index",
@@ -58,9 +82,20 @@
 
 			////////// methods
 
+            const { inactivePartnersCount } = useFirebasePartner()
+
 
 			return {
 				//// data
+                tabs: [ {
+                    title   : "Fournisseurs actifs",
+                    tabIndex: 1,
+                    count   : null
+                }, {
+                    title   : "En attente de validation",
+                    tabIndex: 2,
+                    count   : inactivePartnersCount
+                } ]
 
 				//// computed
 
@@ -70,13 +105,6 @@
 
         data: () => ({
             currentTab: 1,
-            tabs: [ {
-                title   : "Fournisseurs actifs",
-                tabIndex: 1
-            }, {
-                title   : "En attente de validation",
-                tabIndex: 2
-            } ]
         }),
 
         methods: {
@@ -91,7 +119,8 @@
     .ssf__section--partners {
 
         .partner-nav-tabs {
-            width: 650px;
+            width: 480px;
+            max-width: 100%;
         }
 
         .btn-create-partner {
