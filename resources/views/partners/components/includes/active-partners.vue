@@ -218,7 +218,7 @@
 
 
         .activity-selector {
-            top: 60px;
+            top: 120px;
             left: 0;
             right: 15px;
             bottom: 0;
