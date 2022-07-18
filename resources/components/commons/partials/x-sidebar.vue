@@ -51,7 +51,7 @@
                                     </ssf-row>
 
                                     <ssf-container v-if="link.badge" class="right-absolute" not-full>
-                                        <ssf-shape size="20" class="small bg-danger" circle center>
+                                        <ssf-shape size="20" class="small bg-danger text-white" circle center>
                                             <ssf-container not-full v-html="link.badge"/>
                                         </ssf-shape>
                                     </ssf-container>
