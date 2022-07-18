@@ -10,7 +10,7 @@
  */
 
 
-import { keys } from "lodash";
+import { each, keys } from "lodash";
 
 const fields: any = {
     email      : "l'adresse e-mail",
@@ -45,6 +45,7 @@ export const messages = {
     'company.required'         : requiredMessage("company"),
     'phone.required'           : requiredMessage("phone"),
     'phone.format'             : formatMessage("phone"),
+    'siret.format'             : formatMessage("siret"),
     'password.required'        : requiredMessage("password"),
     'companyName.required'     : requiredMessage("companyName"),
     'siret.required'           : requiredMessage("siret"),
@@ -92,6 +93,29 @@ export const validate = {
 
     phone(phone: string): boolean {
         return /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/.test(phone)
+    },
+
+    siret(siret: string) {
+
+        siret = siret.trim();
+        const siretArray = siret.toString().split('')
+        if (siret === '' || siret.length !== 14) {
+            return false;
+        }
+
+        let sum = 0, tmp;
+
+        each(siretArray, (item, k) => {
+            if (k % 2 == 0) {
+                tmp = siretArray[k].toInteger() * 2;
+                tmp = tmp > 9 ? tmp - 9 : tmp;
+            } else {
+                tmp = siretArray[k];
+            }
+            sum += tmp.toString().toInteger();
+        })
+
+        return sum % 10 === 0;
     },
 
     password(password: string) {

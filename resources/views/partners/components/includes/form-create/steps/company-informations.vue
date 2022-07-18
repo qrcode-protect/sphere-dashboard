@@ -19,6 +19,7 @@
                         label="Siret"
                         name="siret"
                         required
+                        @input="onSiretInput"
                         @update:value="(event) => partner.siret = event"/>
 
         </ssf-row>
@@ -90,18 +91,18 @@
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onBeforeMount, watch } from "vue"
-    import { activities, fetchActivities }                     from "@app/commons/activities";
+    import { computed, defineComponent, getCurrentInstance, onBeforeMount, watch } from "vue"
+    import { activities, fetchActivities }                                         from "@app/commons/activities";
     import Partner                                             from "@app/modules/partner/partner";
     import NextButton
-                                                               from "@/views/partners/components/includes/form-create/steps/next-button.vue";
+                                                                                   from "@/views/partners/components/includes/form-create/steps/next-button.vue";
     import PreviousButton
-                                                               from "@/views/partners/components/includes/form-create/steps/previous-button.vue";
-    import QrcpInput                                           from "@/components/commons/qrcp-input.vue";
-    import { validator as xValidator }                         from "@app/commons/validation";
-    import { useActivity }                                     from "@app/modules/activity/activity-module";
+                                                                                   from "@/views/partners/components/includes/form-create/steps/previous-button.vue";
+    import QrcpInput                             from "@/components/commons/qrcp-input.vue";
+    import { validate, validator as xValidator } from "@app/commons/validation";
+    import { useActivity }                       from "@app/modules/activity/activity-module";
     import SubdomainCheckbox
-                                                               from "@/views/partners/components/includes/form-create/steps/subdomain-checkbox.vue";
+                                                                                   from "@/views/partners/components/includes/form-create/steps/subdomain-checkbox.vue";
     import { filter, includes }                                from "lodash";
 
     export default defineComponent({
@@ -123,6 +124,9 @@
 
             ////////// computed
 
+            // @ts-ignore
+            const ctx: any = getCurrentInstance()?.ctx
+
             ////////// methods
             const next = () => {
 
@@ -132,6 +136,16 @@
                     activityId : props.partner.activityId,
                     description: props.partner.description,
                 })
+
+                if (!validate.siret(props.partner.siret!)) {
+                    // @ts-ignore
+                    result.error = "Merci de vérifier le formulaire"
+                    ctx.onSiretInput()
+                    return emit('has:error', {
+                        error : result.error,
+                        errors: props.errors
+                    })
+                }
 
                 return result.valid ? emit('next:step') : emit('has:error', {
                     error : result.error,
@@ -168,6 +182,20 @@
                 onSubDomainSelect,
                 onSubDomainUnselect
             }
+        },
+
+        methods: {
+            onSiretInput() {
+                this.onFieldInput('siret')
+            },
+
+            onFieldInput(field: any) {
+                // @ts-ignore
+                if (!validate[field](this.partner[field])) {
+                    if (!this.errors.includes(`${field}.format`))
+                        this.errors.push(`${field}.format`)
+                } else this.$emit('has:error', { errors: this.errors.filter(item => item !== `${field}.format`) })
+            },
         }
 
     })
