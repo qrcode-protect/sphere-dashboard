@@ -8,9 +8,9 @@
                 <ssf-shape center
                            circle
                            class="bg-color-1-lighten color-1 font-weight-bold mx-auto my-2 cursor-pointer"
-                           size="20"
+                           size="24"
                            @click="close">
-                    <ssf-icon icon="times" solid/>
+                    <ssf-icon icon="times"/>
                 </ssf-shape>
 
             </ssf-col>
@@ -31,7 +31,22 @@
 
             <ssf-col class="text-center" size="12">
 
-                <ssf-icon v-if="filename" :icon="fileIcon" class="color-1" duotone size="6x"/>
+                <ssf-container relative>
+
+                    <a :href="quote.file" class="w-100 d-block position-relative" target="_blank">
+
+                        <ssf-icon v-if="filename" :icon="fileIcon" class="color-1" duotone size="6x"/>
+
+                        <ssf-shape class="right-absolute text-center" size="50" style="bottom: 0">
+
+                            <ssf-icon icon="arrow-up-right-from-square" light size="1x"/>
+
+                        </ssf-shape>
+
+                    </a>
+
+                </ssf-container>
+
 
             </ssf-col>
 
@@ -41,82 +56,108 @@
 
         <ssf-container class="small pb-2">
 
+            <!-- File info section-->
             <ssf-row class="pt-3">
 
                 <ssf-col size="12">
 
-                    <ssf-text tag="p" class="mb-0" style="overflow: hidden; text-overflow: ellipsis">{{ filename }}</ssf-text>
+                    <ssf-text class="mb-0" style="overflow: hidden; text-overflow: ellipsis" tag="p">{{
+                            filename
+                        }}
+                    </ssf-text>
 
                 </ssf-col>
 
-                <ssf-col class="font-weight-semi-bold grey-text small" size="12">
+                <ssf-col class="font-weight-semi-bold grey-text small" no-padding size="12">
 
-                    <ssf-container>
-                        <ssf-text>{{ filesize }}</ssf-text>
-                    </ssf-container>
+                    <ssf-row>
 
-                    <ssf-container>
-                        <ssf-text>{{ quotationAmount }}€</ssf-text>
-                    </ssf-container>
+                        <ssf-col size="6">
 
-                    <br/>
+                            <ssf-container>
+                                <ssf-text>{{ filesize }}</ssf-text>
+                            </ssf-container>
 
-                    <ssf-container>
-                        <ssf-text class="secondary-item-small">Édité le</ssf-text>
-                        <br/>
-                        <ssf-text>{{ quotationDate }}</ssf-text>
-                    </ssf-container>
+                            <ssf-container>
+                                <ssf-text>{{ quotationAmount }}€</ssf-text>
+                            </ssf-container>
 
-                    <ssf-container v-if="quote.expiresAt">
-                        <ssf-text class="secondary-item-small">Expire le</ssf-text>
-                        <br/>
-                        <ssf-text>{{ quotationExpiration }}</ssf-text>
-                    </ssf-container>
+                            <br/>
 
-                    <ssf-container v-if="quote.acceptedAt && quote.accepted">
-                        <ssf-text class="secondary-item-small">Accepté le</ssf-text>
-                        <br/>
-                        <ssf-text>{{ quotationAccepted }}</ssf-text>
-                    </ssf-container>
+                            <ssf-container>
+                                <ssf-text class="secondary-item-small">Édité le</ssf-text>
+                                <br/>
+                                <ssf-text>{{ quotationDate }}</ssf-text>
+                            </ssf-container>
 
-                    <ssf-container v-if="quote.declinedAt && quote.declined">
-                        <ssf-text class="secondary-item-small">Refusé le</ssf-text>
-                        <br/>
-                        <ssf-text>{{ quotationDeclined }}</ssf-text>
-                    </ssf-container>
+                            <ssf-container v-if="quote.expiresAt">
+                                <ssf-text class="secondary-item-small">Expire le</ssf-text>
+                                <br/>
+                                <ssf-text>{{ quotationExpiration }}</ssf-text>
+                            </ssf-container>
 
-                    <ssf-container full-flex>
+                            <ssf-container v-if="quote.acceptedAt && quote.accepted">
+                                <ssf-text class="secondary-item-small">Accepté le</ssf-text>
+                                <br/>
+                                <ssf-text>{{ quotationAccepted }}</ssf-text>
+                            </ssf-container>
 
-                        <ssf-shape center
-                                   class="bg-color-1-lighten color-1 font-weight-bold mx-auto mt-2 cursor-pointer rounded-light"
-                                   size="30">
-                            <ssf-icon :icon="quotationStatusIcon" size="2x" solid/>
-                        </ssf-shape>
-                    </ssf-container>
+                            <ssf-container v-if="quote.declinedAt && quote.declined">
+                                <ssf-text class="secondary-item-small">Refusé le</ssf-text>
+                                <br/>
+                                <ssf-text>{{ quotationDeclined }}</ssf-text>
+                            </ssf-container>
+
+                        </ssf-col>
+
+                        <ssf-col class="align-flex justify-content-end" size="6">
+
+                            <ssf-shape center
+                                       class="bg-color-1-lighten color-1 font-weight-bold cursor-pointer rounded-light"
+                                       size="30">
+                                <ssf-icon :icon="quotationStatusIcon" size="2x" solid/>
+                            </ssf-shape>
+
+                        </ssf-col>
+
+                    </ssf-row>
 
                 </ssf-col>
 
             </ssf-row>
+            <!-- File info section-->
 
             <quote-file-line/>
 
+            <!-- Partner section-->
             <ssf-row v-if="quote.partner">
 
                 <ssf-col class="small" size="12">
 
-                    <ssf-container>
-                        <ssf-title h6 >
-                            <span class="small font-weight-semi-bold">Fournisseur</span>
-                        </ssf-title>
-                    </ssf-container>
+                    <ssf-row>
 
-                    <ssf-container class="font-weight-bold">
+                        <ssf-col class="align-flex" no-padding>
 
-                        <ssf-container>
-                            {{ quote.partner?.companyName.toUpperCase() }}
-                        </ssf-container>
+                            <ssf-container class="font-weight-bold">
 
-                    </ssf-container>
+                                <ssf-container>
+                                    {{ quote.partner?.companyName.toUpperCase() }}
+                                </ssf-container>
+
+                            </ssf-container>
+
+                        </ssf-col>
+
+                        <ssf-col no-padding>
+
+                            <ssf-container class="text-right">
+                                <span class="font-weight-semi-bold font-italic">Fournisseur</span>
+                            </ssf-container>
+
+                        </ssf-col>
+
+                    </ssf-row>
+
 
                     <ssf-container>
                         {{ quote.partner.email }}
@@ -129,24 +170,40 @@
                 </ssf-col>
 
             </ssf-row>
+            <!-- Partner section-->
 
             <quote-file-line/>
 
+            <!-- Member section-->
             <ssf-row v-if="quote.member">
 
                 <ssf-col class="small" size="12">
 
-                    <ssf-container>
-                        <ssf-title h6 >
-                            <span class="small font-weight-semi-bold">Membre</span>
-                        </ssf-title>
-                    </ssf-container>
+                    <ssf-row>
+
+                        <ssf-col class="align-flex" no-padding>
+
+                            <ssf-container class="font-weight-bold">
+
+                                <ssf-container>
+                                    {{ quote.member?.companyName.toUpperCase() }}
+                                </ssf-container>
+
+                            </ssf-container>
+
+                        </ssf-col>
+
+                        <ssf-col no-padding>
+
+                            <ssf-container class="text-right">
+                                <span class="font-weight-semi-bold font-italic">Membre</span>
+                            </ssf-container>
+
+                        </ssf-col>
+
+                    </ssf-row>
 
                     <ssf-container class="font-weight-bold">
-
-                        <ssf-container>
-                            {{ quote.member?.companyName.toUpperCase() }}
-                        </ssf-container>
 
                         <ssf-container>
                             {{ memberFullName }}
@@ -165,6 +222,7 @@
                 </ssf-col>
 
             </ssf-row>
+            <!-- Member section-->
 
         </ssf-container>
 
