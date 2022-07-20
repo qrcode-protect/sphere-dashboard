@@ -9,9 +9,9 @@
  * File app/modules/activity/activity-module
  */
 
-import { reactive, toRefs }                        from "vue";
-import { fetchActivityById as xFetchActivityById } from "@app/modules/activity/activity-repository";
-import { Nullable }                                from "../../../types/nullable";
+import { reactive, toRefs }                                            from "vue";
+import { fetchActivityById as xFetchActivityById, fetchAllActivities } from "@app/modules/activity/activity-repository";
+import { Nullable }                                                    from "../../../types/nullable";
 import Activity                                    from "@app/modules/activity/activity";
 
 interface ActivityState {
@@ -27,6 +27,7 @@ export const useActivity = () => {
 
     return {
         ...toRefs(state),
-        fetchActivityById
+        fetchActivityById,
+        fetchAllActivities
     }
 }
