@@ -10,7 +10,10 @@
     --color-4: #FFFFFF;
     --color-5: #FC741C;
 
+    --color-1-lighten: #6e6e6e;
+
     --border-radius: 15px;
+    --border-radius-light: 10px;
     --form-radius: var(--border-radius);
 
     --color-success: #6aa280;
@@ -80,6 +83,12 @@ button:focus {
     -webkit-border-radius: var(--border-radius) !important;
     -moz-border-radius: var(--border-radius) !important;
     border-radius: var(--border-radius) !important;
+}
+
+.rounded-light {
+    -webkit-border-radius: var(--border-radius-light) !important;
+    -moz-border-radius: var(--border-radius-light) !important;
+    border-radius: var(--border-radius-light) !important;
 }
 
 .rounded-top {

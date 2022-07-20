@@ -78,3 +78,17 @@
 .bg-black {
   background-color: #000000 !important;
 }
+
+
+.color-1-lighten,
+.btn.bg-color-1-lighten:hover {
+    color: var(--color-1-lighten) !important;
+}
+
+.border-color-1-lighten {
+    border-color: var(--color-1-lighten) !important;
+}
+
+.bg-color-1-lighten {
+    background-color: var(--color-1-lighten) !important;
+}
