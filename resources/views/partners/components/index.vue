@@ -1,5 +1,5 @@
 <template>
-	<ssf-container name="partners">
+    <ssf-container name="partners">
 
         <page-title title="Fournisseurs"/>
 
@@ -20,10 +20,9 @@
 
                         </ssf-col>
 
-                        <ssf-col no-padding max-width="20">
+                        <ssf-col v-if="tab.count && tab.count !== 0" max-width="20" no-padding>
 
-                            <ssf-shape v-if="tab.count && tab.count > 0"
-                                       center
+                            <ssf-shape center
                                        circle
                                        class="small bg-danger text-white d-inline-block"
                                        size="20">
@@ -47,46 +46,45 @@
 
 
         <router-link :to="{name: 'partners.create'}" class="btn-create-partner">
-            <ssf-shape size="75"  circle class="bg-color-2 full-flex text-white z-depth-1">
-                <ssf-icon icon="layer-plus" size="2x" light/>
+            <ssf-shape circle class="bg-color-2 full-flex text-white z-depth-1" size="75">
+                <ssf-icon icon="layer-plus" light size="2x"/>
             </ssf-shape>
         </router-link>
 
-	</ssf-container>
+    </ssf-container>
 </template>
 
 <script lang="ts">
-	import { defineComponent }    from "vue";
-	import { useMeta }            from "vue-meta";
+    import { defineComponent }    from "vue";
+    import { useMeta }            from "vue-meta";
     import ActivePartners         from "@/views/partners/components/includes/active-partners.vue";
     import InactivePartners       from "@/views/partners/components/includes/inactive-partners.vue";
     import PageTitle              from "@/components/commons/partials/page-title.vue";
-    import { useFirebaseMember }  from "@app/modules/firebase/member/firebase-member-module";
     import { useFirebasePartner } from "@app/modules/firebase/partner/firebase-partner-module";
 
-	export default defineComponent({
-		name: "partners-index",
+    export default defineComponent({
+        name: "partners-index",
 
-		components: { PageTitle, InactivePartners, ActivePartners },
+        components: { PageTitle, InactivePartners, ActivePartners },
 
-		setup() {
-			////////// init
-			useMeta({ title: 'Fournisseurs', })
-
-
-			////////// data
+        setup() {
+            ////////// init
+            useMeta({ title: 'Fournisseurs', })
 
 
-			////////// computed
+            ////////// data
 
 
-			////////// methods
+            ////////// computed
+
+
+            ////////// methods
 
             const { inactivePartnersCount } = useFirebasePartner()
 
 
-			return {
-				//// data
+            return {
+                //// data
                 tabs: [ {
                     title   : "Fournisseurs actifs",
                     tabIndex: 1,
@@ -97,11 +95,11 @@
                     count   : inactivePartnersCount
                 } ]
 
-				//// computed
+                //// computed
 
-				//// methods
-			}
-		},
+                //// methods
+            }
+        },
 
         data: () => ({
             currentTab: 1,
@@ -112,7 +110,7 @@
                 this.currentTab = tabItem
             }
         }
-	})
+    })
 </script>
 
 <style lang="scss" scoped>

@@ -11,6 +11,8 @@ const conversation = new Conversation()
 
 const fetchAllConversation = () => conversation.history()
 
+export const fetchConversationById = (id: string) => conversation.historyById(id)
+
 export {
     fetchAllConversation,
 }

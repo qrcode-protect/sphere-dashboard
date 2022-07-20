@@ -49,11 +49,14 @@ Route.group({ guard: 'auth' }, () => {
         });
 
         Route.group({ prefix: 'rfa' }, () => {
-            Route.view('/', 'rfa').name('rfa.index');
+            Route.view('/', 'quote').name('rfa.index');
         });
 
         Route.group({ prefix: 'history' }, () => {
             Route.view('/', 'history.index').name('history.index');
+            Route.view('/quotation', 'quote').name('history.quotation');
+            Route.view('/requests', 'quote').name('history.requests');
+
             Route.view('/:id', 'history.messages').name('history.messages');
         });
 

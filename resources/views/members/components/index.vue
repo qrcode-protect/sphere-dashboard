@@ -20,10 +20,8 @@
 
                         </ssf-col>
 
-                        <ssf-col no-padding max-width="20">
-
-                            <ssf-shape v-if="tab.count && tab.count > 0"
-                                       center
+                        <ssf-col v-if="tab.count && tab.count !== 0" max-width="20" no-padding>
+                            <ssf-shape center
                                        circle
                                        class="small bg-danger text-white d-inline-block"
                                        size="20">

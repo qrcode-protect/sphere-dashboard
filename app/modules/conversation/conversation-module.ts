@@ -29,6 +29,7 @@ export const useConversations = () => {
         conversation         : computed((): Nullable<Conversation[]> => store.getters['conversation/conversation']),
         hasConversations     : computed(() => conversations.value && conversations.value.length > 0),
         fetchAllConversations: () => store.dispatch('conversation/fetchAll'),
+        fetchConversationById: (conversationId: string) => store.dispatch('conversation/fetchById', { id: conversationId }),
         selectConversation   : (conversation: Conversation) => store.commit('conversation/SET_CONVERSATION', conversation)
     }
 

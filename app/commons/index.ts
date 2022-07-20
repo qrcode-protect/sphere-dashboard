@@ -64,3 +64,5 @@ export enum UrlPrefix {
 }
 
 export const defined = (value: any, strict = true): boolean => typeof value !== 'undefined' && (strict ? value !== null : true)
+
+export const isActiveTab = (currentTabIndex: number, tabIndex: number) => currentTabIndex === tabIndex
