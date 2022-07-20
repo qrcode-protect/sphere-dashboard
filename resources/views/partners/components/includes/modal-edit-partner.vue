@@ -188,9 +188,9 @@
     import { MainError, MainSuccess }                                     from "@app/vue/utils/swal";
     import { AxiosApiError }                                              from "@sofiakb/axios-api/lib/tools/api";
     import { filter, includes }                                           from "lodash";
-    import { useActivity }                                                from "@app/modules/activity/activity-module";
+    import { useActivity } from "@app/modules/activity/activity-module";
     import SubdomainCheckbox
-                                                                          from "@/views/partners/components/includes/form-create/steps/subdomain-checkbox.vue";
+                           from "@/components/commons/subdomain-checkbox.vue";
 
     export default defineComponent({
         name: "modal-edit-partner",

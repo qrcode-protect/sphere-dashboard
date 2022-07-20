@@ -1,10 +1,10 @@
 <template>
-    <ssf-container :class="{'bg-color-2 text-white': isSelected}"
-                   class="box-item px-2 cursor-pointer"
+    <ssf-container :class="{'color-2': isSelected}"
+                   class="px-2 cursor-pointer w-50"
                    name="subdomain-checkbox"
                    not-full
                    @click="toggleSelected">
-        {{ activity.label }}
+        <ssf-icon :icon="`${isSelected ? 'check' : 'square'}`" :class="{'color-1': isSelected}" light class="mr-2"/>{{ activity.label }}
     </ssf-container>
 </template>
 
