@@ -37,7 +37,9 @@ export const useQuote = () => {
     const store = useStore()
 
     return {
+        quote,
+
         searchQuote: (query: string) => store.dispatch('quote/search', { query }),
-        fetchPendingQuotes
+        fetchPendingQuotes,
     }
 }
