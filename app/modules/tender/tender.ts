@@ -32,6 +32,7 @@ export default class Tender extends Model {
     memberId: string | null
     reporter: string
     available: boolean
+    public: boolean
     active: boolean
     activityId?: string
     activities?: string[]
@@ -56,6 +57,7 @@ export default class Tender extends Model {
         reporter   : { prop: 'reporter' },
         available  : { prop: 'available' },
         active     : { prop: 'active' },
+        public     : { prop: 'public' },
         activityId : { prop: 'activityId', comment: "Domaine d'activité" },
         activities  : { prop: 'activities', comment: "Sous-domaines" },
     }
@@ -92,6 +94,7 @@ export default class Tender extends Model {
             reporter   : properties?.reporter ?? null,
             available  : properties?.available ?? false,
             active     : properties?.active ?? false,
+            public     : properties?.public ?? false,
         })
     }
 
@@ -160,6 +163,7 @@ export default class Tender extends Model {
             'reporter',
             'activities',
             'activityId',
+            'public',
         ])
 
         return new Promise((resolve, reject) => {

@@ -123,12 +123,12 @@ interface TenderFormState {
     initialState: Nullable<Tender>
 }
 
-export const useTenderForm = () => {
+export const useTenderForm = (isPublic: boolean = false) => {
 
     const store = useStore()
 
     const state = reactive<TenderFormState>({
-        tender : Tender.create(),
+        tender : Tender.create({public: isPublic}),
         initialState : null,
         members: null
     })

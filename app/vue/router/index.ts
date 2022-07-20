@@ -66,7 +66,11 @@ Route.group({ guard: 'auth' }, () => {
 
         Route.group({ prefix: 'tenders' }, () => {
             Route.view('/', 'tenders').name('tenders.index');
-            Route.view('/create', 'tenders.create').name('tenders.create');
+            Route.view('/create', 'tenders.create').name('tenders.create.public');
+            Route.view('/create/private', 'tenders.create').name('tenders.create.private');
+
+            Route.view('/create/choose-type', 'tenders.choose').name('tenders.create');
+
             Route.view('/edit/:id', 'tenders.edit').name('tenders.edit');
         });
 
