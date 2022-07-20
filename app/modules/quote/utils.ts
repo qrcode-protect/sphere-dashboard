@@ -12,6 +12,7 @@
 import { computed } from "vue";
 import store        from "@app/vue/store";
 import Quote        from "@app/modules/quote/quote";
+import { useStore } from "vuex";
 
 export const fetchPendingQuotes = () => store.dispatch('quote/fetchPending')
 export const fetchExpiredQuotes = () => store.dispatch('quote/fetchExpired')
@@ -30,3 +31,13 @@ export const quote = computed({
 
 export const selectQuote = (_quote: Quote | null) => quote.value = _quote
 export const clearQuotes = () => quotes.value = null
+
+
+export const useQuote = () => {
+    const store = useStore()
+
+    return {
+        searchQuote: (query: string) => store.dispatch('quote/search', { query }),
+        fetchPendingQuotes
+    }
+}
