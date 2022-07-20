@@ -53,7 +53,6 @@
                                         :activity="subActivity"
                                         :selected="partner.activities?.includes(subActivity.id)"
                                         @select="onSubDomainSelect"
-                                        class="mx-auto"
                                         @unselect="onSubDomainUnselect"/>
 
                 </ssf-row>
@@ -100,10 +99,10 @@
                                                                                    from "@/views/partners/components/includes/form-create/steps/previous-button.vue";
     import QrcpInput                             from "@/components/commons/qrcp-input.vue";
     import { validate, validator as xValidator } from "@app/commons/validation";
-    import { useActivity }                       from "@app/modules/activity/activity-module";
+    import { useActivity }      from "@app/modules/activity/activity-module";
     import SubdomainCheckbox
-                                                                                   from "@/views/partners/components/includes/form-create/steps/subdomain-checkbox.vue";
-    import { filter, includes }                                from "lodash";
+                                from "@/components/commons/subdomain-checkbox.vue";
+    import { filter, includes } from "lodash";
 
     export default defineComponent({
         name      : "company-informations",

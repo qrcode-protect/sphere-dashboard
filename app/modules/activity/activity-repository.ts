@@ -10,9 +10,5 @@ import { Nullable } from "../../../types/nullable";
 
 const activity = new Activity()
 
-const fetchAllActivity = () => activity.all()
+export const fetchAllActivities = () => activity.all()
 export const fetchActivityById = (activityId: string): Promise<Nullable<Activity>> => activity.fetchBy(activityId) as Promise<Nullable<Activity>>
-
-export {
-    fetchAllActivity,
-}

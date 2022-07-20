@@ -9,24 +9,41 @@
  * File app/modules/activity/activity-module
  */
 
-import { reactive, toRefs }                        from "vue";
-import { fetchActivityById as xFetchActivityById } from "@app/modules/activity/activity-repository";
-import { Nullable }                                from "../../../types/nullable";
-import Activity                                    from "@app/modules/activity/activity";
+import { computed, reactive, toRefs }                                  from "vue";
+import { fetchActivityById as xFetchActivityById, fetchAllActivities } from "@app/modules/activity/activity-repository";
+import { Nullable }                                                    from "../../../types/nullable";
+import Activity                                                        from "@app/modules/activity/activity";
+import Quote                                                           from "@app/modules/activity/activity";
+import store                                                           from "@app/vue/store";
+import { useStore }                                                    from "vuex";
 
 interface ActivityState {
     activity: Nullable<Activity>
 }
 
+
+
 export const useActivity = () => {
+    const store = useStore()
+
+
     const state = reactive<ActivityState>({
-        activity: null
+        activity: null,
     })
 
     const fetchActivityById = (activityId: string): Promise<Nullable<Activity>> => xFetchActivityById(activityId)
 
+    const activities = computed({
+        get: (): Quote[] | null => store.getters['activity/activities'],
+        set: value => store.commit('activity/SET_ACTIVITIES', value),
+    })
+
     return {
         ...toRefs(state),
-        fetchActivityById
+
+        activities,
+
+        fetchActivityById,
+        fetchAllActivities: () => store.dispatch('activity/fetchAll')
     }
 }

@@ -1,6 +1,6 @@
-import { fetchAllActivity } from "@app/modules/activity/activity-repository";
+import { fetchAllActivities } from "@app/modules/activity/activity-repository";
 
-const fetchAll = ({ commit }: any) => fetchAllActivity()
+const fetchAll = ({ commit }: any) => fetchAllActivities()
     .then((activities: any) => commit('SET_ACTIVITIES', activities))
 
 interface State {

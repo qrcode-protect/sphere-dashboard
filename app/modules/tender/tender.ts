@@ -33,6 +33,8 @@ export default class Tender extends Model {
     reporter: string
     available: boolean
     active: boolean
+    activityId?: string
+    activities?: string[]
 
     static icon = {
         name: 'test',
@@ -54,6 +56,8 @@ export default class Tender extends Model {
         reporter   : { prop: 'reporter' },
         available  : { prop: 'available' },
         active     : { prop: 'active' },
+        activityId : { prop: 'activityId', comment: "Domaine d'activité" },
+        activities  : { prop: 'activities', comment: "Sous-domaines" },
     }
 
     casts = {
@@ -154,6 +158,8 @@ export default class Tender extends Model {
             'address',
             'memberId',
             'reporter',
+            'activities',
+            'activityId',
         ])
 
         return new Promise((resolve, reject) => {
