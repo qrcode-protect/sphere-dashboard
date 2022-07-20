@@ -130,6 +130,14 @@ export default class Tender extends Model {
         })
     }
 
+    togglePublic(options: any = {}) {
+        return new Promise((resolve, reject) => {
+            this.controller.update(`/${this.table}`, this.__id(this.id), this.__data({ public: !this.public }), options)
+                .then((data: any) => resolve(this.setAttributes(data)))
+                .catch((error: any) => reject(error))
+        })
+    }
+
     findActive(options: any = {}) {
         return this.fetchBy('active')
     }
@@ -147,7 +155,7 @@ export default class Tender extends Model {
 
         data.address = JSON.stringify(data.address)
 
-        delete data.file
+        // delete data.file
 
         const upload = new Upload(data, data, [
             'title',
