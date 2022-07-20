@@ -8,11 +8,13 @@
 
 import Model from "@sofiakb/vue3-framework/models/model";
 
-import QuoteController from "@app/modules/quote/quote-controller";
-import { Moment }      from "moment";
-import Member          from "@app/modules/member/member";
-import DateJs          from "@app/vue/utils/date";
-import Partner         from "@app/modules/partner/partner";
+import QuoteController   from "@app/modules/quote/quote-controller";
+import { Moment }        from "moment";
+import Member            from "@app/modules/member/member";
+import DateJs            from "@app/vue/utils/date";
+import Partner           from "@app/modules/partner/partner";
+import { includes }      from "lodash";
+import { AxiosApiError } from "@sofiakb/axios-api/lib/tools/api";
 
 export default class Quote extends Model {
 
@@ -83,6 +85,17 @@ export default class Quote extends Model {
 
     isExpired() {
         return this.expiresAt && this.expiration < DateJs.moment()
+    }
+
+    search(query: string, options = {}) {
+        return new Promise((resolve, reject) => {
+            if ((this.only && !includes(this.only, 'search')) || (this.except && includes(this.except, 'search')))
+                return reject(<AxiosApiError>{ message: "Method [search] not allowed", status: 400 })
+
+            this.controller.create(`/${this.table}/search/by-partner`, { query }, options)
+                .then((data: any) => resolve(this.setAttributes(data)))
+                .catch((error: any) => reject(error))
+        })
     }
 }
 

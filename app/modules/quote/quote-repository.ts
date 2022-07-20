@@ -25,6 +25,8 @@ export const fetchPendingQuotes = (options: {} = {}): Promise<unknown> => fetchW
 
 export const fetchExpiredQuotes = (options: {} = {}): Promise<unknown> => fetchWithStatus('expired', options)
 
+export const searchQuotation = (query: string, options: {} = {}): Promise<unknown> => quote.search(query, options)
+
 
 export {
     fetchAllQuote,

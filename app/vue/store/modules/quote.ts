@@ -1,7 +1,7 @@
 import {
     fetchAcceptedQuotes,
     fetchDeclinedQuotes, fetchExpiredQuotes,
-    fetchPendingQuotes,
+    fetchPendingQuotes, searchQuotation,
 } from "@app/modules/quote/quote-repository";
 
 const fetchAccepted = ({ commit }: any) => fetchAcceptedQuotes()
@@ -30,7 +30,10 @@ const actions = {
     fetchAccepted,
     fetchDeclined,
     fetchPending,
-    fetchExpired
+    fetchExpired,
+
+    search: ({ commit }: any, payload: {query: string}) => searchQuotation(payload.query)
+        .then((quotes: any) => commit('SET_QUOTES', quotes))
 }
 
 const getters = {

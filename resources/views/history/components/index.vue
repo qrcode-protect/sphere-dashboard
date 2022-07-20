@@ -5,7 +5,7 @@
 
         <ssf-row>
 
-            <ssf-col v-for="action in actions" max-width="350" center>
+            <ssf-col v-for="action in actions" max-width="350" center class="mb-2 mb-xl-0">
 
                 <router-link :to="{name: action.route}">
 
