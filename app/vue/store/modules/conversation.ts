@@ -1,4 +1,4 @@
-import { fetchAllConversation } from "@app/modules/conversation/conversation-repository";
+import { fetchAllConversation, fetchConversationById } from "@app/modules/conversation/conversation-repository";
 
 const fetchAll = ({ commit }: any) => fetchAllConversation()
     .then((conversations: any) => commit('SET_CONVERSATIONS', conversations))
@@ -15,6 +15,8 @@ const state: State = {
 
 const actions = {
     fetchAll,
+    fetchById: ({ commit }: any, payload: {id: string}) => fetchConversationById(payload.id)
+        .then((conversation: any) => commit('SET_CONVERSATION', conversation))
 }
 
 const getters = {

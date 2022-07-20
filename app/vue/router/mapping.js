@@ -52,18 +52,18 @@ const mapping = {
         // routes: ['networks.index', 'articles.create'],
         icon : 'network-wired',
         level: RoleType.marketing
-    },
+    },/*
     'rfa.index'  : {
         name : 'rfa.index',
         label: 'RFA',
         icon : 'receipt',
         level: RoleType.admin
-    },
+    },*/
     'history.index'   : {
         name : 'history.index',
-        label: 'Historique des conversations',
+        label: 'Historique',
         icon : 'clock-rotate-left',
-        routes: [ 'history.index', 'history.messages' ],
+        routes: [ 'history.index', 'history.quotation' ],
         level: RoleType.admin
     },
     'tenders.index'   : {

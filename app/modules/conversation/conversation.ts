@@ -52,5 +52,9 @@ export default class Conversation extends Model {
     history(options: {} = {}): Promise<unknown> {
         return super.fetchBy('history', options);
     }
+
+    historyById(conversationId: string, options: {} = {}): Promise<unknown> {
+        return super.fetchBy(`history/${conversationId}`, options);
+    }
 }
 

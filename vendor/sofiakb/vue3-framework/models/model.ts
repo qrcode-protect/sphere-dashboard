@@ -124,7 +124,7 @@ export default class Model {
     }
 
     setAttributes(values: any) {
-        return Array.isArray(values) ? values.map(item => this.__setItemAttributes(item)) : this.__setItemAttributes(values);
+        return values ? Array.isArray(values) ? values.map(item => this.__setItemAttributes(item)) : this.__setItemAttributes(values) : values
     }
 
     __setItemAttributes(item: any, self = false) {
