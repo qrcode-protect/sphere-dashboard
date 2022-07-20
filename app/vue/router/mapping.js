@@ -63,7 +63,7 @@ const mapping = {
         name : 'history.index',
         label: 'Historique',
         icon : 'clock-rotate-left',
-        routes: [ 'history.index', 'history.quotation' ],
+        routes: [ 'history.index', 'history.quotation', 'history.requests' ],
         level: RoleType.admin
     },
     'tenders.index'   : {
