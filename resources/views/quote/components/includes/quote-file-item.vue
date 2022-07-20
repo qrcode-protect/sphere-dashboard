@@ -1,5 +1,5 @@
 <template>
-    <ssf-container center class="box-item" name="quote-file-item" not-full>
+    <ssf-container center class="box-item" name="quote-file-item" not-full :class="{'bg-color-1-lighten text-white': selectedQuote && quote && selectedQuote.id === quote.id}">
 
         <ssf-row class="pt-2 pr-2">
 
@@ -56,7 +56,10 @@
 
                 <ssf-col class="text-center" size="12">
 
-                    <ssf-text tag="p" class="mb-0" style="overflow: hidden; text-overflow: ellipsis">{{ filename }}</ssf-text>
+                    <ssf-text class="mb-0" style="overflow: hidden; text-overflow: ellipsis" tag="p">{{
+                            filename
+                        }}
+                    </ssf-text>
 
                 </ssf-col>
 
@@ -66,17 +69,17 @@
 
             <ssf-row>
 
-<!--                <ssf-col size="6">
+                <!--                <ssf-col size="6">
 
-                    <ssf-container>
-                        <ssf-text>Taille</ssf-text>
-                    </ssf-container>
+                                    <ssf-container>
+                                        <ssf-text>Taille</ssf-text>
+                                    </ssf-container>
 
-                    <ssf-container class="secondary-item-small font-weight-bold">
-                        <ssf-text>{{ filesize }}</ssf-text>
-                    </ssf-container>
+                                    <ssf-container class="secondary-item-small font-weight-bold">
+                                        <ssf-text>{{ filesize }}</ssf-text>
+                                    </ssf-container>
 
-                </ssf-col>-->
+                                </ssf-col>-->
 
                 <ssf-col class="text-left" size="6">
 
@@ -112,12 +115,13 @@
     // @ts-ignore
     import VuePopper                                               from "vue3-popper";
 
-    import Quote                                                            from "@app/modules/quote/quote";
+    import Quote from "@app/modules/quote/quote";
     import { extension, fileIcon as xFileIcon, firebaseFile, humanizeSize } from "@app/commons/file";
-    import { FullMetadata }                                                 from "firebase/storage";
+    import { FullMetadata } from "firebase/storage";
     import QuoteFileLine
-                                                                            from "@/views/quote/components/includes/quote-file-line.vue";
-    import { Nullable }                                                     from "../../../../../types/nullable";
+        from "@/views/quote/components/includes/quote-file-line.vue";
+    import { Nullable } from "../../../../../types/nullable";
+    import { useQuote } from "@app/modules/quote/utils";
 
 
     export default defineComponent({
@@ -159,8 +163,11 @@
                 fileInfo.filesize = await firebaseFile.filesize(props.quote.file, fileInfo.metadata)
             })
 
+            const {quote: selectedQuote} = useQuote()
+
             return {
                 selectQuote: () => emit('select-quote', props.quote),
+                selectedQuote,
 
                 //// computed
                 filename,
@@ -179,6 +186,7 @@
     .ssf__section--quote-file-item {
         width: 275px;
         max-width: 100%;
+        transition: background-color .3s, color .3s;
 
         .hr-plus {
             top: 1px !important
