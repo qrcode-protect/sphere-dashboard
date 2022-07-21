@@ -13,7 +13,7 @@
                     type="file"
                     @change="onFileChange"/>
 
-        <qrcp-input v-if="showInputFile"
+        <qrcp-input v-if="showAvatarInputFile"
                     :errors="errors"
                     :value="partner.avatar"
                     icon="image-polaroid"
@@ -60,10 +60,9 @@
         emits: [ 'next:step', 'previous:step', 'has:error' ],
 
         setup(props, {emit}) {
-            ////////// init
-
             ////////// data
             const showInputFile = ref(true)
+            const showAvatarInputFile = ref(true)
 
             ////////// computed
 
@@ -71,10 +70,16 @@
             const onFileChange = (e: any) => {
                 let event = (e || window.event);
                 props.partner.certificate = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
+                if (props.partner.certificate === null)
+                    showInputFile.value = false
+                setTimeout(() => showInputFile.value = true, 10)
             }
             const onAvatarChange = (e: any) => {
                 let event = (e || window.event);
                 props.partner.avatar = ((event.target || event.dataTransfer).files ?? [])[0] ?? null;
+                if (props.partner.avatar === null)
+                    showAvatarInputFile.value = false
+                setTimeout(() => showAvatarInputFile.value = true, 10)
             }
             const next = () => {
 
@@ -92,6 +97,7 @@
             return {
                 //// data
                 showInputFile,
+                showAvatarInputFile,
 
                 //// methods
                 onFileChange,

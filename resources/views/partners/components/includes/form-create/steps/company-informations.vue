@@ -5,20 +5,20 @@
 
             <qrcp-input :errors="errors"
                         :value="partner.companyName"
-                        col="col-12 col-md-8"
                         icon="building"
                         label="Nom commercial"
                         name="companyName"
                         required
+                        row
                         @update:value="(event) => partner.companyName = event"/>
 
             <qrcp-input :errors="errors"
                         :value="partner.siret"
-                        col="col-12 col-md-4"
                         icon="stamp"
                         label="Siret"
                         name="siret"
                         required
+                        row
                         @input="onSiretInput"
                         @update:value="(event) => partner.siret = event"/>
 
