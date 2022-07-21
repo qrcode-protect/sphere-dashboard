@@ -16,6 +16,7 @@ export default class Activity extends Model {
     id?: string | null
     name?: string
     label?: string
+    avatar?: string
     activities?: Activity[]
 
     static icon = {
@@ -27,6 +28,7 @@ export default class Activity extends Model {
         id: { prop: 'id', comment: "Identifiant" },
         name: { prop: 'name', comment: "Nom court" },
         label: { prop: 'label', comment: "Libéllé" },
+        avatar: { prop: 'avatar' },
         activities: { prop: 'activities', comment: "Sous-domaines" },
     }
 

@@ -50,6 +50,16 @@
 
                 </ssf-row>
 
+                <qrcp-input :errors="errors"
+                            :value="activityObject.avatar"
+                            icon="file-image"
+                            label="Logo de l'activité"
+                            mimes="jpg, jpeg, png, gif"
+                            name="activityImage"
+                            row
+                            type="file"
+                            @change="onFileChange"/>
+
 
                 <ssf-row>
 
@@ -152,7 +162,6 @@
                 if (!activityObject.value.label || activityObject.value.label.trim() === '')
                     return errors.value.push('label.required')
 
-
                 errors.value = []
 
                 return (isEditing.value ? activityObject.value.update() : activityObject.value.store())
@@ -175,6 +184,16 @@
                 save,
                 addSubDomain,
             }
+        },
+
+        methods: {
+            onFileChange(e: any) {
+                let event = (e || window.event);
+                const reader = new FileReader()
+                reader.readAsDataURL(event.target.files[0])
+                // @ts-ignore
+                reader.onload = () => this.activityObject.avatar = reader.result;
+            },
         }
 
     })
