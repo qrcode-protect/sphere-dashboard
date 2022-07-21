@@ -3,14 +3,12 @@
 </template>
 
 <script>
-	
-	import "./assets/font-awesome/font-awesome.min.css"
-	
+
 	import * as Icons from './utils/icons'
-	
+
 	export default {
 		name: "ssf-font-awesome-icon",
-		
+
 		props: {
 			/* STRONG */
 			solid  : { type: Boolean, required: false, default: false },
@@ -20,7 +18,7 @@
 			duotone: { type: Boolean, required: false, default: false },
 			normal : { type: Boolean, required: false, default: false },
 			brand  : { type: Boolean, required: false, default: false },
-			
+
 			/* ICON */
 			icon    : { type: String, required: true, validator: (value) => Icons.fontAwesome.includes(value) || true },
 			size    : { type: String, required: false, default: '' },
@@ -29,13 +27,13 @@
 			rotate  : { type: String, required: false, default: '' },
 			pull    : { required: false, default: false }
 		},
-		
+
 		computed: {
-			
+
 			fontAwesomeClass() {
 				return `${this.strongClass}${this.iconClass}${this.sizeClass}${this.fwClass}${this.rotateClass}${this.animatedClass}${this.pullClass}`.trim()
 			},
-			
+
 			strongClass() {
 				// if (this.$parent.$props.weight)
 				//   this[this.$parent.$props.weight] = true;
@@ -55,31 +53,31 @@
 
 				return "far";
 			},
-			
+
 			iconClass() {
 				return ` fa-${this.icon}`
 			},
-			
+
 			sizeClass() {
 				return this.size ? ' fa-' + this.size : ''
 			},
-			
+
 			fwClass() {
 				return this.fw ? ' fa-fw' : ''
 			},
-			
+
 			animatedClass() {
 				return this.animated ? ' fa-spin' : ''
 			},
-			
+
 			rotateClass() {
 				return ` ${this.rotate}`.trim()
 			},
-			
+
 			pullClass() {
 				return this.pull ? ` fa-pull-${this.pull}` : ''
 			}
-			
+
 		},
 	}
 </script>

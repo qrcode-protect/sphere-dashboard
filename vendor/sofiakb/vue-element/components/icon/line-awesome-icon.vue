@@ -4,8 +4,6 @@
 
 <script>
 
-  import "./assets/line-awesome/line-awesome.min.css"
-
   import * as Icons from './utils/icons'
 
   export default {
