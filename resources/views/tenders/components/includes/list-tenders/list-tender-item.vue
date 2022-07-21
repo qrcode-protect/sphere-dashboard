@@ -15,10 +15,16 @@
 
                 <ssf-container class="right-absolute full-flex" not-full>
 
+                    <ssf-shape center size="25">
+
+                        <ssf-icon :icon="`${tender.public === false ? 'lock-keyhole' : 'eye'}`" size="sm"/>
+
+                    </ssf-shape>
+
                     <vue-popper :interactive="false" arrow zIndex="1050">
 
-                        <ssf-shape class="cursor-pointer" size="25">
-                            <ssf-icon icon="ellipsis-vertical"/>
+                        <ssf-shape center class="cursor-pointer" size="25">
+                            <ssf-icon icon="ellipsis"/>
                         </ssf-shape>
 
                         <template #content>
@@ -39,7 +45,7 @@
 
                     </vue-popper>
 
-                    <ssf-shape class="cursor-pointer" size="25" @click="toggleFull">
+                    <ssf-shape center class="cursor-pointer" size="25" @click="toggleFull">
 
                         <ssf-icon :icon="`angle-${full ? 'up' : 'down'}`"/>
 

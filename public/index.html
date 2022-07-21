@@ -9,10 +9,15 @@
 
 		<title><%= htmlWebpackPlugin.options.title %></title>
 
-		<link href="./static/css/app.min.css" rel="stylesheet" type="text/css">
-		<link href="./static/css/fonts.css" rel="stylesheet" type="text/css">
-		<!--    <link href="./static/css/main.css" rel="stylesheet" type="text/css">-->
-		<!--    <link href="./static/css/colors.css" rel="stylesheet" type="text/css">-->
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/mdb.min.css" rel="stylesheet" type="text/css">
+
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/font-awesome/all.min.css" rel="stylesheet" type="text/css">
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/line-awesome/line-awesome.min.css" rel="stylesheet" type="text/css">
+
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/fonts.css" rel="stylesheet" type="text/css">
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/main.css" rel="stylesheet" type="text/css">
+        <link href="<%= htmlWebpackPlugin.options.BASE_URL %>static/css/colors.css" rel="stylesheet" type="text/css">
 
 	</head>
 	<body>

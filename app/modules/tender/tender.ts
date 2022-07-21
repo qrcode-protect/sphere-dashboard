@@ -32,6 +32,7 @@ export default class Tender extends Model {
     memberId: string | null
     reporter: string
     available: boolean
+    public: boolean
     active: boolean
     activityId?: string
     activities?: string[]
@@ -56,6 +57,7 @@ export default class Tender extends Model {
         reporter   : { prop: 'reporter' },
         available  : { prop: 'available' },
         active     : { prop: 'active' },
+        public     : { prop: 'public' },
         activityId : { prop: 'activityId', comment: "Domaine d'activité" },
         activities  : { prop: 'activities', comment: "Sous-domaines" },
     }
@@ -92,6 +94,7 @@ export default class Tender extends Model {
             reporter   : properties?.reporter ?? null,
             available  : properties?.available ?? false,
             active     : properties?.active ?? false,
+            public     : properties?.public ?? false,
         })
     }
 
@@ -127,6 +130,14 @@ export default class Tender extends Model {
         })
     }
 
+    togglePublic(options: any = {}) {
+        return new Promise((resolve, reject) => {
+            this.controller.update(`/${this.table}`, this.__id(this.id), this.__data({ public: !this.public }), options)
+                .then((data: any) => resolve(this.setAttributes(data)))
+                .catch((error: any) => reject(error))
+        })
+    }
+
     findActive(options: any = {}) {
         return this.fetchBy('active')
     }
@@ -144,7 +155,7 @@ export default class Tender extends Model {
 
         data.address = JSON.stringify(data.address)
 
-        delete data.file
+        // delete data.file
 
         const upload = new Upload(data, data, [
             'title',
@@ -160,6 +171,7 @@ export default class Tender extends Model {
             'reporter',
             'activities',
             'activityId',
+            'public',
         ])
 
         return new Promise((resolve, reject) => {

@@ -81,6 +81,7 @@
 
         props: {
             isEdition: { type: Boolean, required: false, default: false },
+            isPublic: { type: Boolean, required: false, default: false },
             tenderId : { type: String, required: false, default: null },
         },
 
@@ -91,7 +92,7 @@
             const onNextStep = () => currentStep.value += 1
             const onPrevStep = () => currentStep.value -= 1
 
-            const { tender, storeTender, editTender, fetchById } = useTenderForm()
+            const { tender, storeTender, editTender, fetchById } = useTenderForm(props.isPublic)
             const { error, success, validator, setSuccess, setError } = useForm()
 
             onMounted(() => {
@@ -106,16 +107,20 @@
             const save = () => {
                 if (currentStep.value === FormTenderSteps.documents) {
                     const tenderValue = tender.value
-                    if (props.isEdition || validator({
+                    const toValidate: any = {
                         title        : tenderValue.title,
-                        description  : tenderValue.description,
-                        memberId     : tenderValue.memberId,
-                        street_number: tenderValue.address.street_number,
-                        address      : tenderValue.address.address,
-                        city         : tenderValue.address.city,
-                        zipcode      : tenderValue.address.zipcode,
-                        file         : tenderValue.file,
-                    })) {
+                            description  : tenderValue.description,
+                            street_number: tenderValue.address.street_number,
+                            address      : tenderValue.address.address,
+                            city         : tenderValue.address.city,
+                            zipcode      : tenderValue.address.zipcode,
+                            file         : tenderValue.file,
+                    }
+
+                    if (!props.isPublic)
+                        toValidate.memberId = tenderValue.memberId
+
+                    if (props.isEdition || validator(toValidate)) {
                         loading(true);
                         (props.tenderId ? editTender() : storeTender())
                             .then(() => {

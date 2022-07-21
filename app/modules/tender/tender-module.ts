@@ -77,6 +77,11 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
                 label : tender.available ? 'Bloquer' : 'Débloquer',
                 icon  : tender.available ? 'ban' : 'check-double',
             },
+            {
+                method: togglePublic,
+                label : tender.public ? 'Rendre privée' : 'Rendre publique',
+                icon  : tender.public ? 'lock-keyhole' : 'eye',
+            },
             /*{
                 method: forgotPassword,
                 label : 'Réinitialiser le mot de passe',
@@ -89,6 +94,10 @@ export const useTender = (tender: Tender, dateFormat = 'DD/MM/YYYY') => {
     const updateActions = () => state.actions = actionsList()
 
     const destroy = () => tender.destroy().then(() => tender.active ? fetchActiveTenders() : fetchInactiveTenders())
+    const togglePublic = () => tender.togglePublic().then((response: any) => {
+        tender.public = response.public
+        return updateActions();
+    })
     const toggleActive = () => (tender.available ? tender.block() : tender.unblock()).then((response: any) => {
         tender.available = response.available
         return updateActions();
@@ -123,12 +132,12 @@ interface TenderFormState {
     initialState: Nullable<Tender>
 }
 
-export const useTenderForm = () => {
+export const useTenderForm = (isPublic: boolean = false) => {
 
     const store = useStore()
 
     const state = reactive<TenderFormState>({
-        tender : Tender.create(),
+        tender : Tender.create({public: isPublic}),
         initialState : null,
         members: null
     })

@@ -17,7 +17,7 @@ const mapping = {
         routes: [ 'members.index', 'members.create', 'members.by-number' ],
         icon  : Member.icon.name,
         level : RoleType.admin,
-        badge: null
+        badge : null
     },
     'partners.index'  : {
         name  : 'partners.index',
@@ -25,7 +25,7 @@ const mapping = {
         routes: [ 'partners.index', 'partners.create', 'partners.by-number' ],
         icon  : Partner.icon.name,
         level : RoleType.admin,
-        badge: null
+        badge : null
     },
     'users.index'     : {
         name : 'users.index',
@@ -53,24 +53,24 @@ const mapping = {
         icon : 'network-wired',
         level: RoleType.marketing
     },/*
-    'rfa.index'  : {
-        name : 'rfa.index',
-        label: 'RFA',
-        icon : 'receipt',
-        level: RoleType.admin
-    },*/
+     'rfa.index'  : {
+     name : 'rfa.index',
+     label: 'RFA',
+     icon : 'receipt',
+     level: RoleType.admin
+     },*/
     'history.index'   : {
-        name : 'history.index',
-        label: 'Historique',
-        icon : 'clock-rotate-left',
+        name  : 'history.index',
+        label : 'Historique',
+        icon  : 'clock-rotate-left',
         routes: [ 'history.index', 'history.quotation', 'history.requests' ],
-        level: RoleType.admin
+        level : RoleType.admin
     },
     'tenders.index'   : {
         name  : 'tenders.index',
         label : 'Bourse aux affaires',
         icon  : 'shop',
-        routes: [ 'tenders.index', 'tenders.create', 'tenders.edit' ],
+        routes: [ 'tenders.index', 'tenders.create', 'tenders.create.public', 'tenders.create.private', 'tenders.edit' ],
         level : RoleType.admin
     },
 };

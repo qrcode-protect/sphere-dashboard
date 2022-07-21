@@ -15,8 +15,8 @@ import './app/vue/utils/native/string.extension'
 import './app/vue/utils/native/window.extension'
 // import 'app/vue/register/serviceWorker'
 
-import './public/static/css/main.css'
-import './public/static/css/colors.css'
+// import './public/static/css/main.css'
+// import './public/static/css/colors.css'
 
 Vue.use(Npm.Storage, { prefix: App.store.getters.storage.prefix });
 

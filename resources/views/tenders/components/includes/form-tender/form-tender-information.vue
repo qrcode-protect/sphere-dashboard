@@ -34,7 +34,7 @@
                     textarea
                     @update:value="(event) => tender.description = event"/>
 
-        <qrcp-input v-if="!isEdition"
+        <qrcp-input v-if="!isEdition && !tender.public"
                     :errors="errors"
                     :value="searchPremiumMember"
                     form-group-class="mb-0"
@@ -46,7 +46,7 @@
                     @input="onSearchInput"
                     @update:value="onSearchPremiumMemberUpdateValue"/>
 
-        <qrcp-input v-if="members && !isEdition"
+        <qrcp-input v-if="members && !isEdition && !tender.public"
                     :errors="errors"
                     :icon="Member.icon.name"
                     :option-items="members"
@@ -161,13 +161,18 @@
 
             const onNext = () => {
                 const tenderValue = props.tender
-                return props.isEdition || validator({
+                const toValidate: any = {
                     title      : tenderValue.title,
                     description: tenderValue.description,
-                    memberId   : tenderValue.memberId,
+                    // memberId   : tenderValue.memberId,
                     activityId : tenderValue.activityId,
                     activities : tenderValue.activities,
-                }) ? emit('next') : null
+                }
+
+                if (!tenderValue.public)
+                    toValidate.memberId = tenderValue.memberId
+
+                return props.isEdition || validator(toValidate) ? emit('next') : null
             }
 
             const { fetchAllActivities, fetchActivityById, activities, activity } = useActivity()

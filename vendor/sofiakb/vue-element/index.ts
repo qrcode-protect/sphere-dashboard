@@ -1,4 +1,4 @@
-import './assets/mdb.min.css'
+// import './assets/mdb.min.css'
 
 import SsfIcon        from './components/icon/index.vue'
 import SsfFormGroup   from './components/form-group/index.vue'

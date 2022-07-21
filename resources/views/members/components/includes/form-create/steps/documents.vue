@@ -71,6 +71,9 @@
                 isCertificatePdf.value = isPdf(props.member.certificate?.type);
                 // @ts-ignore
                 certificateUrl.value = defined(props.member.certificate) && !isCertificatePdf.value ? URL.createObjectURL(props.member.certificate!) : null;
+                if (props.member.certificate === null)
+                    showInputFile.value = false
+                setTimeout(() => showInputFile.value = true, 10)
             }
             const next = () => {
 

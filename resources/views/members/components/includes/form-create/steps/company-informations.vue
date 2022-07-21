@@ -5,20 +5,20 @@
 
             <qrcp-input :errors="errors"
                         :value="member.companyName"
-                        col="col-12 col-md-8"
                         icon="building"
                         label="Nom commercial"
                         name="companyName"
                         required
+                        row
                         @update:value="(event) => member.companyName = event"/>
 
             <qrcp-input :errors="errors"
                         :value="member.siret"
-                        col="col-12 col-md-4"
                         icon="stamp"
                         label="Siret"
                         name="siret"
                         required
+                        row
                         @input="onSiretInput"
                         @update:value="(event) => member.siret = event"/>
 
@@ -61,8 +61,8 @@
                                                                   from "@/views/members/components/includes/form-create/steps/next-button.vue";
     import PreviousButton
                                                                   from "@/views/members/components/includes/form-create/steps/previous-button.vue";
-    import QrcpInput                             from "@/components/commons/qrcp-input.vue";
-    import { validate, validator as xValidator } from "@app/commons/validation";
+    import QrcpInput                                              from "@/components/commons/qrcp-input.vue";
+    import { validate, validator as xValidator }                  from "@app/commons/validation";
 
     export default defineComponent({
         name      : "company-informations",
