@@ -13,7 +13,6 @@
 import { createStore } from 'vuex'
 
 
-
 const state = {
     loading: false, // Le formulaire est envoyé
     preload: true, // La page est en train de charger
@@ -64,7 +63,10 @@ const store = createStore({
     state,
     mutations,
     actions,
-    getters
+    getters,
+    modules: {
+        request: require('@app/modules/request/request-store').default,
+    }
 })
 
 const storeWithModules = (store: any) => {
@@ -77,7 +79,7 @@ const storeWithModules = (store: any) => {
         .forEach(file => {
                 const key = file.replace(/(^.\/)|(\.ts$)/g, '')
 
-            store.registerModule(key, requireContext(file).default)
+                store.registerModule(key, requireContext(file).default)
 
                 // modules[key] = requireContext(file).default
                 // modules[key].namespaced = true

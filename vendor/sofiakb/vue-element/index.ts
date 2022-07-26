@@ -13,6 +13,7 @@ import SsfLogo        from './components/logo.vue'
 import SsfModal       from './components/modal.vue'
 import SsfTableColumn from './components/table/includes/column-bridge.vue'
 import SsfParallax    from './components/parallax'
+import SsfPagination    from './components/pagination.vue'
 import SsfInitial     from './components/initial'
 import SsfText        from './components/text.vue'
 import SsfShape       from './components/shape.vue'
@@ -42,6 +43,7 @@ export default {
         Vue.component('ssf-shape', SsfShape)
         Vue.component('ssf-title', SsfTitle)
         Vue.component('ssf-line', SsfLine)
+        Vue.component('ssf-pagination', SsfPagination)
 
         // Vue.config.globalProperties.$message = Message
     }

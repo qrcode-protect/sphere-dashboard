@@ -47,7 +47,7 @@
             },
 
             colStyle() {
-                const maxWidth = this.maxWidth ? (isNumber(parseInt(this.maxWidth)) ? parseInt(this.maxWidth) + 'px' : this.maxWidth) : null
+                const maxWidth = this.maxWidth ? (this.maxWidth?.toString().includes('%') ? this.maxWidth : (isNumber(parseInt(this.maxWidth)) ? parseInt(this.maxWidth) + 'px' : this.maxWidth)) : null
                 return maxWidth ? { 'max-width': maxWidth, 'flex': `0 0 ${maxWidth}` } : null
             }
         }
