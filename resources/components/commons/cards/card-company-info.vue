@@ -10,7 +10,7 @@
 
             <ssf-container class="full-flex h-100">
 
-                <img v-if="item.avatar && item.avatar !== ''" :src="item.avatar" alt="logo" class="img-fluid"/>
+                <img v-if="item.avatar && item.avatar !== ''" :src="item.avatar" alt="logo" class="img-fluid rounded"/>
 
                 <ssf-icon v-else :icon="icon" light/>
 
@@ -223,6 +223,7 @@
             height: 50px !important;
             top: -25px;
             left: 18px;
+            overflow: hidden;
         }
 
         :deep(.card-company-item-body) {
