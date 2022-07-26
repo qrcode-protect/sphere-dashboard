@@ -3,7 +3,7 @@
 PROJECT_FOLDER=$1
 
 minifyy() {
-  log-success "\n#####################\n#                   #\n#      MINIFY !     #\n#                   #\n#####################\n"
+  log-success "\n#####################\n#                   #\n#      MINIFY ${1}!     #\n#                   #\n#####################\n"
 }
 
 log-warning() {
@@ -30,10 +30,11 @@ log-warning "Initialisation"
 
 #scripts=($(ls -Af './dist/static/css/'))
 
+
 npm install -g postcss uglifycss terser postcss-cli autoprefixer
 
 scripts=(
-  "app.min.css"
+  "unsupported-browser.css"
   "fonts.css"
   "main.css"
   "colors.css"
@@ -45,43 +46,67 @@ files=""
 temporary="uglify-tmp.css"
 temporary2="uglify-tmp2.css"
 
-log-normal "\nCréation du fichier temporaire\n"
-for script in "${scripts[@]}"; do
-  if [[ "${script}" != '.' ]] && [[ "${script}" != '..' ]]; then
-    links+=("<link href=./static/css/${script} rel=stylesheet type=text/css>")
-    file="${PROJECT_FOLDER}/dist/static/css/${script}"
+#log-normal "\nCréation du fichier temporaire\n"
 
-    if [[ -f "${file}" ]]; then
-      files="${files}${file} "
-      cat "${file}" >>${temporary}
-      rm -rf "${file}"
-    else
+#jsscripts=($(ls -Af './dist/static/js/'))
+minifyy "CSS"
+for script in "${scripts[@]}"; do
+  file="./dist/static/css/${script}"
+  if [[ "${script}" != '.' ]] && [[ "${script}" != '..' ]] && [[ "${file}" != *"tmp-"* ]] && [[ -f "${file}" ]]; then
+    log-warning "\nProcessing ${script}"
+    fileTmp="${file}.tmp"
+    postcss "${file}" --use autoprefixer >${fileTmp}
+    uglifycss --debug --output "${file}" "${fileTmp}"
+    log-info "-- Finished ${script} --"
+    if [[ -f "${fileTmp}" ]]; then
+        rm -rf "${fileTmp}"
+    fi
+  else
+    if [[ ! -f "${file}" ]] && [[ ! -d "${file}" ]]; then
       log-error "File ${file} not found"
     fi
-  fi;
-done
-
-log-normal "\nModification du fichier index.html\n"
-for link in "${links[@]}"; do
-  source=$(echo "${link}" | sed 's/\//\\\//g')
-
-  if [[ ${link} == *"app.min.css"* ]]; then
-    target=$(echo "<link href=./static/css/${minify} rel=stylesheet type=text/css>" | sed 's/\//\\\//g')
-    sed -i "s/$source/$target/g" "${PROJECT_FOLDER}/dist/index.html"
-  else
-    sed -i "s/$source//g" "${PROJECT_FOLDER}/dist/index.html"
   fi
 done
 
-if [[ -f "${temporary}" ]]; then
-  minifyy
-  postcss "${temporary}" --use autoprefixer >${temporary2}
-  uglifycss --debug --output dist/static/css/"${minify}" "${temporary2}"
-fi
+#for script in "${scripts[@]}"; do
+#  if [[ "${script}" != '.' ]] && [[ "${script}" != '..' ]]; then
+##    links+=("<link href=./static/css/${script} rel=stylesheet type=text/css>")
+##    file="${PROJECT_FOLDER}/dist/static/css/${script}"
+##
+##    if [[ -f "${file}" ]]; then
+##      files="${files}${file} "
+##      cat "${file}" >>${temporary}
+##      rm -rf "${file}"
+##    else
+##      log-error "File ${file} not found"
+##    fi
+#  fi;
+#done
 
-log-warning "Suppression du fichier temporaire"
-rm -rf "${temporary}" "${temporary2}"
+#echo $links
+#
+#log-normal "\nModification du fichier index.html\n"
+#for link in "${links[@]}"; do
+#  source=$(echo "${link}" | sed 's/\//\\\//g')
+#
+#  if [[ ${link} == *"app.min.css"* ]]; then
+#    target=$(echo "<link href=./static/css/${minify} rel=stylesheet type=text/css>" | sed 's/\//\\\//g')
+#    sed -i "s/$source/$target/g" "${PROJECT_FOLDER}/dist/index.html"
+#  else
+#    sed -i "s/$source//g" "${PROJECT_FOLDER}/dist/index.html"
+#  fi
+#done
 
+#if [[ -f "${temporary}" ]]; then
+#  minifyy
+#  postcss "${temporary}" --use autoprefixer >${temporary2}
+#  uglifycss --debug --output dist/static/css/"${minify}" "${temporary2}"
+#fi
+
+#log-warning "Suppression du fichier temporaire"
+#rm -rf "${temporary}" "${temporary2}"
+
+minifyy "JS"
 jsscripts=($(ls -Af './dist/static/js/'))
 for script in "${jsscripts[@]}"; do
   file="./dist/static/js/${script}"
