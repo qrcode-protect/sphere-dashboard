@@ -7,37 +7,49 @@
 
             <ssf-row class="mb-4">
 
-                <ssf-container class="box-item py-3" no-padding>
+                <ssf-col>
 
-                    <qrcp-input :errors="errors"
-                                :value="searchInput"
-                                form-group-class="mb-0"
-                                icon="magnifying-glass"
-                                input-class="members-search"
-                                label="Rechercher avec : E-mail ou siret du fournisseur/membre"
-                                name="searchPremiumMember"
-                                row
-                                @input="onSearchInput"
-                                @update:value="onSearchInputUpdateValue"/>
+                    <ssf-container class="box-item py-3" no-padding>
 
-                </ssf-container>
+                        <qrcp-input :errors="errors"
+                                    :value="searchInput"
+                                    form-group-class="mb-0"
+                                    icon="magnifying-glass"
+                                    input-class="members-search"
+                                    label="Rechercher avec : E-mail ou siret du fournisseur/membre"
+                                    name="searchPremiumMember"
+                                    row
+                                    @input="onSearchInput"
+                                    @update:value="onSearchInputUpdateValue"/>
+
+                    </ssf-container>
+
+                </ssf-col>
 
             </ssf-row>
 
-            <ssf-container v-if="isSearchInputEmpty" class="quote-nav-tabs box-item">
+            <ssf-row>
 
-                <ssf-row class="px-3">
+                <ssf-col>
 
-                    <ssf-col v-for="tab in tabs"
-                             :class="{'border-bottom border-strong border-color-2': tab.tabIndex === currentTab}"
-                             class="quote-nav-tab-item py-4 cursor-pointer text-center"
-                             @click="onTabChange(tab.tabIndex)">
-                        <span>{{ tab.title }}</span>
-                    </ssf-col>
+                    <ssf-container v-if="isSearchInputEmpty" class="quote-nav-tabs box-item">
 
-                </ssf-row>
+                        <ssf-row class="px-3">
 
-            </ssf-container>
+                            <ssf-col v-for="tab in tabs"
+                                     :class="{'border-bottom border-strong border-color-2': tab.tabIndex === currentTab}"
+                                     class="quote-nav-tab-item py-4 cursor-pointer text-center"
+                                     @click="onTabChange(tab.tabIndex)">
+                                <span>{{ tab.title }}</span>
+                            </ssf-col>
+
+                        </ssf-row>
+
+                    </ssf-container>
+
+                </ssf-col>
+
+            </ssf-row>
 
             <ssf-container container no-padding>
 
