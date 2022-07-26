@@ -298,3 +298,12 @@ ul.ul-icon li {
     bottom: 0;
     height: 100%;
 }
+
+
+
+/* Change Autocomplete styles in Chrome*/
+.auth-container input.ssf-form-control:-webkit-autofill,
+.auth-container input.ssf-form-control:-webkit-autofill:hover,
+.auth-container input.ssf-form-control:-webkit-autofill:focus {
+    -webkit-text-fill-color: #FFFFFF;
+}
