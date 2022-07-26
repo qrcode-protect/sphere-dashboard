@@ -145,5 +145,13 @@ export default class Member extends Model {
                 .catch((error) => reject(__createError(error)))
         })
     }
+
+    static create(properties?: any) {
+        return (new Member()).__setItemAttributes(properties)
+    }
+
+    fullName() {
+        return `${this.lastname} ${this.firstname}`.toLowerCase()
+    }
 }
 

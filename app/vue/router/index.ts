@@ -55,7 +55,12 @@ Route.group({ guard: 'auth' }, () => {
         Route.group({ prefix: 'history' }, () => {
             Route.view('/', 'history.index').name('history.index');
             Route.view('/quotation', 'quote').name('history.quotation');
-            Route.view('/requests', 'quote').name('history.requests');
+            Route.view('/requests', 'requests').name('history.requests');
+            Route.view('/requests/accepted', 'requests').name('history.requests.accepted');
+            Route.view('/requests/declined', 'requests').name('history.requests.declined');
+            Route.view('/requests/pending', 'requests').name('history.requests.pending');
+            Route.view('/requests/denied-by-member', 'requests').name('history.requests.denied-by-member');
+            Route.view('/requests/terminated', 'requests').name('history.requests.terminated');
 
             Route.view('/:id', 'history.messages').name('history.messages');
         });

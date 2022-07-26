@@ -63,7 +63,7 @@ const mapping = {
         name  : 'history.index',
         label : 'Historique',
         icon  : 'clock-rotate-left',
-        routes: [ 'history.index', 'history.quotation', 'history.requests' ],
+        routes: [ 'history.index', 'history.quotation', 'history.requests', 'history.requests.accepted', 'history.requests.declined', 'history.requests.pending', 'history.requests.terminated', 'history.requests.denied-by-member' ],
         level : RoleType.admin
     },
     'tenders.index'   : {

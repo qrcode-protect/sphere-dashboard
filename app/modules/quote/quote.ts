@@ -97,5 +97,9 @@ export default class Quote extends Model {
                 .catch((error: any) => reject(error))
         })
     }
+
+    static create(properties?: any) {
+        return (new Quote()).__setItemAttributes(properties)
+    }
 }
 

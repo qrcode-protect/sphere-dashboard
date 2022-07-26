@@ -136,5 +136,9 @@ export default class Partner extends Model {
     forgotPassword(email: string | undefined, options = {}) {
         return PartnerController.create(`/auth/password/forgot?app=partner`, { email }, options)
     }
+
+    static create(properties?: any) {
+        return (new Partner()).__setItemAttributes(properties)
+    }
 }
 
