@@ -1,0 +1,12 @@
+[data-v-752f8f82] .popper{border-radius:var(--border-radius)}.request-action[data-v-752f8f82]{list-style:none;padding-left:0 !important}.request-action li[data-v-752f8f82]{cursor:pointer}.request-action li[data-v-752f8f82]:hover{color:var(--color-2)}
+
+.request-filter[data-v-2d460386]{list-style:none;padding-left:0 !important}.request-filter li[data-v-2d460386]{cursor:pointer;border-bottom:1px solid #ddd}.request-filter li[data-v-2d460386]:hover,.request-filter li.selected[data-v-2d460386]{color:var(--color-2)}
+
+.modal-quotation{z-index:99999}.modal-quotation .modal-content{width:600px !important;max-width:100% !important;top:80px;right:0;left:0}.modal-quotation .modal-content .modal-header{top:0 !important;left:0 !important;right:0 !important;z-index:1}
+
+.modal-request-details{z-index:99999}.modal-request-details .modal-content{width:650px !important;top:80px;right:0;left:0}
+
+.filein-pagination .filein-pagination-link{height:35px;width:35px;text-decoration:none;border-radius:.25rem !important;display:table-cell;vertical-align:middle;text-align:center;padding:.5rem !important}.filein-pagination .filein-pagination-link:hover,.filein-pagination .filein-pagination-link:focus,.filein-pagination .filein-pagination-link:visited{outline:none !important}.filein-pagination .filein-pagination-link:hover{text-decoration:none;background-color:#f2f2f2 !important}.filein-pagination .active-page .filein-pagination-link{background-color:#222;color:#fff}
+
+.contact-us[data-v-14e0e649]{position:fixed;right:50px;bottom:50px}
+

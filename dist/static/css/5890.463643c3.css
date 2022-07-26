@@ -1,0 +1,15 @@
+[data-v-97b601e8] .vfm__overlay{background-color:transparent !important}
+
+.card-company-item[data-v-ba36a920]{margin-top:40px;min-width:270px;max-width:450px}.card-company-item[data-v-ba36a920] .card-company-item-header{background-color:var(--color-1);width:50px !important;height:50px !important;top:-25px;left:18px;overflow:hidden}.card-company-item[data-v-ba36a920] .card-company-item-body{padding-top:35px !important}.card-company-item a.item-link[data-v-ba36a920]{color:var(--color-1) !important}.card-company-item[data-v-ba36a920] .popper{min-width:200px !important}.card-company-item .item-link-action[data-v-ba36a920]{cursor:pointer;transition:background-color .5s;border-radius:var(--border-radius)}.card-company-item .item-link-action[data-v-ba36a920]:hover{background-color:var(--color-2)}.card-company-item .card-company-actions[data-v-ba36a920] .popper{background:#ffffff;padding:20px;border-radius:var(--border-radius);color:var(--color-1);min-width:300px !important}.card-company-item .card-company-actions[data-v-ba36a920] .popper #arrow::before{background:#ffffff}.card-company-item .card-company-actions[data-v-ba36a920] .popper:hover,.card-company-item .card-company-actions[data-v-ba36a920] .popper:hover>#arrow::before{background:#ffffff}
+
+ul[data-v-6a962848]{list-style-type:none !important}ul .action-item[data-v-6a962848]:hover{background-color:var(--color-1);color:var(--color-2)}.blocked-banner-text[data-v-6a962848],.blocked-banner-bg[data-v-6a962848],.blocked-banner[data-v-6a962848]{top:inherit;height:35px}.blocked-banner[data-v-6a962848]{overflow:hidden}.blocked-banner-bg[data-v-6a962848]{opacity:.6}
+
+.modal-edit-member .modal-content{width:650px !important}
+
+.active-members[data-v-0c6e2cfa]{min-height:100vh}.active-members .activity-selector[data-v-0c6e2cfa]{top:120px;left:0;right:15px;bottom:0}
+
+.inactive-members[data-v-5600ef57]{min-height:100vh}.inactive-members .inactive-member-action-button[data-v-5600ef57]{height:50px;width:50px;padding:0 !important}
+
+.active-premium-members[data-v-51231bfd]{min-height:100vh}.active-premium-members .activity-selector[data-v-51231bfd]{top:120px;left:0;right:15px;bottom:0}
+
+
