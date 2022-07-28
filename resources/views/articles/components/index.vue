@@ -4,7 +4,7 @@
         <ssf-row>
 
             <ssf-col v-for="article in articles" xs="12" md="5" lg="4" xl="3" class="mx-auto my-2">
-                <article-preview :article="article"/>
+                <article-preview :article="article" @deleted="onDeleted"/>
             </ssf-col>
 
         </ssf-row>
@@ -50,6 +50,7 @@
 
                 //// computed
                 articles,
+                onDeleted: async () => await fetchArticles(true),
 
                 //// methods
             }

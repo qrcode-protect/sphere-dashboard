@@ -13,11 +13,14 @@ import MainSuccess from './success/main-success'
 import MainError from './errors/main-error'
 // @ts-ignore
 import MainWarning from './warning/main-warning'
+// @ts-ignore
+import MainQuestion from './question/main-question'
 
 export {
     MainSuccess,
     MainError,
-    MainWarning
+    MainWarning,
+    MainQuestion
 }
 
 export const toast = (text: string, timer: number = 5000) => swal.fire({

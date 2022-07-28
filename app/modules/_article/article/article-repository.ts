@@ -10,6 +10,7 @@ import Article from './article'
 const article = new Article()
 
 const fetchAllArticles = () => article.all()
+export const destroyArticle = (article: Article) => article.destroy(article.id)
 
 export {
     fetchAllArticles,

@@ -9,8 +9,10 @@
  * File app/modules/_article/utils/articles
  */
 
-import store        from "@app/vue/store";
-import { computed } from "@vue/reactivity";
+import store              from "@app/vue/store";
+import { computed }       from "@vue/reactivity";
+import Article            from "@app/modules/_article/article/article";
+import { destroyArticle } from "@app/modules/_article/article/article-repository";
 
 export const articlesGetter = 'article/articles'
 export const articleGetter = 'article/article'
@@ -22,4 +24,14 @@ export const fetchArticles = (force= false) => {
         return store.dispatch('article/fetchAll');
     }
     return null
+}
+
+
+export const useArticle = () => {
+
+
+    return {
+        destroy: (article: Article) => destroyArticle(article)
+    }
+
 }
